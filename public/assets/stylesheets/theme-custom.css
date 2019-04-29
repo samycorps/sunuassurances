@@ -1,0 +1,128 @@
+/* Add here all your CSS customizations */
+.signup {
+    max-width: 800px !important;
+}
+.direct_individual {
+    display: block
+}
+
+.direct_company {
+    display: block
+}
+
+.direct_government {
+    display: block
+}
+
+.hide_elements {
+    display:none;
+}
+
+.alert-message {
+    padding: 5px;
+    border-radius: 5px 0 5px 5px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.alert-message a {
+    color: #ffffff;
+}
+
+.alert-message.success {
+    background-color: #2C3136;
+    color: #ffffff;
+}
+
+.alert-message.error{
+    background-color: #FF0000;
+    color: #ffffff;
+}
+
+.alert-message.warning {
+    background-color: #EE9C2D;
+    color: #000000;
+}
+
+.error {
+    border-color: #FF0000;
+}
+
+.signup_images {
+    max-width: 80px;
+}
+
+div.item {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 120px;
+}
+
+div.item span {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+/* img {
+    width: 100px;
+    height: 100px;
+    background-color: grey;
+} */
+.caption {
+    display: block;
+}
+
+.innerpage {
+    margin-top: 100px;
+}
+
+.coverage_details {
+    margin-top: 10px;
+    border: 1px solid;
+    background-color: #1D2127;
+    color: #fff;
+    font-size: 1.3em;
+    padding: 10px;
+}
+
+.coverage_details span {
+    float: left;
+}
+
+.policy_details {
+    margin-top: 10;
+    font-size: 1.3em;
+    padding: 10;
+    border-bottom: 1px solid;
+}
+
+.sidebar-left  {
+    background-color: #C81840 !important; 
+}
+
+#sidebar-left > div.sidebar-header > div.sidebar-toggle.hidden-xs, 
+body > section > div > section > header {
+    background-color: #2C3136 !important; 
+    color: #ffffff;
+}
+
+.sidebar-header .sidebar-title {
+    color: #ffffff !important;
+}
+
+#menu > ul {
+    color: #ffffff !important;
+}
+
+#menu > ul > li > a > span, #menu > ul > li > a > i {
+    color: #ffffff !important;
+}
+
+#menu > ul > li.nav-parent.nav-expanded {
+    background-color: #C81840 !important; 
+}
+
+.text-error {
+    color: #C81840;
+    padding: 10px 0px;
+}
