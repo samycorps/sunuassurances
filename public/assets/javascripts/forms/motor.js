@@ -380,7 +380,8 @@ var Motor = function() {
             $('.loading_icon').removeClass('hide_elements');
             const effectiveDate = $('#vehicle_effective_date').val();
             const expiryDate = moment(effectiveDate, 'YYYY-MM-DD').add(1, 'years').subtract(1, 'days').format('YYYY-MM-DD');
-            const client_class = Motor.clientClasses[Utility.fields.selectedProfile.user_category];
+            const user_category = Utility.fields.selectedProfile.user_category === '' ? 'Individual' : Utility.fields.selectedProfile.user_category;
+            const client_class = Motor.clientClasses[user_category];
             // const bank = client_class === 'I' ? $('#customer_bank').val() : $('#company_bank').val();
             const risk_class = client_class === 'I' ? 'PMI' : 'PMC';
             const cover_type = client_class === 'I' ? 'PM/T/PMI' : 'PM/T/PMC';
@@ -492,7 +493,8 @@ var Motor = function() {
 
         setLegendData: () => {
             const name = _.isEmpty(Utility.fields.selectedProfile.lastname) ? Utility.fields.selectedProfile.company_name : Utility.fields.selectedProfile.lastname;
-            const client_class = Motor.clientClasses[Utility.fields.selectedProfile.user_category];
+            const user_category = Utility.fields.selectedProfile.user_category === '' ? 'Individual' : Utility.fields.selectedProfile.user_category;
+            const client_class = Motor.clientClasses[user_category];
             const effectiveDate = $('#vehicle_effective_date').val();
             const expiryDate = moment(effectiveDate, 'YYYY-MM-DD').add(1, 'years').subtract(1, 'days').format('YYYY-MM-DD');
             const data = {
@@ -506,7 +508,7 @@ var Motor = function() {
                 contact_person: Utility.fields.selectedProfile.contact_person,
                 state: 'AB', //Utility.fields.selectedProfile.state,
                 title_id: Utility.fields.selectedProfile.title,
-                client_class: Motor.clientClasses[Utility.fields.selectedProfile.user_category],
+                client_class: client_class,
                 gsm_number: Utility.fields.selectedProfile.gsm_number.trim() !== '' ? 'N/A' : Utility.fields.selectedProfile.gsm_number,
                 office_number: Utility.fields.selectedProfile.office_number === '' ? 'N/A' : Utility.fields.selectedProfile.office_number,
                 fax_number: Utility.fields.selectedProfile.fax_number === '' ? 'N/A' : Utility.fields.selectedProfile.fax_number,
