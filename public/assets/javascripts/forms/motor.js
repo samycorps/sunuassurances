@@ -187,10 +187,10 @@ var Motor = function() {
             console.log('User Role ', $('#user_role_loggedIn').val());
             const userRole = $('#user_role_loggedIn').val().toLowerCase();
             if (userRole === 'agent') {
-                if ($('#insurance_policy_type').val() === 'new') {
+                if (_thisBroker.fields.insurancePolicyType === 'new') {
                     _this.fetchVehicleDetails();
                 }
-                else if ($('#insurance_policy_type').val() === 'renewal') {
+                else if (_thisBroker.fields.insurancePolicyType === 'renewal') {
                     _this.getPolicyEnquiryDetails().then(result => {
                         // console.log(result);
                         $('.loading_icon').addClass('hide_elements');
@@ -1336,7 +1336,7 @@ var Motor = function() {
         },
 
         gotoPage: (vehicle_transaction_details_id) => {
-            window.location.href = `/sunu/renew-policy/${vehicle_transaction_details_id}`;
+            window.location.href = `/portal/renew-policy/${vehicle_transaction_details_id}`;
         },
 
         printPage: (index) => {
@@ -1551,7 +1551,8 @@ var MotorBroker = function() {
     return {
         fields: {
             agentClientList: [],
-            renewalDetails: {}
+            renewalDetails: {},
+            insurancePolicyType: ''
         },
         init: function() {
             Utility.setupProfileAutoComplete();
@@ -1570,6 +1571,7 @@ var MotorBroker = function() {
             $(`#${event.target.id}`).addClass('active');
 
             if(event.target.id === 'newClient') {
+                _thisBroker.fields.insurancePolicyType = 'new';
                 // $('#newProfileSection').removeClass('hide_elements');
                 // if (!$('#newAndAdditionalPolicySection').hasClass('hide_elements')) {
                 //     $('#newAndAdditionalPolicySection').addClass('hide_elements')
@@ -1600,6 +1602,7 @@ var MotorBroker = function() {
                 // if ($('#newAndAdditionalPolicySection').hasClass('hide_elements')) {
                 //     $('#newAndAdditionalPolicySection').removeClass('hide_elements')
                 // }
+                _thisBroker.fields.insurancePolicyType = 'renew';
                 if ($('#existingPolicyDiv').hasClass('hide_elements')) {
                     $('#existingPolicyDiv').removeClass('hide_elements');
                 }
@@ -1611,7 +1614,7 @@ var MotorBroker = function() {
         },
 
         showHidePolicySection: () => {
-            if ( !_.isEmpty($('#insurance_policy_type').val()) && !_.isEmpty($('#client_profile_id').val()) ) {
+            if ( !_.isEmpty(_thisBroker.fields.insurancePolicyType) && !_.isEmpty($('#client_profile_id').val()) ) {
                 $('#newAndAdditionalPolicySection').removeClass('hide_elements');
             }
         },
@@ -1653,7 +1656,6 @@ var MotorBroker = function() {
             // const customerProfileId = $('#client_profile_id').val();
             // const customerProfile = _thisBroker.fields.agentClientList.filter(c => c.id === parseInt(customerProfileId));
             // console.log(customerProfile);
-            // // console.log($('#insurance_policy_type').val());
             // if (!_.isEmpty(customerProfile)) {
             //     $('#profile_id').val(customerProfile[0].id);
             //     $('#title').val(customerProfile[0].title);

@@ -15,7 +15,7 @@
             <div class="right-wrapper pull-right">
                 <ol class="breadcrumbs">
                     <li>
-                        <a href="/sunu/home">
+                        <a href="/portal/home">
                             <i class="fa fa-home"></i>
                         </a>
                     </li>
@@ -31,7 +31,7 @@
                 <nav class="navbar navbar-light bg-light" id="topbar">
                         <a class="navbar-brand" href="#" id="newClient" onclick="MotorBroker.setActive()">
                         <i class="fa fa-plus"></i>
-                            New Client
+                            New Policy
                         </a>
                         <!-- <a class="navbar-brand" href="#" id="existingClient"  onclick="MotorBroker.setActive()">
                             <i class="fa fa-user"></i>
@@ -67,17 +67,16 @@
 									</span>
 								</div>
 							</div>
-							<div class="form-row" id="policyRow">
+							<!-- <div class="form-row" id="policyRow">
 								<div class="form-group col-md-12 padding-left-zero">
 									<label>Select Motor Insurance Policy Option</label>
 									<select id="insurance_policy_type" name="insurance_policy_type" class="form-control" required="required" onchange="MotorBroker.showHidePolicySection()">
 										<option value="">Choose...</option>
 										<option value="new">New Policy</option>
-										<!-- <option value="additional">Additional Policy</option> -->
 										<option value="renewal">Renew an Expiring Policy</option>
 									</select>
 								</div>
-							</div>
+							</div> -->
 							<!-- <div class="alert-message">
 								<p class="alert-message-text"></p>
 							</div> -->

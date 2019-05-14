@@ -252,13 +252,13 @@
 							<ul class="list-unstyled">
 								<li class="divider"></li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="/sunu/user-profile"><i class="fa fa-user"></i> My Profile</a>
+									<a role="menuitem" tabindex="-1" href="/portal/user-profile"><i class="fa fa-user"></i> My Profile</a>
 								</li>
 								<li>
 									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
 								</li>
 								<li>
-									<a role="menuitem" tabindex="-1" href="/sunu"><i class="fa fa-power-off"></i> Logout</a>
+									<a role="menuitem" tabindex="-1" href="/portal"><i class="fa fa-power-off"></i> Logout</a>
 								</li>
 							</ul>
 						</div>
@@ -286,7 +286,7 @@
 							<nav id="menu" class="nav-main" role="navigation">
 								<ul class="nav nav-main">
 									<li class="nav-active">
-										<a href="/sunu/home">
+										<a href="/portal/home">
 											<i class="fa fa-home" aria-hidden="true"></i>
 											<span>Dashboard</span>
 										</a>
@@ -300,7 +300,7 @@
 										</a>
 										<ul class="nav nav-children">
 											<li>
-													<a href="/sunu/motor/{{ strtolower(session('userData')['role']['name']) }}">
+													<a href="/portal/motor/{{ strtolower(session('userData')['role']['name']) }}">
 														 Motor Insurance
 													</a>
 											</li>
@@ -310,19 +310,19 @@
 													</a>
 											</li>
 											<li>
-												<a href="/sunu/payment/{{ strtolower(session('userData')['role']['name']) }}">
+												<a href="/portal/payment/{{ strtolower(session('userData')['role']['name']) }}">
 																Transaction Details
 														</a>
 											</li>
 											@if(strtolower(session('userData')['role']['name'])==='agent')
 											<li>
-													<a href="/sunu/profile-kyc">
+													<a href="/portal/profile-kyc">
 															Create Profile
 													</a>
 											</li>
 											@endif
 											<li>
-												<a href="/sunu/terms">
+												<a href="/portal/terms">
 													Terms &amp; Conditions
 												</a>
 											</li>

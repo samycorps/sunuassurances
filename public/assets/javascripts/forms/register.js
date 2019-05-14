@@ -592,7 +592,7 @@ var Register = function() {
                     $('.alert-message').addClass('success');
                     $('.alert-message-text').html('Logging you in ...')
                     // console.log('completed user registration');
-                    window.location.href = '/sunu/home';
+                    window.location.href = '/portal/home';
                 }
                 else {
                     $('.alert-message').addClass('error');

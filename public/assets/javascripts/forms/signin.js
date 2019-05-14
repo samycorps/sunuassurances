@@ -35,7 +35,7 @@ var SignIn = function() {
                             $('.alert-message').addClass('success');
                             $('.alert-message-text').html('Successful login')
                             // console.log('completed user registration');
-                            window.location.href = '/sunu/home';
+                            window.location.href = '/portal/home';
                         }
                         else {
                             $('.alert-message').addClass('error');

@@ -6,7 +6,7 @@ var Home = function() {
         },
         gotoMenu: (type) => {
             const role_name = $('#role_name').val();
-            window.location.href = `/sunu/${type}/${role_name}`;
+            window.location.href = `/portal/${type}/${role_name}`;
         }
     }
 }();

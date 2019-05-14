@@ -17,7 +17,7 @@
             <div class="right-wrapper pull-right">
                 <ol class="breadcrumbs">
                     <li>
-                        <a href="/sunu/home">
+                        <a href="/portal/home">
                             <i class="fa fa-home"></i>
                         </a>
                     </li>
