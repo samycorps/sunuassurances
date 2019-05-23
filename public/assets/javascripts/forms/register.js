@@ -160,6 +160,8 @@ var Register = function() {
                 _thisRegister.setUserCategory();
             }
             _thisRegister.loadDropdownLists();
+
+            Utility.setupProfileAutoComplete();
         },
 
         loadDropdownLists: () => {
@@ -256,17 +258,23 @@ var Register = function() {
                     customer_bank: $('#profile_customer_bank').val(),
                     agent_code: $('#agent_code').val()
                 };
-
-                if (_thisRegister.fields.pageName === 'kyc_profile') {
+                let url = api_urls.registerProfile;
+                let type =  "POST";
+                let method = "POST";
+                if (_thisRegister.fields.pageName === 'kyc_profile' && _.isEmpty($('#profile_kyc').val())) {
                     delete profile.userId;
                     profile['created_by'] = _thisRegister.fields.profile.user_id;
                 }
+                else {
+                    url = `${api_urls.registerProfile}/${Utility.fields.selectedProfile.id}`;
+                    type =  "PUT";
+                    method = "PUT";
+                }
                 console.log(profile);
-                const url = api_urls.registerProfile;
                 const promise = new Promise(function(resolve, reject){
                     $.ajax({
-                            type: "POST",
-                            method: "POST",
+                            type: type,
+                            method: method,
                             url: url,
                             data: profile,
                             // contentType: "application/json; charset=utf-8",
@@ -311,6 +319,7 @@ var Register = function() {
                      lastname: $('#lastname').val(),
                      othernames: $('#othernames').val(),
                      date_of_birth: $('#date_of_birth').val(),
+                     email_address: $('#email_address').val(),
                      company_name: $('#company_name').val(),
                      company_reg_num: $('#company_reg_num').val(),
                      street_address: $('#street_address').val(),
@@ -608,6 +617,36 @@ var Register = function() {
                         $('.alert-message-text').html(error.message || 'error signing in');
                     }
             })
+        },
+
+        setProfileDetails: () => {
+            if (!_.isEmpty($('#profile_kyc').val()) && !_.isEmpty(Utility.fields.selectedProfile) ) {
+                console.log(Utility.fields.selectedProfile);
+                const kycProfile = Utility.fields.selectedProfile;
+                $('#category').val(kycProfile.user_category);
+                _thisRegister.onCategoryChange();
+                $('#profile_title').val(kycProfile.title);
+                $('#profile_firstname').val(kycProfile.firstname);
+                $('#profile_lastname').val(kycProfile.lastname);
+                $('#profile_othernames').val(kycProfile.othernames);
+                $('#profile_date_of_birth').val(kycProfile.date_of_birth);
+                $('#profile_company_name').val(kycProfile.company_name);
+                $('#profile_company_reg_num').val(kycProfile.company_reg_num);
+                $('#profile_street_address').val(kycProfile.street_address);
+                $('#profile_city').val(kycProfile.city);
+                $('#profile_lga').val(kycProfile.local_govt_area);
+                $('#profile_state').val(kycProfile.state);
+                $('#profile_office_number').val(kycProfile.office_number);
+                $('#profile_gsm_number').val(kycProfile.gsm_number);
+                $('#profile_email_address').val(kycProfile.email_address);
+                $('#profile_occupation').val(kycProfile.occupation);
+                $('#profile_sector').val(kycProfile.sector);
+                $('#profile_website').val(kycProfile.website);
+                $('#profile_contact_person').val(kycProfile.contact_person);
+                $('#profile_bank_account_number').val(kycProfile.bank_account_number);
+                $('#profile_customer_bank').val(kycProfile.customer_bank);
+                $('#agent_code').val(kycProfile.agent_code);
+            }
         }
     };
 }();

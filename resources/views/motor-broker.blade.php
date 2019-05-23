@@ -67,6 +67,10 @@
 									</span>
 								</div>
 							</div>
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="new_additional_policy" name="new_additional_policy" onclick="MotorBroker.toggleExistingClientNumber()" >
+								<label class="form-check-label" for="new_additional_policy">Create additional policy for existing policy holder</label>
+							</div>
 							<!-- <div class="form-row" id="policyRow">
 								<div class="form-group col-md-12 padding-left-zero">
 									<label>Select Motor Insurance Policy Option</label>

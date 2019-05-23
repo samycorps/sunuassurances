@@ -31,7 +31,7 @@ class VehicleTransactionPaymentController extends Controller
     {
         Log::info($data);
         $paymentRecord = [
-            'user_id' => $data['userId'],
+            'user_id' => isset($data['userId']) && !empty($data['userId']) ? $data['userId'] : 0,
             'transaction_reference' => $data['transactionReference'],
             'customer_email' => trim($data['customerEmail']),
             'transaction_amount' => $data['transactionAmount'],

@@ -29,7 +29,32 @@
 
         <div class="panel panel-sign">
                 <div class="panel-body">
+                    <nav class="navbar navbar-light bg-light" id="topbar">
+                            <!-- <a class="navbar-brand" href="#" id="newClient" onclick="MotorBroker.setActive()">
+                            <i class="fa fa-plus"></i>
+                                New Profile
+                            </a>
+                            <a class="navbar-brand" href="#" id="renewPolicy"  onclick="MotorBroker.setActive()">
+                                <i class="fa fa-user"></i>
+                                Existing Profile
+                            </a> -->
+                            <!-- <a class="navbar-brand" href="#" id="existingClient"  onclick="MotorBroker.setActive()">
+                                <i class="fa fa-user"></i>
+                                View Profiles
+                            </a> -->
+                    </nav>
                     <form action="" method="post" id="form-register">
+                        <div class="form-group mb-lg">
+                            <label>Search Profile</label>
+                            <div class="input-group input-group-icon">
+                                <input id="profile_kyc" name="profile_kyc" type="text" class="form-control input-lg typeahead" data-provide="typeahead" autocomplete="off" onblur="Register.setProfileDetails()" />
+                                <span class="input-group-addon">
+                                    <span class="icon icon-lg">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
                         <div class="form-row">
                             <div class="form-group col-md-12">
                             <label>Select your registration category</label>
@@ -194,6 +219,9 @@
     @endif
 
     @section('pagescripts')
+    <script src="{{ URL::asset('assets/vendor/bootstrap-typeahead/bootstrap3-typeahead.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/javascripts/forms/utility.js') }}"></script>
+	<script>$(function(){ Utility.init(); });</script>
     <script src="{{ URL::asset('assets/javascripts/forms/signin.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/forms/register.js') }}"></script>
     <script>$(function(){ Register.init(); });</script>

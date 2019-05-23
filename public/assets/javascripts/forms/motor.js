@@ -188,9 +188,10 @@ var Motor = function() {
             const userRole = $('#user_role_loggedIn').val().toLowerCase();
             if (userRole === 'agent') {
                 if (_thisBroker.fields.insurancePolicyType === 'new') {
+                    $('.loading_icon').removeClass('hide_elements');
                     _this.fetchVehicleDetails();
                 }
-                else if (_thisBroker.fields.insurancePolicyType === 'renewal') {
+                else if (_thisBroker.fields.insurancePolicyType === 'renew') {
                     _this.getPolicyEnquiryDetails().then(result => {
                         // console.log(result);
                         $('.loading_icon').addClass('hide_elements');
@@ -200,6 +201,7 @@ var Motor = function() {
             }
             else if(userRole === 'client') {
                 if (_.isEmpty(_this.fields.individualPolicyList)) {
+                    $('.loading_icon').removeClass('hide_elements');
                     _this.fetchVehicleDetails();
                 }
             }
@@ -368,7 +370,7 @@ var Motor = function() {
         },
         wizardStepFour: () => {
             if (_this.transactionDetails !== undefined && !(_.isEmpty(_this.transactionDetails)) && _this.transactionDetails.responseReference !== '') {
-                const vehicleTransactionPayment = {..._this.transactionDetails, vehicleTransactionDetailsId: _this.fields.savedEntry.id};
+                const vehicleTransactionPayment = {..._this.transactionDetails, vehicleTransactionDetailsId: (_this.fields.savedEntry !== undefined && _this.fields.savedEntry.id !== undefined) ? _this.fields.savedEntry.id : 0};
                 _this.saveVehiclePaymentDetails(vehicleTransactionPayment);
             }
             if (Motor.transactionDetails.responseStatus === 'initiate') {
@@ -388,6 +390,10 @@ var Motor = function() {
             const title_id = Utility.fields.selectedProfile.title;
             Motor.legendData = $('#renewPolicy').hasClass('active') ? _thisBroker.setLegendRenewalData() : _this.setLegendData();
             console.log(Motor.legendData);
+            // Added to handle client with existing policy trying to generate insurance on another car
+            if (!$('#newAndAdditionalPolicySection').hasClass('hide_elements') && $('#new_additional_policy').prop('checked')) {
+               _this.resetLegendData();
+            }
             $('.loading_icon').removeClass('hide_elements');
             let promise;
             if ($('#renewPolicy').hasClass('active')) {
@@ -547,9 +553,28 @@ var Motor = function() {
                 expiry_date: expiryDate,
                 payment_reference: Motor.transactionDetails.transactionReference,
                 vehicleTransactionDetailsId: _this.fields.savedEntry.id,
-                policy_type: 'motor'
+                policy_type: 'motor',
+                client_number: ''
             }
             return data;
+        },
+
+        resetLegendData: () => {
+            Motor.legendData.firstname = '';
+            Motor.legendData.lastname = '';
+            Motor.legendData.othernames =  '';
+            Motor.legendData.address = '';
+            Motor.legendData.city = '';
+            Motor.legendData.contact_person = '';
+            Motor.legendData.state = '';
+            Motor.legendData.title_id = '';
+            Motor.legendData.gsm_number = '';
+            Motor.legendData.office_number = '';
+            Motor.legendData.fax_number = '';
+            Motor.legendData.email_address = '';
+            Motor.legendData.company_reg_num = '';
+            Motor.legendData.date_of_birth = '';
+            Motor.legendData.client_number = $('#existing_client_number').val();
         },
 
         saveVehicleDetails: (vehicleTransactionDetails) => {
@@ -1556,12 +1581,22 @@ var MotorBroker = function() {
         },
         init: function() {
             Utility.setupProfileAutoComplete();
+            $( document ).ready(function() {
+                _thisBroker.setNewPolicyTab();
+            });
             _thisBroker.getAgentClientList().then(result => {
-                _thisBroker.fields.agentClientList = result;   
+                _thisBroker.fields.agentClientList = result;  
             })
             .catch(error => {
 
             })
+        },
+
+        setNewPolicyTab: () => {
+            // $('#newClient').click();
+            $( "#newClient" ).trigger( "click" );
+            $("#newClient").addClass('active');
+            _thisBroker.fields.insurancePolicyType = 'new';
         },
 
         setActive: () => {
@@ -1786,6 +1821,18 @@ var MotorBroker = function() {
             });
             return promise;
         },
+
+        toggleExistingClientNumber: () => {
+            if ($('#new_additional_policy').prop('checked')) {
+                if ($('#existingClientNumberDiv').hasClass('hide_elements')) {
+                    $('#existingClientNumberDiv').removeClass('hide_elements');
+                }
+            } else {
+                if (!$('#existingClientNumberDiv').hasClass('hide_elements')) {
+                    $('#existingClientNumberDiv').addClass('hide_elements');
+                }
+            }
+        }
     }
 }();
 

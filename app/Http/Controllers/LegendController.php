@@ -76,7 +76,7 @@ class LegendController extends Controller
             $data = $request->all();
             Log::info($data);
                 $transaction_creation = LegendRequestsLog::create([
-                    'vehicle_transaction_details_id' => isset($data['vehicleTransactionDetailsId']) ? $data['vehicleTransactionDetailsId'] : NULL,
+                    'vehicle_transaction_details_id' => isset($data['vehicleTransactionDetailsId']) && !empty($data['vehicleTransactionDetailsId']) ? $data['vehicleTransactionDetailsId'] : 0,
                     'payment_reference' => $data['payment_reference'],
                     'request_body' => json_encode($data)
                 ]);

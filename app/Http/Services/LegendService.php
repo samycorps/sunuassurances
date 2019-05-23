@@ -93,6 +93,8 @@ class LegendService {
             <arg59>{$requestData['company_bank']}</arg59>
             <arg60>{$requestData['effective_date']}</arg60>
             <arg61>{$requestData['expiry_date']}</arg61>
+            <arg62>{$requestData['client_number']}</arg62>
+            <arg63>WAZ9</arg63>
         </leg:getpolnum>
         </soap:Body>
      </soap:Envelope>";
@@ -408,7 +410,7 @@ class LegendService {
                 <arg15>{$requestData['year_of_purchase']}</arg15>
                 <arg16>{$requestData['mode_of_payment']}</arg16>
                 <arg17></arg17>
-                <arg18>{$requestData['agent_name']}</arg18>
+                <arg18></arg18>
                 <arg19></arg19>
                 <arg20></arg20>
                 <arg21>{$requestData['currency']}</arg21>
@@ -419,7 +421,9 @@ class LegendService {
             </soap:Body>
             </soap:Envelope>
             ";
+            //<arg18>{$requestData['agent_name']}</arg18>
     Log::info($soap_request_data);
+    $this->policyLog->info('Legend Renew Policy Number', array('data' => $soap_request_data));
     $legend_url = $this->legendParameters['url'];
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -452,6 +456,7 @@ class LegendService {
             Log::info($posEnd);
             $returnedValue = substr($response, $posStart+8, $posEnd - ($posStart+8));
             Log::info($returnedValue);
+            $this->policyLog->info('Legend Renew Policy Response', array('data' => $response));
             return $returnedValue;
         }
     }
