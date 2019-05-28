@@ -60,7 +60,7 @@ class VehicleTransactionPolicyController extends Controller
     public function getIndividualPolicyList($profileId)
     {
         $policies = VehicleTransactionPolicy::where('profile_id', $profileId)->get();
-
+        // $policyLog->info('PolicyLog', $policies);
         return $policies;
     }
 

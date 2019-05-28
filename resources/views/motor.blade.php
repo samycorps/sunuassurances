@@ -100,7 +100,7 @@
 										<div class="form-group mb-lg hide_elements" id="existingPolicyDiv">
 											<label>Exisiting Policy Number</label>
 											<div class="input-group input-group-icon">
-												<input id="existing_policy_number" name="existing_policy_number" type="text" class="form-control input-lg" readonly="readonly" />
+												<input id="existing_policy_number" name="existing_policy_number" type="text" class="form-control input-lg" />
 												<span class="input-group-addon">
 													<span class="icon icon-lg">
 														<i class="fa fa-file-o"></i>
@@ -245,7 +245,7 @@
 												<select id="insurance_class" name="insurance_class" class="form-control" required="required" onchange="Motor.onClassChange()">
 													<option value="">Choose...</option>
 													<option value="third_party">3rd Party</option>
-													<option value="third_party_fire_theft">3rd Party Fire and Theft</option>
+													<!-- <option value="third_party_fire_theft">3rd Party Fire and Theft</option> -->
 													<option value="comprehensive">Comprehensive</option>
 												</select>
 											</div>
@@ -361,6 +361,11 @@
 									</div>
 									
 									<div id="legend_success_response">
+										<div class="row policy_details">
+											<div class="col-md-12 pull-right">
+											<button class="btn btn-primary" onclick="Motor.printPage()"><i class="fa fa-print"></i>&nbsp; Print</button>
+											</div>
+										</div>
 										<div class="row policy_details">
 											<div class="col-md-6">
 												Client Number

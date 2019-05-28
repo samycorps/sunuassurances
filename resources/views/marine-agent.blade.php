@@ -33,10 +33,10 @@
                         <i class="fa fa-plus"></i>
                             New Policy
                         </a>
-						<a class="navbar-brand" href="#" id="renewPolicy"  onclick="Marine.setActive()">
+						<!-- <a class="navbar-brand" href="#" id="renewPolicy"  onclick="Marine.setActive()">
                             <i class="fa fa-user"></i>
                             Renew Policy
-                        </a>
+                        </a> -->
                 </nav>
 
                 <!-- Setup new Policy -->

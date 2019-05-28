@@ -261,12 +261,13 @@ class LegendService {
            <leg:enquirypol>
               <arg0>{$this->legendParameters['username']}</arg0>
               <arg1>{$this->legendParameters['password']}</arg1>
-              <arg2>{$requestData['policyNumber']}</arg2>
+              <arg2></arg2>
               <arg3>{$requestData['registrationNumber']}</arg3>
            </leg:enquirypol>
         </soap:Body>
      </soap:Envelope>";
-
+    Log::info($soap_request_data);
+    $this->policyLog->info('Legend Enquiry Policy ', array('data' => $soap_request_data));
     $legend_url = $this->legendParameters['url'];
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -299,6 +300,7 @@ class LegendService {
             Log::info($posEnd);
             $returnedValue = substr($response, $posStart+8, $posEnd - ($posStart+8));
             Log::info($returnedValue);
+            $this->policyLog->info('Legend Enquiry Policy Response ', array('response' => $response));
             return $returnedValue;
         }
     }

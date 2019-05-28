@@ -33,6 +33,7 @@ class VehicleTransactionDetailController extends Controller
     {
         Log::info($data);
         $tableEntry = [
+            'vehicle_details_id' => $data['id'],
             'profile_id' => $data['profileId'],
             'registration_number' => $data['registrationNumber'],
             'form_details' => json_encode($data['formDetails']),
@@ -64,6 +65,9 @@ class VehicleTransactionDetailController extends Controller
         $vehicleLog->info('VehicleLog', $tableEntry);
         try {
             $transaction_creation = VehicleTransactionDetail::create($tableEntry);
+            $transaction_creation['vehicle_details_id'] = $data['id'];
+            // $vehicleLog->info('VehicleLog Entry', json_encode($transaction_creation));
+            Log::info($transaction_creation);
             return $transaction_creation;
         } catch (\Exception $exception) {
             $error = $this->helper->parseException($exception);
@@ -162,7 +166,7 @@ class VehicleTransactionDetailController extends Controller
     public function gettransactiondetails($id)
     {
         try {
-            $vehicleDetails = VehicleTransactionDetail::with('payment', 'policy', 'requestLog')->where('id', $id)->first();
+            $vehicleDetails = VehicleTransactionDetail::with('payment', 'policy', 'requestLog')->where('vehicle_details_id', $id)->first();
             Log::info($vehicleDetails);
 
             return $vehicleDetails;
@@ -188,7 +192,7 @@ class VehicleTransactionDetailController extends Controller
     public function getpolicy($id)
     {
         try {
-            $vehicleDetails = VehicleTransactionDetail::with('requestLog')->where('id', $id)->first();
+            $vehicleDetails = VehicleTransactionDetail::with('requestLog')->where('vehicle_details_id', $id)->first();
             Log::info($vehicleDetails);
 
             $legendRequest = json_decode($vehicleDetails['requestLog'], true);

@@ -416,6 +416,11 @@
 									
 									<div id="legend_success_response">
 										<div class="row policy_details">
+											<div class="col-md-12 pull-right">
+											<button class="btn btn-primary" onclick="Motor.printPage()"><i class="fa fa-print"></i>&nbsp; Print</button>
+											</div>
+										</div>
+										<div class="row policy_details">
 											<div class="col-md-6">
 												Client Number
 											</div>

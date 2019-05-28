@@ -305,7 +305,7 @@
 													</a>
 											</li>
 											<li>
-													<a href="#">
+													<a href="/portal/marine/{{ strtolower(session('userData')['role']['name']) }}">
 															Marine Insurance
 													</a>
 											</li>
@@ -448,8 +448,8 @@
 		<script src="{{ URL::asset('assets/vendor/moment/moment-with-locales.js') }}"></script>
 		<script src="{{ URL::asset('assets/vendor/jquery-validation/jquery.validate.js') }}"></script>
 		<script src="{{ URL::asset('assets/vendor/lodash/lodash.js') }}"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.40/pdfmake.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.40/vfs_fonts.js"></script>
+		<script src="{{ URL::asset('assets/vendor/pdfmake/pdfmake.js') }}"></script>
+		<script src="{{ URL::asset('assets/vendor/pdfmake/vfs_fonts.js') }}"></script>
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="{{ URL::asset('assets/javascripts/theme.js') }}"></script>

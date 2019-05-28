@@ -92,8 +92,6 @@
     <script src="{{ URL::asset('assets/javascripts/tables/examples.datatables.default.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/tables/examples.datatables.row.with.details.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/tables/examples.datatables.tabletools.js') }}"></script>
-    <script src="{{ URL::asset('assets/javascripts/forms/utility.js') }}"></script>
-	<script>$(function(){ Utility.init(); });</script>
     <script src="{{ URL::asset('assets/javascripts/forms/payment.js') }}"></script>
     <script>$(function(){ Payment.init(); });</script>
 	@stop

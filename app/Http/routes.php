@@ -75,6 +75,10 @@ Route::group(['middleware' => ['auth']], function () {
         return view('user-payment');
     });
 
+    Route::get('/payment/agent', function () {
+        return view('agent-payment');
+    });
+
     Route::get('/terms', function () {
         return view('terms');
     });
