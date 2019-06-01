@@ -109,14 +109,14 @@
                         <div class="form-row hide_elements" id="gsmRow">
                             <div class="form-group col-md-12">
                             <label>GSM Number</label>
-                            <input type="text" id="gsm_number" name="gsm_number" class="form-control" placeholder="gsm number">
+                            <input type="text" id="gsm_number" name="gsm_number" class="form-control" placeholder="gsm number" required="required">
                             </div>
                         </div>
 
                         <div class="form-row hide_elements" id="officeRow">
                             <div class="form-group col-md-12">
                             <label>Office Number</label>
-                            <input type="text" id="office_number" name="office_number" class="form-control" placeholder="gsm number">
+                            <input type="text" id="office_number" name="office_number" class="form-control" placeholder="office number">
                             </div>
                         </div>
 
@@ -212,6 +212,7 @@
     <!-- end: page -->
 
 @section('pagescripts')
+    <script src="{{ URL::asset('assets/javascripts/forms/utility.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/forms/signin.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/forms/register.js') }}"></script>
     <script>$(function(){ Register.init(); });</script>

@@ -806,6 +806,7 @@ var Motor = (function() {
       const vehicleDetailsId = _.isEmpty(_this.fields.savedEntry)
         ? `${moment().format('YYYYMMDDHHmmss')}_${$('#vehicle_reg_num').val()}`
         : _this.fields.savedEntry.vehicle_details_id;
+      //   const coverType =   _.isEmpty($('#insurance_class').val()) ?
       const url = api_urls.vehicletransactionpolicy;
       if (!_.isEmpty(_this.fields.legendResponse)) {
         const policyDetails = {
@@ -1079,6 +1080,25 @@ var Motor = (function() {
 
     getExistingVehicleDetailsById: function(id) {
       const url = api_urls.getTransactionDetails;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'GET',
+          method: 'GET',
+          url: `${url}/${id}`,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            console.log(err);
+            reject(err);
+          }
+        });
+      });
+      return promise;
+    },
+
+    getExistingVehicleDetailsByRegistrationNumber: function(id) {
+      const url = api_urls.gettransactiondetailsbyregistration;
       const promise = new Promise(function(resolve, reject) {
         $.ajax({
           type: 'GET',
@@ -1565,7 +1585,16 @@ var Motor = (function() {
     },
 
     printPage: () => {
-      Utility.printPage(_this.fields.policyDetails);
+      if (_this.fields.activeTab === 'renewPolicy') {
+        const details_ids = _this.fields.policyDetails.vehicle_transaction_details_id.split('_');
+        _this.getExistingVehicleDetailsByRegistrationNumber(details_ids[1]).then((result) => {
+          _this.fields.policyDetails['form_details'] = result.form_details;
+          Utility.printPage(_this.fields.policyDetails);
+        });
+      } else {
+        Utility.printPage(_this.fields.policyDetails);
+      }
+
       //   const policyDetails = _this.fields.policyDetails;
       //   const MY_URL = '../../assets/images/Motor-Certificate.jpg';
       //   const title_id = Utility.fields.selectedProfile.title;

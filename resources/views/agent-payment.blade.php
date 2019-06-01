@@ -38,11 +38,11 @@
                     <div class="tabs">
                         <ul class="nav nav-tabs tabs-primary">
                             <li class="active">
-                                <a href="#motor" data-toggle="tab">Motor</a>
+                                <a href="#motor" data-toggle="tab">Insurance Details</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#edit" data-toggle="tab">Edit</a>
-                            </li>
+                            </li> -->
                         </ul>
                         <div class="tab-content">
                             <div id="motor" class="tab-pane active">
@@ -92,6 +92,8 @@
     <script src="{{ URL::asset('assets/javascripts/tables/examples.datatables.default.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/tables/examples.datatables.row.with.details.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/tables/examples.datatables.tabletools.js') }}"></script>
+    <script src="{{ URL::asset('assets/javascripts/forms/utility.js') }}"></script>
+	<script>$(function(){ Utility.init(); });</script>
     <script src="{{ URL::asset('assets/javascripts/forms/payment.js') }}"></script>
     <script>$(function(){ Payment.init(); });</script>
 	@stop

@@ -157,6 +157,9 @@
 								</ul>
 							</div>
 							<div class="tab-content">
+								<div class="loading_icon hide_elements">
+										<img src="{{ URL::asset('assets/images/Loading_icon.gif') }}"/>
+								</div>
 								<div class="tab-pane" id="tab1">
 									<form id="tab1form" name="tab1form">
 										<div class="form-group mb-lg hide_elements" id="existingPolicyDiv">
@@ -191,9 +194,6 @@
 													</span>
 												</span>
 											</div>
-                                        </div>
-                                        <div class="loading_icon hide_elements">
-                                                <img src="{{ URL::asset('assets/images/Loading_icon.gif') }}"/>
                                         </div>
 										<div class="alert-message">
 											<p class="alert-message-text"></p>
@@ -299,7 +299,7 @@
 												<select id="insurance_class" name="insurance_class" class="form-control" required="required" onchange="Motor.onClassChange()">
 													<option value="">Choose...</option>
 													<option value="third_party">3rd Party</option>
-													<option value="third_party_fire_theft">3rd Party Fire and Theft</option>
+													<!-- <option value="third_party_fire_theft">3rd Party Fire and Theft</option> -->
 													<option value="comprehensive">Comprehensive</option>
 												</select>
 											</div>

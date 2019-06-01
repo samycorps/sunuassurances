@@ -38,11 +38,11 @@
                     <div class="tabs">
                         <ul class="nav nav-tabs tabs-primary">
                             <li class="active">
-                                <a href="#motor" data-toggle="tab">Motor</a>
+                                <a href="#motor" data-toggle="tab">Insurance Details</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#edit" data-toggle="tab">Edit</a>
-                            </li>
+                            </li> -->
                         </ul>
                         <div class="tab-content">
                             <div id="motor" class="tab-pane active">

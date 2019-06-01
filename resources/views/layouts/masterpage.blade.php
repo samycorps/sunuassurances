@@ -304,11 +304,13 @@
 														 Motor Insurance
 													</a>
 											</li>
+											@if(strtolower(session('userData')['role']['name'])==='agent')
 											<li>
 													<a href="/portal/marine/{{ strtolower(session('userData')['role']['name']) }}">
 															Marine Insurance
 													</a>
 											</li>
+											@endif
 											<li>
 												<a href="/portal/payment/{{ strtolower(session('userData')['role']['name']) }}">
 																Transaction Details

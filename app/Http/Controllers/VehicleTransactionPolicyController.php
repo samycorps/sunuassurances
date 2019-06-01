@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Illuminate\Support\Facades\DB;
 
 class VehicleTransactionPolicyController extends Controller
 {
@@ -62,6 +63,27 @@ class VehicleTransactionPolicyController extends Controller
         $policies = VehicleTransactionPolicy::where('profile_id', $profileId)->get();
         // $policyLog->info('PolicyLog', $policies);
         return $policies;
+    }
+
+    public function getPoliciesByUserId($userId)
+    {
+        try {
+            $query = "SELECT policy.*, details.form_details, details.registration_number, payment.transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message, profiles.firstname, profiles.lastname, profiles.title 
+            FROM vehicle_transaction_policy policy 
+            JOIN vehicle_transaction_details details ON 
+            SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(details.vehicle_details_id, '_',-1)
+            JOIN vehicle_transaction_payment payment ON 
+            SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(payment.vehicle_transaction_details_id, '_',-1)
+            JOIN profiles ON policy.profile_id = profiles.id
+            WHERE policy.user_id = $userId;";
+            $policies = DB::select( DB::raw($query));
+            Log::info($query);
+            Log::info($policies);
+            return $policies;
+        } catch (\Exception $exception) {
+            $error = $this->helper->parseException($exception);
+            return response()->json($error, $error['code']);
+        }
     }
 
 }

@@ -280,10 +280,13 @@ var Utility = (function() {
     printPage: (policyDetails) => {
       console.log(policyDetails);
       const MY_URL = '../../portal/assets/images/Motor-Certificate.jpg';
-      const title_id = Utility.fields.selectedProfile.title;
+      //   const MY_URL = '../../assets/images/Motor-Certificate.jpg';
+      const title_id = policyDetails.title !== undefined ? policyDetails.title : Utility.fields.selectedProfile.title;
       const customer_title = _.invert(Utility.titles)[title_id];
-      const customer_firstname = Utility.fields.selectedProfile.firstname;
-      const customer_lastname = Utility.fields.selectedProfile.lastname;
+      const customer_firstname =
+        policyDetails.firstname !== undefined ? policyDetails.firstname : Utility.fields.selectedProfile.firstname;
+      const customer_lastname =
+        policyDetails.lastname !== undefined ? policyDetails.lastname : Utility.fields.selectedProfile.lastname;
       const policy_holder = `${customer_title} ${customer_firstname} ${customer_lastname}`;
 
       const request = new XMLHttpRequest();
@@ -299,7 +302,12 @@ var Utility = (function() {
               .format('DD-MMM-YY');
             // console.log('DataURL:', e.target.result);
             console.log(result);
-            const form_details = JSON.parse(result.form_details);
+            const form_details =
+              policyDetails.form_details !== undefined
+                ? JSON.parse(policyDetails.form_details)
+                : JSON.parse(result.form_details);
+            const registration_number =
+              result.registration_number !== undefined ? result.registration_number : policyDetails.registration_number;
             pdfMake.fonts = {
               Courier: {
                 normal: 'Courier',
@@ -355,7 +363,7 @@ var Utility = (function() {
                   absolutePosition: { x: 30, y: 185 }
                 },
                 {
-                  text: result.registration_number,
+                  text: registration_number,
                   absolutePosition: { x: 20, y: 235 }
                 },
                 {
@@ -377,7 +385,7 @@ var Utility = (function() {
                     'Vehicle Make: ',
                     { text: `${form_details.vehicle_make_model}\n` },
                     'Registration Number: ',
-                    { text: `${result.registration_number}\n` },
+                    { text: `${registration_number}\n` },
                     'Effective Date of Cover: ',
                     { text: `${effectiveDate}\n` },
                     'Date of Expiry of Insurance: ',
@@ -411,7 +419,7 @@ var Utility = (function() {
                 bold: true
               }
             };
-            pdfMake.createPdf(docDefinition).download();
+            pdfMake.createPdf(docDefinition).download(`${registration_number}.pdf`);
           });
         };
       };

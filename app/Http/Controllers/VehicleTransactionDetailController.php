@@ -189,6 +189,19 @@ class VehicleTransactionDetailController extends Controller
         }
     }
 
+    public function gettransactiondetailsByRegistrationNumber($registration_number)
+    {
+        try {
+            $vehicleDetails = VehicleTransactionDetail::with('payment', 'policy', 'requestLog')->where('registration_number', $registration_number)->first();
+            Log::info($vehicleDetails);
+
+            return $vehicleDetails;
+        } catch(\Exception $ne) {
+            Log::error($ne);
+            return ['vehicleDetails' => []];
+        }
+    }
+
     public function getpolicy($id)
     {
         try {

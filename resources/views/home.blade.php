@@ -38,6 +38,7 @@
                         </div>
                     </div>
                 </div>
+            @if(strtolower(session('userData')['role']['name'])==='agent')
                 <div class="col-md-4 col-lg-4 col-xl-4 col-md-offset-1">
                         <div class="div-table" onclick="Home.gotoMenu('marine')">
                             <div class="div-table-row">
@@ -50,6 +51,7 @@
                             </div>
                         </div>
                 </div>
+            @endif
         </div>
 
     </section>

@@ -123,7 +123,9 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('agentclientlist/{user_id}', 'ProfileController@getAgentClientList');
     Route::get('profilelist/{param}', 'ProfileController@getProfileList');
     Route::get('individualpolicylist/{profile_id}', 'VehicleTransactionPolicyController@getIndividualPolicyList');
+    Route::get('policylist/{user_id}', 'VehicleTransactionPolicyController@getPoliciesByUserId');
     Route::get('gettransactiondetails/{id}', 'VehicleTransactionDetailController@gettransactiondetails');
     Route::get('gettransactiondetailsbyprofile/{profile_id}', 'VehicleTransactionDetailController@gettransactiondetailsByProfile');
+    Route::get('gettransactiondetailsbyregistration/{registration_number}', 'VehicleTransactionDetailController@gettransactiondetailsByRegistrationNumber');
     Route::get('getcovertypes/{type}', 'CoverTypeController@getTypes');
 });
