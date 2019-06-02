@@ -135,14 +135,21 @@
                             </div>
                         </div>
 
+                        <div class="form-row hide_elements" id="tinRow">
+                            <div class="form-group col-md-6">
+                            <label>TIN Number</label>
+                            <input type="number" id="profile_tin_number" name="profile_tin_number" class="form-control" placeholder="tin number" required="required">
+                            </div>
+                        </div>
+
                         <div class="form-row" id="gsmRow">
                             <div class="form-group col-md-6">
                             <label>GSM Number</label>
-                            <input type="text" id="profile_gsm_number" name="profile_gsm_number" value="" class="form-control" placeholder="gsm number">
+                            <input type="number" id="profile_gsm_number" name="profile_gsm_number" value="" class="form-control" placeholder="gsm number" required="required">
                             </div>
                             <div class="form-group col-md-6">
                             <label>Office Number</label>
-                            <input type="text" id="profile_office_number" name="profile_office_number" value="" class="form-control" placeholder="office number">
+                            <input type="number" id="profile_office_number" name="profile_office_number" value="" class="form-control" placeholder="office number">
                             </div>
                         </div>
 
@@ -185,7 +192,7 @@
                         <div class="form-row" id="bankDetailsRow">
                             <div class="form-group col-md-6">
                             <label class="required">Account Number</label>
-                            <input type="text" class="form-control" placeholder="Account Number" name="profile_bank_account_number" id="profile_bank_account_number" value="" required />
+                            <input type="text" class="form-control" placeholder="Account Number" name="profile_bank_account_number" id="profile_bank_account_number" maxlength="10" value="" required />
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="profile_customer_bank">Bank Name</label>

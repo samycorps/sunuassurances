@@ -240,8 +240,12 @@
 							</figure>
                             @if (session('userData'))
                                 <div class="profile-info" data-lock-name="John Doe" data-lock-email="{{ session('userData')['user']['email_address'] }}">
-                                    <span class="name">{{ session('userData')['profile']['firstname'] }} {{ session('userData')['profile']['lastname'] }}</span>
-                                    <span class="role">{{ session('userData')['role']['name'] }}</span>
+									@if (session('userData')['profile']['user_category'] == 'Individual')
+									<span class="name">{{ session('userData')['profile']['firstname'] }} {{ session('userData')['profile']['lastname'] }}</span>
+									@else
+									<span class="name">{{ session('userData')['profile']['company_name'] }}</span>
+									@endif
+                                    <span class="role">{{ session('userData')['profile']['user_category'] }} - {{ session('userData')['role']['name'] }}</span>
                                 </div>
                             @endif
 			

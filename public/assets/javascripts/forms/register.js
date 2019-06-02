@@ -215,6 +215,7 @@ var Register = (function() {
           street_address: $('#street_address').val(),
           city: $('#city').val(),
           local_govt_area: $('#lga').val(),
+          tin_number: $('#tin_number').val(),
           state: $('#state').val(),
           gsm_number: $('#gsm_number').val(),
           office_number: $('#office_number').val(),
@@ -262,6 +263,7 @@ var Register = (function() {
           street_address: $('#profile_street_address').val(),
           city: $('#profile_city').val(),
           local_govt_area: $('#profile_lga').val(),
+          tin_number: $('#profile_tin_number').val(),
           state: $('#profile_state').val(),
           gsm_number: $('#profile_gsm_number').val(),
           office_number: $('#profile_office_number').val(),
@@ -400,7 +402,7 @@ var Register = (function() {
         'gsmRow'
       ];
       const individual_elements = ['titleRow', 'nameRow'];
-      const company_elements = ['companyRow', 'companyRegRow', 'officeRow'];
+      const company_elements = ['companyRow', 'companyRegRow', 'officeRow', 'tinRow'];
 
       $.each(default_elements, (i, v) => {
         $(`#${v}`).removeClass('hide_elements');

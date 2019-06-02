@@ -106,17 +106,24 @@
                             </div>
                         </div>
 
+                        <div class="form-row hide_elements" id="tinRow">
+                            <div class="form-group col-md-6">
+                            <label>TIN Number</label>
+                            <input type="number" id="tin_number" name="tin_number" class="form-control" placeholder="tin number" required="required">
+                            </div>
+                        </div>
+
                         <div class="form-row hide_elements" id="gsmRow">
                             <div class="form-group col-md-12">
                             <label>GSM Number</label>
-                            <input type="text" id="gsm_number" name="gsm_number" class="form-control" placeholder="gsm number" required="required">
+                            <input type="number" id="gsm_number" name="gsm_number" class="form-control" placeholder="gsm number" required="required">
                             </div>
                         </div>
 
                         <div class="form-row hide_elements" id="officeRow">
                             <div class="form-group col-md-12">
                             <label>Office Number</label>
-                            <input type="text" id="office_number" name="office_number" class="form-control" placeholder="office number">
+                            <input type="number" id="office_number" name="office_number" class="form-control" placeholder="office number">
                             </div>
                         </div>
 
@@ -152,7 +159,7 @@
                         <div class="form-row hide_elements" id="bankDetailsRow">
                             <div class="form-group col-md-6">
                             <label class="required">Account Number</label>
-                            <input type="text" class="form-control" placeholder="Account Number" name="bank_account_number" id="bank_account_number" required />
+                            <input type="text" class="form-control" placeholder="Account Number" name="bank_account_number" id="bank_account_number" maxlength="10" required />
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customer_bank">Bank Name</label>

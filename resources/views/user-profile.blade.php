@@ -116,14 +116,14 @@
                         <div class="form-row" id="gsmRow">
                             <div class="form-group col-md-12">
                             <label>GSM Number</label>
-                            <input type="text" id="gsm_number" name="gsm_number" value="{{ session('userData')['profile']['gsm_number'] }}" class="form-control" placeholder="gsm number">
+                            <input type="number" id="gsm_number" name="gsm_number" value="{{ session('userData')['profile']['gsm_number'] }}" class="form-control" placeholder="gsm number">
                             </div>
                         </div>
 
                         <div class="form-row" id="officeRow">
                             <div class="form-group col-md-12">
                             <label>Office Number</label>
-                            <input type="text" id="office_number" name="office_number" value="{{ session('userData')['profile']['office_number'] }}" class="form-control" placeholder="office number">
+                            <input type="number" id="office_number" name="office_number" value="{{ session('userData')['profile']['office_number'] }}" class="form-control" placeholder="office number">
                             </div>
                         </div>
 
@@ -159,7 +159,7 @@
                         <div class="form-row" id="bankDetailsRow">
                             <div class="form-group col-md-6">
                             <label class="required">Account Number</label>
-                            <input type="text" class="form-control" placeholder="Account Number" name="bank_account_number" id="bank_account_number" value="{{ session('userData')['profile']['bank_account_number'] }}" required />
+                            <input type="text" class="form-control" placeholder="Account Number" name="bank_account_number" id="bank_account_number" value="{{ session('userData')['profile']['bank_account_number'] }}" maxlength="10" required />
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="customer_bank">Bank Name</label>
