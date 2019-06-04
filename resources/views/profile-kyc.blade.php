@@ -145,7 +145,7 @@
                         <div class="form-row" id="gsmRow">
                             <div class="form-group col-md-6">
                             <label>GSM Number</label>
-                            <input type="number" id="profile_gsm_number" name="profile_gsm_number" value="" class="form-control" placeholder="gsm number" required="required">
+                            <input type="number" id="profile_gsm_number" name="profile_gsm_number" value="" class="form-control" placeholder="gsm number" required="required" maxlength="">
                             </div>
                             <div class="form-group col-md-6">
                             <label>Office Number</label>
