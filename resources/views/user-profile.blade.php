@@ -32,7 +32,7 @@
                 <div class="panel-body">
                     <form action="" method="post" id="form-register">
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-12 hide_elements">
                             <label>Select your registration category</label>
                             <select id="category" name="category" class="form-control" required="required">
                                 <option value="">Choose...</option>
@@ -110,6 +110,13 @@
                             <select id="state" name="state" class="form-control" required="required">
                                     <option value="">Choose...</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row hide_elements" id="tinRow">
+                            <div class="form-group col-md-6">
+                            <label>TIN Number</label>
+                            <input type="number" id="profile_tin_number" name="profile_tin_number" value="{{ session('userData')['profile']['tin_number'] }}" class="form-control" placeholder="tin number" required="required">
                             </div>
                         </div>
 
@@ -196,5 +203,6 @@
     <script src="{{ URL::asset('assets/javascripts/forms/signin.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/forms/register.js') }}"></script>
     <script>$(function(){ Register.init(); });</script>
+    <script>$(function(){ UserProfile.init(); });</script>
 	@stop
 @stop

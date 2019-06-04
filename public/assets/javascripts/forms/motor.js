@@ -161,6 +161,9 @@ var Motor = (function() {
       if (event.target.id === 'renewPolicy' && $('#renewPolicySection').hasClass('hide_elements')) {
         // $('#renewPolicySection').removeClass('hide_elements');
         // $('#newAndAdditionalPolicySection').addClass('hide_elements');
+        $('.panel-title').html('Renew Policy Details');
+      } else {
+        $('.panel-title').html('New Policy and Additional Vehicle');
       }
     },
 
@@ -190,11 +193,9 @@ var Motor = (function() {
             _this.fields.vehicleModels
           ] = values;
 
-          // Remove Additional Policy Section
-          // if (!_.isEmpty(_this.fields.individualPolicyList)) {
-          //     $('#additionalPolicy').removeClass('hide_elements');
-          //     $('#existing_policy_number').val(_this.fields.individualPolicyList[0].policy_number);
-          // }
+          // Set Vehicle Bodies and Models to Utility
+          Utility.fields.vehicleBodies = Motor.fields.vehicleBodies;
+          Utility.fields.vehicleModels = Motor.fields.vehicleModels;
         },
         (error) => {
           console.log(error);
@@ -317,6 +318,7 @@ var Motor = (function() {
         const vehicleData = {
           id: `${moment().format('YYYYMMDDHHmmss')}_${vehicleRegNum}`,
           profileId: Utility.fields.selectedProfile.id,
+          userId: $('#user_id').val(),
           registrationNumber: $('#vehicle_reg_num').val(),
           formDetails: _this.fields.formData
         };
@@ -332,8 +334,6 @@ var Motor = (function() {
           .catch((err) => {
             console.log(err);
           });
-        // console.log(vehicleTransactionDetails);
-        // _this.saveVehicleDetails(vehicleTransactionDetails);
       }
 
       return $('#tab2form').valid();

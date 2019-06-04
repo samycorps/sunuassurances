@@ -35,6 +35,7 @@ class VehicleTransactionDetailController extends Controller
         $tableEntry = [
             'vehicle_details_id' => $data['id'],
             'profile_id' => $data['profileId'],
+            'user_id' => $data['userId'],
             'registration_number' => $data['registrationNumber'],
             'form_details' => json_encode($data['formDetails']),
             // 'vehicle_model' => trim($data['vehicleModel']),
@@ -65,7 +66,6 @@ class VehicleTransactionDetailController extends Controller
         $vehicleLog->info('VehicleLog', $tableEntry);
         try {
             $transaction_creation = VehicleTransactionDetail::create($tableEntry);
-            $transaction_creation['vehicle_details_id'] = $data['id'];
             // $vehicleLog->info('VehicleLog Entry', json_encode($transaction_creation));
             Log::info($transaction_creation);
             return $transaction_creation;

@@ -81,7 +81,7 @@
 							<a href="#" class="fa fa-times"></a>
 						</div>
 
-						<h2 class="panel-title">My Profile</h2>
+						<h2 class="panel-title">New Policy and Additional Vehicle</h2>
 					</header>
 					<div class="panel-body">
 						<div id="rootwizard">

@@ -45,6 +45,8 @@ var Payment = (function() {
               return {
                 firstname: v.firstname,
                 lastname: v.lastname,
+                company_name: v.company_name,
+                user_category: v.user_category,
                 title: v.title,
                 registration_number: v.registration_number,
                 transaction_reference: v.transaction_reference,

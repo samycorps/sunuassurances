@@ -68,12 +68,14 @@ class VehicleTransactionPolicyController extends Controller
     public function getPoliciesByUserId($userId)
     {
         try {
-            $query = "SELECT policy.*, details.form_details, details.registration_number, payment.transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message, profiles.firstname, profiles.lastname, profiles.title 
+            $query = "SELECT policy.*, details.form_details, details.registration_number, payment.transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message, profiles.firstname, profiles.lastname, profiles.title, profiles.company_name, profiles.user_category 
             FROM vehicle_transaction_policy policy 
             JOIN vehicle_transaction_details details ON 
             SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(details.vehicle_details_id, '_',-1)
+            AND policy.user_id = details.user_id
             JOIN vehicle_transaction_payment payment ON 
             SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(payment.vehicle_transaction_details_id, '_',-1)
+            AND policy.user_id = payment.user_id
             JOIN profiles ON policy.profile_id = profiles.id
             WHERE policy.user_id = $userId;";
             $policies = DB::select( DB::raw($query));

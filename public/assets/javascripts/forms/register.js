@@ -683,3 +683,62 @@ var Register = (function() {
   };
 })();
 const _thisRegister = Register;
+
+var UserProfile = (function() {
+  return {
+    init: function() {
+      console.log('Set User Profile');
+      _thisUser.setScreen();
+    },
+
+    setScreen: () => {
+      const default_elements = [
+        'emailRow',
+        'streetRow',
+        'addressRow',
+        'occupationRow',
+        'websiteRow',
+        'contactPersonRow',
+        'bankDetailsRow',
+        'emailRow',
+        'gsmRow'
+      ];
+      const individual_elements = ['titleRow', 'nameRow'];
+      const company_elements = ['companyRow', 'companyRegRow', 'officeRow', 'tinRow'];
+
+      $.each(default_elements, (i, v) => {
+        $(`#${v}`).removeClass('hide_elements');
+      });
+
+      const category = _thisRegister.fields.profile.user_category;
+      switch (category) {
+        case 'Individual': {
+          $.each(individual_elements, (i, v) => {
+            $(`#${v}`).removeClass('hide_elements');
+          });
+
+          $.each(company_elements, (i, v) => {
+            if (!$(`#${v}`).hasClass('hide_elements')) {
+              $(`#${v}`).addClass('hide_elements');
+            }
+          });
+          break;
+        }
+        case 'Corporate':
+        case 'Government': {
+          $.each(company_elements, (i, v) => {
+            $(`#${v}`).removeClass('hide_elements');
+          });
+
+          $.each(individual_elements, (i, v) => {
+            if (!$(`#${v}`).hasClass('hide_elements')) {
+              $(`#${v}`).addClass('hide_elements');
+            }
+          });
+          break;
+        }
+      }
+    }
+  };
+})();
+const _thisUser = UserProfile;

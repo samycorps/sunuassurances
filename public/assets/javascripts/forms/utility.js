@@ -1,7 +1,9 @@
 var Utility = (function() {
   return {
     fields: {
-      selectedProfile: {}
+      selectedProfile: {},
+      vehicleBodies: [],
+      vehicleModels: []
     },
     clientClasses: {
       Individual: 'I',
@@ -29,6 +31,21 @@ var Utility = (function() {
           Utility.formatCurrency($(this), 'blur');
         }
       });
+
+      if (_.isEmpty(Utility.fields.vehicleBodies)) {
+        Utility.loadPresetDataSet();
+      }
+    },
+
+    loadPresetDataSet: () => {
+      Promise.all([Utility.getVehicleBodyList(), Utility.getVehicleModelList()]).then(
+        (values) => {
+          [Utility.fields.vehicleBodies, Utility.fields.vehicleModels] = values;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
 
     setupProfileAutoComplete: () => {
@@ -147,6 +164,42 @@ var Utility = (function() {
       return uuidv4;
     },
 
+    getVehicleBodyList: () => {
+      const url = api_urls.vehiclebodies;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'GET',
+          method: 'GET',
+          url: url,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            reject(err);
+          }
+        });
+      });
+      return promise;
+    },
+
+    getVehicleModelList: () => {
+      const url = api_urls.vehiclemodels;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'GET',
+          method: 'GET',
+          url: url,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            reject(err);
+          }
+        });
+      });
+      return promise;
+    },
+
     getCitiesList: () => {
       const url = api_urls.cities;
       const promise = new Promise(function(resolve, reject) {
@@ -193,7 +246,6 @@ var Utility = (function() {
         $.ajax({
           type: formType,
           url: url,
-          // contentType: "application/json; charset=utf-8",
           data: vehicleTransactionDetails,
           success: function(msg) {
             resolve(msg);
@@ -287,7 +339,14 @@ var Utility = (function() {
         policyDetails.firstname !== undefined ? policyDetails.firstname : Utility.fields.selectedProfile.firstname;
       const customer_lastname =
         policyDetails.lastname !== undefined ? policyDetails.lastname : Utility.fields.selectedProfile.lastname;
-      const policy_holder = `${customer_title} ${customer_firstname} ${customer_lastname}`;
+      const customer_company =
+        policyDetails.company_name !== undefined
+          ? policyDetails.company_name
+          : Utility.fields.selectedProfile.company_name;
+      let policy_holder = `${customer_title} ${customer_firstname} ${customer_lastname}`;
+      if (policyDetails.user_category !== 'Individual') {
+        policy_holder = customer_company;
+      }
 
       const request = new XMLHttpRequest();
       request.open('GET', MY_URL, true);
@@ -300,7 +359,6 @@ var Utility = (function() {
             const effectiveDate = moment(policyDetails.expiry_date.substring(0, 9), 'DD-MMM-YY')
               .subtract(1, 'year')
               .format('DD-MMM-YY');
-            // console.log('DataURL:', e.target.result);
             console.log(result);
             const form_details =
               policyDetails.form_details !== undefined
@@ -308,6 +366,16 @@ var Utility = (function() {
                 : JSON.parse(result.form_details);
             const registration_number =
               result.registration_number !== undefined ? result.registration_number : policyDetails.registration_number;
+            let vehicleModel = _.isEmpty(Utility.fields.vehicleModels)
+              ? form_details.vehicle_make_model
+              : Utility.fields.vehicleModels.find((v) => {
+                  return v.value === form_details.vehicle_make_model;
+                });
+            if (form_details.cargo_type !== undefined) {
+              vehicleModel = {
+                name: form_details.vessel_name
+              };
+            }
             pdfMake.fonts = {
               Courier: {
                 normal: 'Courier',
@@ -355,11 +423,11 @@ var Utility = (function() {
                   absolutePosition: { x: 20, y: 90 }
                 },
                 {
-                  text: policy_holder,
+                  text: policy_holder.substring(0, 25),
                   absolutePosition: { x: 20, y: 140 }
                 },
                 {
-                  text: form_details.vehicle_make_model,
+                  text: vehicleModel.name,
                   absolutePosition: { x: 30, y: 185 }
                 },
                 {
@@ -383,7 +451,7 @@ var Utility = (function() {
                     'Policy Holder: ',
                     { text: `${policy_holder}\n` },
                     'Vehicle Make: ',
-                    { text: `${form_details.vehicle_make_model}\n` },
+                    { text: `${vehicleModel.name}\n` },
                     'Registration Number: ',
                     { text: `${registration_number}\n` },
                     'Effective Date of Cover: ',
