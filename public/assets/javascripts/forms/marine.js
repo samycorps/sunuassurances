@@ -285,6 +285,19 @@ var Marine = (function() {
             $('#receipt_number').html(_this.fields.legendResponse.ReceiptNumber);
             $('#expiry_date').html(_this.fields.legendResponse.ExpiryDate);
             $('#legend_success_response').removeClass('hide');
+
+            // Send Email
+            const emailData = {
+              client_number: _this.fields.legendResponse.ClientNumber,
+              policy_number: _this.fields.legendResponse.PolicyNumber,
+              certificate_number: _this.fields.legendResponse.CertificateNumber,
+              debit_note_number: _this.fields.legendResponse.DebitNoteNumber,
+              receipt_number: _this.fields.legendResponse.ReceiptNumber,
+              expiry_date: _this.fields.legendResponse.ExpiryDate,
+              email_address: _this.fields.selectedProfile.email_address,
+              subject: 'Marine Insurance Policy'
+            };
+            Utility.sendPolicyEmail(emailData);
           } else {
             $('#legendResponseMessage').html(responseString);
           }
@@ -335,7 +348,7 @@ var Marine = (function() {
             : _this.fields.agentProfile.office_number,
         fax_number: _this.fields.agentProfile.fax_number === '' ? 'N/A' : _this.fields.agentProfile.fax_number,
         email_address: _this.fields.agentUserDetails.email_address,
-        website: _this.fields.selectedProfile.website,
+        website: _this.fields.selectedProfile.website === '' ? 'N/A' : _this.fields.selectedProfile.website,
         company_reg_num: _this.fields.selectedProfile.company_reg_num,
         date_of_birth: _this.fields.selectedProfile.date_of_birth,
         lga: 'L17001',

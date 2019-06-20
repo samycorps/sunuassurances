@@ -6,7 +6,7 @@
 	<!-- start: page -->
     <section class="body-sign signup">
         <div class="center-sign">
-            <a href="/sunu" class="logo pull-left">
+            <a href="/portal" class="logo pull-left">
                 <img src="{{ URL::asset('assets/images/sunu_logo_long2.jpg') }}" height="50" alt="SUNU Portal" />
             </a>
 
@@ -19,7 +19,7 @@
                         <input type="hidden" id="user_role" name="user_role" value="{{ $role }}" />
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                            <label>Select your registration category</label>
+                            <label class="form-label">Select your registration category</label>
                             <select id="category" name="category" class="form-control" required="required" onchange="Register.onCategoryChange()">
                                 <option value="">Choose...</option>
                                 <option value="Individual">Individual</option>
@@ -33,7 +33,7 @@
                         <div class="clearfix"></div>
                         <div class="form-row hide_elements" id="titleRow">
                             <div class="form-group col-md-6">
-                            <label>Title</label>
+                            <label class="form-label">Title</label>
                             <select id="title" name="title" class="form-control" required="required">
                                 <option value="">Choose...</option>
                             </select>
@@ -50,11 +50,11 @@
                             <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Last name" required="required">
                             </div>
                             <div class="form-group col-md-6">
-                            <label>Othernames</label>
+                            <label class="form-label">Othernames</label>
                             <input type="text" id="othernames" name="othernames" class="form-control" placeholder="Other names">
                             </div>
                             <div class="form-group col-md-6">
-                            <label>Date of Birth</label>
+                            <label class="form-label">Date of Birth</label>
                             <input type="text" id="date_of_birth" name="date_of_birth" class="form-control datepicker">
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                             </select>
                             </div>
                             <div class="form-group col-md-6">
-                            <label>Local Govt. Area</label>
+                            <label class="form-label">Local Govt. Area</label>
                             <input type="text" id="lga" name="lga" class="form-control" placeholder="lga">
                             </div>
                             <div class="form-group col-md-6">
@@ -115,7 +115,7 @@
 
                         <div class="form-row hide_elements" id="gsmRow">
                             <div class="form-group col-md-12">
-                            <label>GSM Number</label>
+                            <label class="form-label">GSM Number</label>
                             <input type="number" id="gsm_number" name="gsm_number" class="form-control" placeholder="gsm number" required="required">
                             </div>
                         </div>
@@ -142,16 +142,16 @@
                             </div>
                         </div>
 
-                        <div class="form-row hide_elements" id="websiteRow">
+                        <!-- <div class="form-row hide_elements" id="websiteRow">
                             <div class="form-group col-md-12">
                             <label>Website</label>
                             <input type="text" id="website" name="website" class="form-control" placeholder="website">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-row hide_elements" id="contactPersonRow">
                             <div class="form-group col-md-12">
-                            <label>Contact Person</label>
+                            <label class="form-label">Contact Person</label>
                             <input type="text" id="contact_person" name="contact_person" class="form-control" placeholder="">
                             </div>
                         </div>
@@ -162,7 +162,7 @@
                             <input type="text" class="form-control" placeholder="Account Number" name="bank_account_number" id="bank_account_number" maxlength="10" required />
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="customer_bank">Bank Name</label>
+                                <label class="form-label" for="customer_bank">Bank Name</label>
                                 <select id="customer_bank" name="customer_bank" class="form-control" required="required">
                                     <option value="">Choose...</option>
                                 </select>

@@ -3,7 +3,11 @@ var Utility = (function() {
     fields: {
       selectedProfile: {},
       vehicleBodies: [],
-      vehicleModels: []
+      vehicleModels: [],
+      states: [],
+      occupations: [],
+      cities: [],
+      colors: []
     },
     clientClasses: {
       Individual: 'I',
@@ -220,6 +224,60 @@ var Utility = (function() {
 
     getLocationsList: () => {
       const url = api_urls.locations;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'GET',
+          method: 'GET',
+          url: url,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            reject(err);
+          }
+        });
+      });
+      return promise;
+    },
+
+    getOccupationList: () => {
+      const url = api_urls.occupations;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'GET',
+          method: 'GET',
+          url: url,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            reject(err);
+          }
+        });
+      });
+      return promise;
+    },
+
+    getStatesList: () => {
+      const url = api_urls.states;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'GET',
+          method: 'GET',
+          url: url,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            reject(err);
+          }
+        });
+      });
+      return promise;
+    },
+
+    getColoursList: () => {
+      const url = api_urls.colours;
       const promise = new Promise(function(resolve, reject) {
         $.ajax({
           type: 'GET',
@@ -492,6 +550,33 @@ var Utility = (function() {
         };
       };
       request.send();
+    },
+
+    sendPolicyEmail(policyData) {
+      const url = api_urls.sendemail;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'POST',
+          method: 'POST',
+          url: url,
+          data: policyData,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            reject(err);
+          }
+        });
+      });
+      promise
+        .then((result) => {
+          console.log(result);
+          vehicleTransactionDetails['vehicleTransactionDetailsId'] = result.id;
+          _this.fields.vehicleTransactionDetails = vehicleTransactionDetails;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 })();

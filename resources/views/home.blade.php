@@ -26,7 +26,7 @@
             </div>
         </header>
         <div class="row">
-                <div class="col-md-4 col-lg-4 col-xl-4">
+                <div class="col-md-4 col-lg-4 col-xl-4 bottom-margin">
                     <div class="div-table" onclick="Home.gotoMenu('motor')">
                         <div class="div-table-row">
                             <div class="div-table-col">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             @if(strtolower(session('userData')['role']['name'])==='agent')
-                <div class="col-md-4 col-lg-4 col-xl-4 col-md-offset-1">
+                <div class="col-md-4 col-lg-4 col-xl-4 bottom-margin">
                         <div class="div-table" onclick="Home.gotoMenu('marine')">
                             <div class="div-table-row">
                                 <div class="div-table-col">
@@ -52,6 +52,45 @@
                         </div>
                 </div>
             @endif
+                <div class="col-md-4 col-lg-4 col-xl-4 bottom-margin">
+                    <div class="div-table" onclick="Home.gotoMenu('claims')">
+                        <div class="div-table-row">
+                            <div class="div-table-col">
+                                <img class="icon" src="{{ URL::asset('assets/images/icon_claims.jpg') }}" alt="Motor" />
+                            </div>
+                            <div class="div-table-col title">
+                                Claims
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4 col-xl-4 bottom-margin">
+                    <div class="div-table" onclick="Home.gotoMenu('payment')">
+                        <div class="div-table-row">
+                            <div class="div-table-col">
+                                <img class="icon" src="{{ URL::asset('assets/images/icon_transaction-details.jpg') }}" alt="Motor" />
+                            </div>
+                            <div class="div-table-col title">
+                                View Policies
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if(strtolower(session('userData')['role']['name'])==='agent')
+                <div class="col-md-4 col-lg-4 col-xl-4 bottom-margin">
+                    <div class="div-table" onclick="Home.gotoMenu('profile-kyc')">
+                        <div class="div-table-row">
+                            <div class="div-table-col">
+                                <img class="icon" src="{{ URL::asset('assets/images/icon_create_profile.png') }}" alt="Motor" />
+                            </div>
+                            <div class="div-table-col title">
+                                Create Profile
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
         </div>
 
     </section>

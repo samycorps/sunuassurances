@@ -1,59 +1,63 @@
 widget-icon-info {
-    display: table;
-    width: 100%;
+  display: table;
+  width: 100%;
 }
 
 img.icon {
-    height: 80px !important;
+  height: 80px !important;
 }
 
 .div-table {
-    display: table;
-    border: solid;
-    border-width: 1px;
-    border-radius: 5px;
-    border-color: #C81840;
+  display: table;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #c81840;
 }
 
 .div-table-row {
-    display: table-row;
-    cursor: pointer;
+  display: table-row;
+  cursor: pointer;
 }
 
 .div-table-col {
-    /* float: left; fix for  buggy browsers */
-    display: table-cell;         
-    /* border: solid;
+  /* float: left; fix for  buggy browsers */
+  display: table-cell;
+  /* border: solid;
     border-width: 1px; */
-    padding-left: 5px;
-    padding-right: 5px;
-    width:100px
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100px;
 }
 
 .div-table-col.title {
-    background-color: #C81840;
-    text-align: center;
-    color: #ffffff;
-    font-weight: 500;  
-    font-size: 1.4em;     
+  background-color: #c81840;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1.4em;
 }
 
 .icon-div {
-    background-color: #ABB4BD
+  background-color: #abb4bd;
 }
 .info-div {
-    background-color: #C81840 !important;
-    color: #ffffff !important;
-    text-align: center;
-    vertical-align: middle !important;
+  background-color: #c81840 !important;
+  color: #ffffff !important;
+  text-align: center;
+  vertical-align: middle !important;
 }
 
 .base_color {
-    /* background-color: #C81840; */
-    border: 1px solid #C81840;
-    /* color: #ffffff !important; */
+  /* background-color: #C81840; */
+  border: 1px solid #c81840;
+  /* color: #ffffff !important; */
 }
 
 div.base_color {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.bottom-margin {
+  margin-bottom: 20px;
 }

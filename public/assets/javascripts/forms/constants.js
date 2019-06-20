@@ -8,8 +8,8 @@
 //     "callform" : base_url+'/api/callcenter'
 // };
 
-const base_url = 'http://localhost:8000/api';
-// const base_url = 'http://sunuassurancesnigeria.com/portal/api';
+// const base_url = 'http://localhost:8000/api';
+const base_url = 'http://sunuassurancesnigeria.com/portal/api';
 const api_urls = {
   register: `${base_url}/users`,
   registerProfile: `${base_url}/profiles`,
@@ -44,7 +44,9 @@ const api_urls = {
   getTransactionDetails: `${base_url}/gettransactiondetails`,
   gettransactiondetailsbyprofile: `${base_url}/gettransactiondetailsbyprofile`,
   gettransactiondetailsbyregistration: `${base_url}/gettransactiondetailsbyregistration`,
-  policylistByUser: `${base_url}/policylist`
+  policylistByUser: `${base_url}/policylist`,
+  sendemail: `${base_url}/sendemail`,
+  saveImages: `${base_url}/saveImages`
 };
 
 const paystack = {

@@ -266,19 +266,19 @@
 												<div class="form-check">
 													<input class="form-check-input" type="checkbox" value="" id="comprehensive_addons_flood" onclick="Motor.onClassChange()">
 													<label class="form-check-label" for="comprehensive_addons_flood">
-														Flood Extension +0.5%
+														Flood Extension
 													</label>
 												</div>
 												<div class="form-check">
 													<input class="form-check-input" type="checkbox" value="" id="comprehensive_addons_riot" onclick="Motor.onClassChange()">
 													<label class="form-check-label" for="comprehensive_addons_riot">
-														Riot +0.5%
+														Riot
 													</label>
 												</div>
 												<div class="form-check">
 													<input class="form-check-input" type="checkbox" value="" id="comprehensive_addons_excess" onclick="Motor.onClassChange()">
 													<label class="form-check-label" for="comprehensive_addons_excess">
-														Excess Buy Back +0.5%
+														Excess Buy Back
 													</label>
 												</div>
 												<div id="comprehensive_addons_tracking" class="form-check hide">

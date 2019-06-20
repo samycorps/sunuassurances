@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <p class="text-center text-muted mt-md mb-md">&copy; Copyright 2018. SUNU Assurance Nigeria Plc. All Rights Reserved.</p>
+            <p class="text-center text-muted mt-md mb-md">&copy; Copyright 2019. SUNU Assurance Nigeria Plc. All Rights Reserved.</p>
         </div>
     </section>
     <!-- end: page -->

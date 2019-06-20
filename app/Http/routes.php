@@ -87,6 +87,18 @@ Route::group(['middleware' => ['auth']], function () {
         return view('profile-kyc');
     });
 
+    Route::get('/profile-kyc/agent', function () {
+        return view('profile-kyc');
+    });
+
+    Route::get('/claims/client', function () {
+        return view('client-claims');
+    });
+
+    Route::get('/claims/agent', function () {
+        return view('agent-claims');
+    });
+
     Route::get('/logout', function () {
         Auth::logout();
         Session::flush();
@@ -128,4 +140,6 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('gettransactiondetailsbyprofile/{profile_id}', 'VehicleTransactionDetailController@gettransactiondetailsByProfile');
     Route::get('gettransactiondetailsbyregistration/{registration_number}', 'VehicleTransactionDetailController@gettransactiondetailsByRegistrationNumber');
     Route::get('getcovertypes/{type}', 'CoverTypeController@getTypes');
+    Route::post('sendemail', 'EmailController@sendEMail');
+    Route::post('saveImages/{id}', 'UploadController@save');
 });

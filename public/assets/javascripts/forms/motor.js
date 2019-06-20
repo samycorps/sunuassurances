@@ -481,6 +481,19 @@ var Motor = (function() {
             $('#debit_note_number').html(_this.fields.legendResponse.DebitNoteNumber);
             $('#receipt_number').html(_this.fields.legendResponse.ReceiptNumber);
             $('#expiry_date').html(_this.fields.legendResponse.ExpiryDate);
+
+            // Send Email
+            const emailData = {
+              client_number: _this.fields.legendResponse.ClientNumber,
+              policy_number: _this.fields.legendResponse.PolicyNumber,
+              certificate_number: _this.fields.legendResponse.CertificateNumber,
+              debit_note_number: _this.fields.legendResponse.DebitNoteNumber,
+              receipt_number: _this.fields.legendResponse.ReceiptNumber,
+              expiry_date: _this.fields.legendResponse.ExpiryDate,
+              email_address: Utility.fields.selectedProfile.email_address,
+              subject: 'Motor Insurance Policy'
+            };
+            Utility.sendPolicyEmail(emailData);
           } else {
             $('#legendResponseMessage').html(responseString);
           }
@@ -1594,143 +1607,6 @@ var Motor = (function() {
       } else {
         Utility.printPage(_this.fields.policyDetails);
       }
-
-      //   const policyDetails = _this.fields.policyDetails;
-      //   const MY_URL = '../../assets/images/Motor-Certificate.jpg';
-      //   const title_id = Utility.fields.selectedProfile.title;
-      //   const customer_title = _.invert(_this.titles)[title_id];
-      //   const customer_firstname = Utility.fields.selectedProfile.firstname;
-      //   const customer_lastname = Utility.fields.selectedProfile.lastname;
-      //   const policy_holder = `${customer_title} ${customer_firstname} ${customer_lastname}`;
-
-      //   const request = new XMLHttpRequest();
-      //   request.open('GET', MY_URL, true);
-      //   request.responseType = 'blob';
-      //   request.onload = function() {
-      //     let reader = new FileReader();
-      //     reader.readAsDataURL(request.response);
-      //     reader.onload = function(e) {
-      //       _this.getExistingVehicleDetailsById(policyDetails.vehicle_transaction_details_id).then((result) => {
-      //         const effectiveDate = moment(policyDetails.expiry_date.substring(0, 9), 'DD-MMM-YY')
-      //           .subtract(1, 'year')
-      //           .format('DD-MMM-YY');
-      //         // console.log('DataURL:', e.target.result);
-      //         pdfMake.fonts = {
-      //           Courier: {
-      //             normal: 'Courier',
-      //             bold: 'Courier-Bold',
-      //             italics: 'Courier-Oblique',
-      //             bolditalics: 'Courier-BoldOblique'
-      //           },
-      //           Roboto: {
-      //             normal: 'Courier',
-      //             bold: 'Courier-Bold',
-      //             italics: 'Courier-Oblique',
-      //             bolditalics: 'Courier-BoldOblique'
-      //           },
-      //           Helvetica: {
-      //             normal: 'Helvetica',
-      //             bold: 'Helvetica-Bold',
-      //             italics: 'Helvetica-Oblique',
-      //             bolditalics: 'Helvetica-BoldOblique'
-      //           },
-      //           Times: {
-      //             normal: 'Times-Roman',
-      //             bold: 'Times-Bold',
-      //             italics: 'Times-Italic',
-      //             bolditalics: 'Times-BoldItalic'
-      //           },
-      //           Symbol: {
-      //             normal: 'Symbol'
-      //           },
-      //           ZapfDingbats: {
-      //             normal: 'ZapfDingbats'
-      //           }
-      //         };
-
-      //         let docDefinition = {
-      //           pageSize: 'A5',
-      //           background: [
-      //             {
-      //               image: e.target.result,
-      //               width: 400
-      //             }
-      //           ],
-      //           content: [
-      //             {
-      //               text: policyDetails.policy_number,
-      //               absolutePosition: { x: 20, y: 90 }
-      //             },
-      //             {
-      //               text: policy_holder,
-      //               absolutePosition: { x: 20, y: 140 }
-      //             },
-      //             {
-      //               text: result.vehicle_make,
-      //               absolutePosition: { x: 30, y: 185 }
-      //             },
-      //             {
-      //               text: result.registration_number,
-      //               absolutePosition: { x: 20, y: 235 }
-      //             },
-      //             {
-      //               text: effectiveDate,
-      //               absolutePosition: { x: 20, y: 285 }
-      //             },
-      //             {
-      //               text: policyDetails.expiry_date,
-      //               absolutePosition: { x: 30, y: 340 }
-      //             },
-      //             {
-      //               style: 'inner',
-      //               text: [
-      //                 { text: `NO: ${policyDetails.certificate_number}\n\n\n`, style: 'certificate' },
-      //                 { text: 'Policy Number: ', style: 'boldlabel' },
-      //                 { text: `${policyDetails.policy_number}\n` },
-      //                 'Policy Holder: ',
-      //                 { text: `${policy_holder}\n` },
-      //                 'Vehicle Make: ',
-      //                 { text: `${result.vehicle_make}\n` },
-      //                 'Registration Number: ',
-      //                 { text: `${result.registration_number}\n` },
-      //                 'Effective Date of Cover: ',
-      //                 { text: `${effectiveDate}\n` },
-      //                 'Date of Expiry of Insurance: ',
-      //                 { text: `${policyDetails.expiry_date}\n\n` },
-      //                 { text: '*Persons or Classes of persons entitled to drive*\n', style: 'sectionhead' },
-      //                 "1. The Policy Holder:- The Policy Holder may also drive a Motor Car not belonging to him and not hired to him under a hire purchase agreement\n 2. Any other person provided he is in the policy holder's employ and is driving on his order or with his permission\n\n",
-      //                 { text: '*Limitation as to use*\n', style: 'sectionhead' },
-      //                 "Use only for social domestic and pleasure purposes and for the policy holder's business\n. *The policy does not cover: 1. Use for hire or reward or for racing"
-      //               ]
-      //             }
-      //           ],
-      //           styles: {
-      //             sectionhead: {
-      //               fontSize: 10,
-      //               bold: true
-      //             },
-      //             inner: {
-      //               fontSize: 9,
-      //               margin: [120, 70, 10, 15]
-      //             },
-      //             certificate: {
-      //               fontSize: 7
-      //             },
-      //             boldlabel: {
-      //               font: 'Roboto',
-      //               bold: true
-      //             }
-      //           },
-      //           defaultStyle: {
-      //             fontSize: 10,
-      //             bold: true
-      //           }
-      //         };
-      //         pdfMake.createPdf(docDefinition).download();
-      //       });
-      //     };
-      //   };
-      //   request.send();
     },
 
     formatNumber: (n) => {
