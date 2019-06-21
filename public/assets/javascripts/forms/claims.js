@@ -1,7 +1,9 @@
 var Claim = (function() {
   return {
     fields: {
-      payments: []
+      payments: [],
+      filesUploaded: [],
+      myDropZoneRefernce: {}
     },
     init: function() {
       /* Configure Date picker */
@@ -16,13 +18,25 @@ var Claim = (function() {
         startDate: new Date(1920, 01, 01)
       });
 
+      $('#submit_claim_btn').on('click', () => {
+        Claim.submitClaim();
+      });
+
       $('#rootwizard').bootstrapWizard({
         onTabClick: function(tab, navigation, index) {
           return false;
         },
+        onPrevious: function(tab, navigation, index) {
+          if (index < 6) {
+            if (!$('#submit_claim_section').hasClass('hide_elements')) {
+              $('#submit_claim_section').addClass('hide_elements');
+            }
+          }
+        },
         onNext: function(tab, navigation, index) {
-          console.log(index);
-
+          if (!$('#submit_claim_section').hasClass('hide_elements')) {
+            $('#submit_claim_section').addClass('hide_elements');
+          }
           switch (index) {
             case 1: {
               if ($('#tab1form').valid()) {
@@ -57,6 +71,9 @@ var Claim = (function() {
             }
             case 6: {
               if ($('#tab6form').valid()) {
+                if ($('#submit_claim_section').hasClass('hide_elements')) {
+                  $('#submit_claim_section').removeClass('hide_elements');
+                }
                 return true;
               }
               return false;
@@ -204,41 +221,87 @@ var Claim = (function() {
       Dropzone.options.myAwesomeDropzone = {
         uploadMultiple: true,
         init: function() {
+          myDropZoneRefernce = this;
           let spanDropZone = $('div.dz-default').children()[0];
           $(spanDropZone).html('Drop files or click here to upload');
-          console.log($('.dz-default dz-message').val());
           this.on('addedfile', function(file) {
-            alert('Added file.');
             var fd = new FormData(file);
-            // const url = api_urls.saveImages;
-            // const promise = new Promise(function(resolve, reject) {
-            //   $.ajax({
-            //     type: 'POST',
-            //     method: 'POST',
-            //     url: url,
-            //     data: fd,
-            //     success: function(msg) {
-            //       resolve(msg);
-            //     },
-            //     error: function(err) {
-            //       console.log(err);
-            //       reject(err);
-            //     }
-            //   });
-            // });
-            // promise
-            //   .then((result) => {
-            //     console.log(result);
-            //   })
-            //   .catch((error) => {
-            //     console.log(error);
-            //   });
           });
           this.on('uploadprogress', function(file, progress, bytesSent) {
             console.log('Bytes Sent ', bytesSent);
           });
+          this.on('complete', function(file) {
+            // console.log(file);
+            // Claim.filesUploaded = this.getAcceptedFiles();
+          });
+          this.on('success', function(file, response) {
+            console.log(response); // console should show the ID you pointed to
+            if (response.filename) {
+              Claim.fields.filesUploaded.push(response.filename);
+            }
+          });
         }
       };
+    },
+
+    submitClaim: () => {
+      const userDetails = JSON.parse($('#user_details').val());
+      const tab1Form = $('#tab1form').serializeJSON();
+      let tab2Form = $('#tab2form').serializeJSON();
+      const claimsData = {
+        profileId: $('#profile_id').val(),
+        userId: userDetails.id,
+        claimNumber: Claim.generateClaimNo(),
+        policyNumber: tab1Form.policy_number,
+        registrationNumber: tab2Form.vehicle_reg_num,
+        formDetails: {
+          clientDetails: $('#tab1form').serializeJSON(),
+          vehicleRegistrationDetails: $('#tab2form').serializeJSON(),
+          driverDetails: $('#tab3form').serializeJSON(),
+          incidentDetails: $('#tab4form').serializeJSON(),
+          vehicleDetails: $('#tab5form').serializeJSON(),
+          accidentDetails: $('#tab6form').serializeJSON(),
+          pictureDetails: JSON.stringify(Claim.fields.filesUploaded)
+        }
+      };
+      console.log(claimsData);
+      Claim.saveClaimDetails(claimsData)
+        .then((result) => {
+          $('.pager').empty();
+          $('.alert-message').addClass('success');
+          $('.alert-message-text').html('Claims has been successfully submitted');
+          $('#submit_claim_btn').prop('disabled', 'disabled');
+        })
+        .catch((err) => {
+          $('.alert-message').addClass('error');
+          $('.alert-message-text').html('Error - claims was not submitted');
+          console.log(err);
+        });
+    },
+
+    saveClaimDetails: (claimsData) => {
+      const url = api_urls.claimdetails;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'POST',
+          url: url,
+          // contentType: "application/json; charset=utf-8",
+          data: claimsData,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            console.log(err);
+            reject(err);
+          }
+        });
+      });
+      return promise;
+    },
+
+    generateClaimNo: () => {
+      const profileId = $('#profile_id').val();
+      return `${moment().format('YYYYMMDDHHmmss')}_${profileId}`;
     }
   };
 })();

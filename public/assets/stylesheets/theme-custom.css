@@ -150,3 +150,7 @@ body > section > div > section > header {
 .pager {
   clear: both;
 }
+
+.claim_btn {
+  text-align: center;
+}

@@ -71,59 +71,64 @@
                                                 <form id="tab1form" name="tab1form">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <label for="policy_number">Policy number</label>
+                                                            <h5>Client details</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label" for="policy_number">Policy number</label>
                                                             <input type="text" class="form-control" placeholder="Policy Number" name="policy_number" id="policy_number" value="" required/>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="firstname">Firstname</label>
+                                                            <label class="form-label" for="firstname">Firstname</label>
                                                             <input type="text" class="form-control" placeholder="Firstname" name="firstname" id="firstname" value="" required/>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="lastname">Lastname</label>
+                                                            <label class="form-label" for="lastname">Lastname</label>
                                                             <input type="text" class="form-control" placeholder="Lastname" name="lastname" id="lastname" value="" required/>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="othername">Othername</label>
+                                                            <label class="form-label" for="othername">Othername</label>
                                                             <input type="text" class="form-control" placeholder="Othername" name="othername" id="othername" value="" required/>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-8">
-                                                            <label for="address">Address</label>
+                                                            <label class="form-label" for="address">Address</label>
                                                             <input type="text" class="form-control" placeholder="Address" name="address" id="address" value="" required/>
                                                         </div>
                                                         <div class="col-md-4">
-                                                        <label for="state">City</label>
+                                                        <label class="form-label" for="city">City</label>
                                                             <select id="city" name="city" class="form-control" required="required">
 												            </select>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="state">State</label>
+                                                            <label class="form-label" for="state">State</label>
                                                             <select id="state" name="state" class="form-control" required="required">
 												            </select>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="phone">Phone No</label>
+                                                            <label class="form-label" for="phone">Phone No</label>
                                                             <input type="number" class="form-control" placeholder="Phone" name="phone" id="phone" value="" required/>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="email_address">Email</label>
+                                                            <label class="form-label" for="email_address">Email</label>
                                                             <input type="text" class="form-control" placeholder="Email" name="email_address" id="email_address" value="" required/>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="date_of_birth">Date of Birth</label>
+                                                            <label class="form-label" for="date_of_birth">Date of Birth</label>
                                                             <input type="text" id="date_of_birth" name="date_of_birth" class="form-control datepicker" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="occupation">Occupation</label>
+                                                            <label class="form-label" for="occupation">Occupation</label>
                                                             <select id="occupation" name="occupation" class="form-control" required="required">
 												            </select>
                                                         </div>
@@ -140,37 +145,42 @@
                                             <div class="tab-pane" id="tab2">
                                                 <form id="tab2form" name="tab2form">
                                                     <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h5>Vehicle registration details</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="vehicle_make_model">Make/Model</label>
+                                                            <label class="form-label" for="vehicle_make_model">Make/Model</label>
                                                             <select id="vehicle_make_model" name="vehicle_make_model" class="form-control" required="required">
                                                             <option value="">Choose...</option>
                                                         </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="vehicle_body">Body</label>
+                                                            <label class="form-label" for="vehicle_body">Body</label>
                                                             <select id="vehicle_body" name="vehicle_body" class="form-control" required="required">
                                                                 <option value="">Choose...</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="vehicle_color">Color</label>
+                                                            <label class="form-label" for="vehicle_color">Color</label>
                                                             <select id="vehicle_color" name="vehicle_color" class="form-control" required="required">
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="vehicle_reg_num">Registration No</label>
+                                                            <label class="form-label" for="vehicle_reg_num">Registration No</label>
                                                             <select id="vehicle_reg_num" name="vehicle_reg_num" class="form-control" required="required">
                                                             <option value="">Choose...</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="vehicle_engine_number">Engine Number</label>
+                                                            <label class="form-label" for="vehicle_engine_number">Engine Number</label>
                                                             <input type="text" class="form-control" placeholder="Engine Number" name="vehicle_engine_number" id="vehicle_engine_number" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="vehicle_chasis_number">Chasis Number</label>
+                                                            <label class="form-label" for="vehicle_chasis_number">Chasis Number</label>
                                                             <input type="text" class="form-control" placeholder="Chasis Number" name="vehicle_chasis_number" id="vehicle_chasis_number" required />
                                                         </div>
                                                     </div>
@@ -179,18 +189,23 @@
                                             <div class="tab-pane" id="tab3">
                                                 <form id="tab3form" name="tab3form">
                                                     <div class="row">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h5>Driver details</h5>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-md-6">
-                                                            <label for="driver_fullname">Fullname</label>
+                                                            <label class="form-label" for="driver_fullname">Fullname</label>
                                                             <input type="text" class="form-control" placeholder="Fullname" name="driver_fullname" id="driver_fullname" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="driver_age">Age</label>
+                                                            <label class="form-label" for="driver_age">Age</label>
                                                             <input type="number" class="form-control" placeholder="Age" name="driver_age" id="driver_age" required />
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="driving_license_in_force">Is Driving Licence in force ?</label>
+                                                            <label class="form-label" for="driving_license_in_force">Is Driving Licence in force ?</label>
                                                             <select id="driving_license_in_force" name="driving_license_in_force" class="form-control" required="required">
                                                             <option value="">Choose...</option>
                                                             <option value="yes">YES</option>
@@ -198,7 +213,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="driving_license_category">If Yes, which category?</label>
+                                                            <label class="form-label" for="driving_license_category">If Yes, which category?</label>
                                                             <!-- <select id="driving_license_category" name="driving_license_category" class="form-control" required="required">
                                                             <option value="">Choose...</option>
                                                             </select> -->
@@ -207,11 +222,11 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="driving_license_number">Driver's License No.</label>
+                                                            <label class="form-label" for="driving_license_number">Driver's License No.</label>
                                                             <input type="text" class="form-control" placeholder="Driver's License No" name="driving_license_number" id="driving_license_number" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="driving_license_endorsed">	Has it been endorsed ?</label>
+                                                            <label class="form-label" for="driving_license_endorsed">	Has it been endorsed ?</label>
                                                             <select id="driving_license_endorsed" name="driving_license_endorsed" class="form-control" required="required">
                                                             <option value="yes">YES</option>
                                                             <option value="no">NO</option>
@@ -220,21 +235,21 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="date_of_issue">Date of Issue</label>
+                                                            <label class="form-label" for="date_of_issue">Date of Issue</label>
                                                             <input type="text" class="form-control datepicker" placeholder="Date of Issue" name="date_of_issue" id="date_of_issue" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="date_of_expiry">Date of Expiry</label>
+                                                            <label class="form-label" for="date_of_expiry">Date of Expiry</label>
                                                             <input type="text" class="form-control datepicker2" placeholder="Date of expiry" name="date_of_expiry" id="date_of_expiry" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="place_of_issue">Place of Issue</label>
+                                                            <label class="form-label" for="place_of_issue">Place of Issue</label>
                                                             <input type="text" class="form-control" placeholder="Place of issue" name="place_of_issue" id="place_of_issue" required />
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                        <label for="learners_permit">Is it a Learner's Permit ?</label>
+                                                        <label class="form-label" for="learners_permit">Is it a Learner's Permit ?</label>
                                                             <select id="learners_permit" name="learners_permit" class="form-control" required="required">
                                                             <option value="">Choose...</option>
                                                             <option value="yes">YES</option>
@@ -242,11 +257,11 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="learners_permit_number">If Yes, Number</label>
+                                                            <label class="form-label" for="learners_permit_number">If Yes, Number</label>
                                                             <input type="text" class="form-control" placeholder="Permit Number" name="learners_permit_number" id="learners_permit_number" />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="learners_permit_period">Period</label>
+                                                            <label class="form-label" for="learners_permit_period">Period</label>
                                                             <input type="text" class="form-control" placeholder="Period" name="learners_permit_period" id="learners_permit_period" />
                                                         </div>
                                                     </div>
@@ -255,36 +270,41 @@
                                             <div class="tab-pane" id="tab4">
                                                 <form id="tab4form" name="tab4form">
                                                     <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5>Particulars of theft / fire incident</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="discover_loss_fullname">Who discovered this loss ?</label>
+                                                            <label class="form-label"  for="discover_loss_fullname">Who discovered this loss ?</label>
                                                             <input type="text" class="form-control" placeholder="" name="discover_loss_fullname" id="discover_loss_fullname" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="discover_loss_date">Date</label>
+                                                            <label class="form-label" for="discover_loss_date">Date</label>
                                                             <input type="text" class="form-control datepicker" placeholder="" name="discover_loss_date" id="discover_loss_date" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="discover_loss_date">Time</label>
+                                                            <label class="form-label" for="discover_loss_date">Time</label>
                                                             <input type="text" class="form-control" placeholder="" name="discover_loss_date" id="discover_loss_date" required />
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="persons_count_insured_vehicle">No. of persons in insured vehicle</label>
+                                                            <label class="form-label" for="persons_count_insured_vehicle">No. of persons in insured vehicle</label>
                                                             <input type="number" class="form-control" placeholder="" name="persons_count_insured_vehicle" id="persons_count_insured_vehicle" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="persons_count_other_vehicle">No. of persons in other vehicle</label>
+                                                            <label class="form-label" for="persons_count_other_vehicle">No. of persons in other vehicle</label>
                                                             <input type="number" class="form-control" placeholder="" name="persons_count_other_vehicle" id="persons_count_other_vehicle" required />
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <label for="police_report_station_address">Address of Police Report Station</label>
+                                                            <label class="form-label" for="police_report_station_address">Address of Police Report Station</label>
                                                             <input type="text" class="form-control" placeholder="" name="police_report_station_address" id="police_report_station_address" required />
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label for="police_report_statement">Full Statement of Theft/Fire Incident</label>
+                                                            <label class="form-label" for="police_report_statement">Full Statement of Theft/Fire Incident</label>
                                                             <textarea id="police_report_statement" name="police_report_statement" class="form-control" rows="3" required="required"></textarea>
                                                         </div>
                                                     </div>
@@ -294,32 +314,37 @@
                                             <div class="tab-pane" id="tab5">
                                                 <form id="tab5form" name="tab5form">
                                                     <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5>Damage to insured vehicle</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-md-6">
-                                                            <label for="damaged_parts_report">Full details of damaged Parts</label>
+                                                            <label class="form-label" for="damaged_parts_report">Full details of damaged Parts</label>
                                                             <textarea id="damaged_parts_report" name="damaged_parts_report" class="form-control" rows="3" required="required"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="present_vehicle_location">Present Vehicle Location</label>
+                                                            <label class="form-label" for="present_vehicle_location">Present Vehicle Location</label>
                                                             <input type="text" class="form-control" placeholder="" name="present_vehicle_location" id="present_vehicle_location" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="repairs_estimate">Rough Estimate of Repairs</label>
+                                                            <label class="form-label" for="repairs_estimate">Rough Estimate of Repairs</label>
                                                             <input type="text" class="form-control" placeholder="" name="repairs_estimate" id="repairs_estimate" pattern="^\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="repairer_name">Repairer's name</label>
+                                                            <label class="form-label" for="repairer_name">Repairer's name</label>
                                                             <input type="text" class="form-control" placeholder="" name="repairer_name" id="repairer_name" required />
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <label for="repairer_address">Repairer's Full Address</label>
+                                                            <label class="form-label" for="repairer_address">Repairer's Full Address</label>
                                                             <input type="text" class="form-control" placeholder="" name="repairer_address" id="repairer_address" required />
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label for="damaged_parts_inventory">Inventory of damaged parts	</label>
+                                                            <label class="form-label" for="damaged_parts_inventory">Inventory of damaged parts	</label>
                                                             <textarea id="damaged_parts_inventory" name="damaged_parts_inventory" class="form-control" rows="3" required="required"></textarea>
                                                         </div>
                                                     </div>
@@ -330,44 +355,49 @@
                                             <div class="tab-pane" id="tab6">
                                                 <form id="tab6form" name="tab6form">
                                                     <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5>Third parties involved in the accident</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-md-6">
-                                                            <label for="third_party_fullname">Fullname</label>
+                                                            <label class="form-label" for="third_party_fullname">Fullname</label>
                                                             <input type="text" class="form-control" placeholder="" name="third_party_fullname" id="third_party_fullname" required />
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label for="third_party_address">Address</label>
+                                                            <label class="form-label" for="third_party_address">Address</label>
                                                             <input type="text" class="form-control" placeholder="" name="third_party_address" id="third_party_address" required />
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="third_party_injury_type">Type of property/Injury</label>
+                                                            <label class="form-label" for="third_party_injury_type">Type of property/Injury</label>
                                                             <input type="text" class="form-control" placeholder="" name="third_party_injury_type" id="third_party_injury_type" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="third_party_vehicle_make">If Vehicle, Make</label>
+                                                            <label class="form-label" for="third_party_vehicle_make">If Vehicle, Make</label>
                                                             <select id="third_party_vehicle_make" name="third_party_vehicle_make" class="form-control" required="required">
                                                                 <option value="">Choose...</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="third_party_reg_num">Registration No</label>
+                                                            <label class="form-label" for="third_party_reg_num">Registration No</label>
                                                             <input type="text" class="form-control" placeholder="" name="third_party_reg_num" id="third_party_reg_num" required />
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="third_party_year_of_make">Year of Make</label>
+                                                            <label class="form-label" for="third_party_year_of_make">Year of Make</label>
                                                             <select id="third_party_year_of_make" name="third_party_year_of_make" class="form-control" required="required">
                                                                 <option value="">Choose...</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="third_party_vehicle_location">Present Location of Vehicle</label>
+                                                            <label class="form-label" for="third_party_vehicle_location">Present Location of Vehicle</label>
                                                             <input type="text" class="form-control" placeholder="" name="third_party_vehicle_location" id="third_party_vehicle_location" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="third_party_owner_insured">Is Owner insured ?</label>
+                                                            <label class="form-label" for="third_party_owner_insured">Is Owner insured ?</label>
                                                             <select id="third_party_owner_insured" name="third_party_owner_insured" class="form-control" required="required">
                                                                 <option value="">Choose...</option>
                                                                 <option value="yes">YES</option>
@@ -377,15 +407,15 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4">
-                                                            <label for="third_party_policy_number">If Yes, Policy No</label>
+                                                            <label class="form-label" for="third_party_policy_number">If Yes, Policy No</label>
                                                             <input type="text" class="form-control" placeholder="" name="third_party_policy_number" id="third_party_policy_number" />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="third_party_insurer_name">Name of Insurer</label>
+                                                            <label class="form-label" for="third_party_insurer_name">Name of Insurer</label>
                                                             <input type="text" class="form-control" placeholder="" name="third_party_insurer_name" id="third_party_insurer_name" />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="third_party_insurer_address">Address of Insurer</label>
+                                                            <label class="form-label" for="third_party_insurer_address">Address of Insurer</label>
                                                             <input type="text" class="form-control" placeholder="" name="third_party_insurer_address" id="third_party_insurer_address" />
                                                         </div>
                                                     </div>
@@ -394,7 +424,7 @@
 
                                             <!-- upload picture evidences -->
                                             <div class="tab-pane" id="tab7">
-                                                <h5>Note: You can select multiple pictures to upload (MAX OF 2). Select both images at the same time by holding down the SHIFT KEY or you can add them one after the other.</h5>
+                                                <h5>Note: Upload picture evidences, please select one picture at a time.</h5>
                                                 <form action="{{ url('api/saveImages/'.session('userData')['profile']['id']) }}"
                                                     class="dropzone"
                                                     id="my-awesome-dropzone">
@@ -406,9 +436,12 @@
                                                 <li class="next last" style="display:none;"><a href="#">Last</a></li>
                                                 <li class="next"><a href="#">Next</a></li>
                                             </ul>
-                                            <div class="row hide_elements" id="submit_claim_btn">
+                                            <div class="alert-message">
+                                                <p class="alert-message-text"></p>
+                                            </div>
+                                            <div class="row hide_elements claim_btn" id="submit_claim_section">
                                                 <div class="col-md-12">
-                                                    <button type="button" class="btn btn-primary">Submit Claim</button>
+                                                    <button type="button" id="submit_claim_btn" class="btn btn-primary">Submit Claim</button>
                                                 </div>
                                             </div>
                                         </div>

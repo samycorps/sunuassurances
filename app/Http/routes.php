@@ -142,4 +142,7 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('getcovertypes/{type}', 'CoverTypeController@getTypes');
     Route::post('sendemail', 'EmailController@sendEMail');
     Route::post('saveImages/{id}', 'UploadController@save');
+    Route::resource('claimdetails', 'VehicleClaimController', ['only' => ['store', 'show', 'update']]);
+    Route::get('getclaimdetailsbyprofile/{profile_id}', 'VehicleClaimController@getClaimsByProfile');
+    Route::post('changeclaimstatus/{id}', 'VehicleClaimController@changeStatus');
 });

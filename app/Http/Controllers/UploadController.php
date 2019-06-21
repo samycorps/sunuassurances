@@ -15,17 +15,19 @@ class UploadController extends Controller
     //    ]);
     Log::info($request->file('file'));
     Log::info($request->id);
+    $userId = $request->id;
+    $profileImage = "";
        if ($files = $request->file('file')) {
            $destinationPath = 'uploads/'; // upload path
            foreach($files as $file) {
-            $profileImage = date('YmdHis') . "." . $file->getClientOriginalExtension();
+            $profileImage = $userId."_".date('YmdHis') . "." . $file->getClientOriginalExtension();
             $file->move($destinationPath, $profileImage);
             $insert['image'] = "$profileImage";
            } 
         }
         // $check = Image::insertGetId($insert);
  
-        return response()->json('image successfully uploaded', 200);
+        return response()->json(['message' => 'image successfully uploaded', 'filename' => $profileImage], 200);
 
     }
 }
