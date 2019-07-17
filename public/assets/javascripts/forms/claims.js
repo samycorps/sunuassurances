@@ -3,7 +3,8 @@ var Claim = (function() {
     fields: {
       payments: [],
       filesUploaded: [],
-      myDropZoneRefernce: {}
+      myDropZoneRefernce: {},
+      claims: []
     },
     init: function() {
       /* Configure Date picker */
@@ -20,6 +21,21 @@ var Claim = (function() {
 
       $('#submit_claim_btn').on('click', () => {
         Claim.submitClaim();
+      });
+
+      const userRole = $('#role_name')
+        .val()
+        .toLowerCase();
+      if (userRole === 'agent') {
+        if ($('input.typeahead').length > 0) {
+          Utility.setupProfileAutoComplete();
+        }
+      }
+
+      let $inputClaim = $('.typeahead');
+      $inputClaim.change(() => {
+        // console.log('Selected Profile ', Utility.fields.selectedProfile);
+        Claim.setClaimProfile();
       });
 
       $('#rootwizard').bootstrapWizard({
@@ -86,6 +102,7 @@ var Claim = (function() {
           return false;
         }
       });
+      Claim.getClaimsByProfile();
       Claim.loadDropdownLists();
       Claim.initDropZone();
     },
@@ -264,6 +281,14 @@ var Claim = (function() {
           pictureDetails: JSON.stringify(Claim.fields.filesUploaded)
         }
       };
+      const userRole = $('#role_name')
+        .val()
+        .toLowerCase();
+      if (userRole === 'agent') {
+        if (!_.isEmpty(Utility.fields.selectedProfile)) {
+          claimsData.profileId = Utility.fields.selectedProfile.id;
+        }
+      }
       console.log(claimsData);
       Claim.saveClaimDetails(claimsData)
         .then((result) => {
@@ -298,10 +323,65 @@ var Claim = (function() {
       });
       return promise;
     },
+    getClaimsByProfile: function() {
+      const profileId = $('#profile_id').val();
+      const url = api_urls.getclaimdetailsbyprofile;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'GET',
+          method: 'GET',
+          url: `${url}/${profileId}`,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            console.log(err);
+            reject(err);
+          }
+        });
+      });
+      //return promise;
+
+      promise
+        .then((result) => {
+          Claim.fields.claims = result;
+          Claim.populateClientClaims();
+        })
+        .catch((err) => {
+          $('.alert-message').addClass('error');
+          $('.alert-message-text').html('Error - claims could not be retrieved');
+          console.log(err);
+        });
+    },
+    populateClientClaims: () => {
+      $claims_table = $('#datatable-claims tbody');
+      $claims_table.empty();
+      $.each(Claim.fields.claims, (i, v) => {
+        const markup = `<tr>
+                    <td>${v.claim_no}</td>
+                    <td class="text-semibold text-dark">${v.policy_no}</td>
+                    <td class="text-semibold text-dark">${v.registration_no}</td>
+                    <td class="text-center">${v.status}</td>
+                    <td class="text-center">${v.created_at}</td>
+                    <td class="text-center"><button class="btn btn-primary" onclick="Claim.gotoPage(${
+                      v.claim_no
+                    })" disabled><i class="fa fa-info-circle"> Details </button></td>
+                </tr>`;
+        $claims_table.append(markup);
+      });
+    },
 
     generateClaimNo: () => {
       const profileId = $('#profile_id').val();
       return `${moment().format('YYYYMMDDHHmmss')}_${profileId}`;
+    },
+
+    setClaimProfile: () => {
+      if (!_.isEmpty(Utility.fields.selectedProfile)) {
+        $('#firstname').val(Utility.fields.selectedProfile.firstname);
+        $('#lastname').val(Utility.fields.selectedProfile.lastname);
+        $('#othername').val(Utility.fields.selectedProfile.othernames);
+      }
     }
   };
 })();

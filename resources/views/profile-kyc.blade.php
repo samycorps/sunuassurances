@@ -189,7 +189,7 @@
                             </div>
                         </div>
 
-                        <div class="form-row" id="bankDetailsRow">
+                        <!-- <div class="form-row" id="bankDetailsRow">
                             <div class="form-group col-md-6">
                             <label class="required">Account Number</label>
                             <input type="text" class="form-control" placeholder="Account Number" name="profile_bank_account_number" id="profile_bank_account_number" maxlength="10" value="" required />
@@ -200,7 +200,7 @@
                                     <option value="">Choose...</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         @if (strtolower(session('userData')['role']['name']) === 'broker')
                         <div class="form-row" id="agentRow">

@@ -43,6 +43,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/motor/agent', function () {
         return view('motor-broker');
     });
+
+    Route::get('/motor/administrator', function () {
+        return view('motor-admin');
+    });
     
     Route::get('/marine/client', function () {
         return view('marine-client');

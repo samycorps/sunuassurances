@@ -458,23 +458,7 @@
                                         </div>
                                     </header>
                                     <div class="card-body">
-                                            <!-- <table class="table table-bordered table-striped mb-none" id="datatable-payment" data-swf-path="assets/vendor/jquery-datatables/extras/TableTools/swf/copy_csv_xls_pdf.swf">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Reg. Number</th>
-                                                        <th>Reference</th>
-                                                        <th>Amount (Naira)</th>
-                                                        <th>Status</th>
-                                                        <th>Policy #</th>
-                                                        <th>Cover Type</th>
-                                                        <th>Exp. Date</th>
-                                                        <th>View</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    
-                                                </tbody>
-                                            </table> -->
+                                            @include('client-claims-view')
                                     </div>
                                     </section>
                             </div>

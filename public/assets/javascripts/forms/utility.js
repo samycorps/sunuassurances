@@ -71,7 +71,6 @@ var Utility = (function() {
       });
       $input.change(function() {
         let current = $input.typeahead('getActive');
-        console.log(current);
         Utility.fields.selectedProfile = current.profile;
         if (current) {
           // Some item from your model is active!
@@ -390,7 +389,7 @@ var Utility = (function() {
     printPage: (policyDetails) => {
       console.log(policyDetails);
       const MY_URL = '../../portal/assets/images/Motor-Certificate.jpg';
-      //   const MY_URL = '../../assets/images/Motor-Certificate.jpg';
+      // const MY_URL = '../../assets/images/Motor-Certificate.jpg';
       const title_id = policyDetails.title !== undefined ? policyDetails.title : Utility.fields.selectedProfile.title;
       const customer_title = _.invert(Utility.titles)[title_id];
       const customer_firstname =
@@ -402,9 +401,15 @@ var Utility = (function() {
           ? policyDetails.company_name
           : Utility.fields.selectedProfile.company_name;
       let policy_holder = `${customer_title} ${customer_firstname} ${customer_lastname}`;
-      if (policyDetails.user_category !== 'Individual') {
+      const user_category =
+        policyDetails.user_category !== undefined
+          ? policyDetails.user_category
+          : Utility.fields.selectedProfile.user_category;
+      if (user_category !== 'Individual') {
         policy_holder = customer_company;
       }
+      const transaction_date =
+        policyDetails.transaction_date !== undefined ? policyDetails.transaction_date : policyDetails.created_at;
 
       const request = new XMLHttpRequest();
       request.open('GET', MY_URL, true);
@@ -501,6 +506,16 @@ var Utility = (function() {
                   absolutePosition: { x: 30, y: 340 }
                 },
                 {
+                  style: 'timestamp',
+                  text: transaction_date,
+                  absolutePosition: { x: 35, y: 428 }
+                },
+                {
+                  style: 'timestamp',
+                  text: transaction_date,
+                  absolutePosition: { x: 186, y: 436 }
+                },
+                {
                   style: 'inner',
                   text: [
                     { text: `NO: ${policyDetails.certificate_number}\n\n\n`, style: 'certificate' },
@@ -531,6 +546,9 @@ var Utility = (function() {
                 inner: {
                   fontSize: 9,
                   margin: [120, 70, 10, 15]
+                },
+                timestamp: {
+                  fontSize: 6
                 },
                 certificate: {
                   fontSize: 7

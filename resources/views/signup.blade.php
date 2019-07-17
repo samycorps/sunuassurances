@@ -17,6 +17,9 @@
                 <div class="panel-body">
                     <form action="" method="post" id="form-register">
                         <input type="hidden" id="user_role" name="user_role" value="{{ $role }}" />
+                        <div class="row col-md-12">
+                            <p class="form-label"></p>
+                        </div>
                         <div class="form-row">
                             <div class="form-group col-md-12">
                             <label class="form-label">Select your registration category</label>
@@ -75,7 +78,7 @@
 
                         <div class="form-row hide_elements" id="emailRow">
                             <div class="form-group col-md-12">
-                            <label class="required">Email</label>
+                            <label class="required">Email <span class="form-span">(kindly ensure you enter correct email address in order to receive policy related alerts)</span></label>
                             <input type="email" id="email_address" name="email_address" class="form-control" placeholder="Email" required="required">
                             </div>
                         </div>
@@ -115,7 +118,7 @@
 
                         <div class="form-row hide_elements" id="gsmRow">
                             <div class="form-group col-md-12">
-                            <label class="form-label">GSM Number</label>
+                            <label class="form-label">GSM Number <span class="form-span">(kindly ensure you enter correct phone number in order to receive policy related alerts)</span></label>
                             <input type="number" id="gsm_number" name="gsm_number" class="form-control" placeholder="gsm number" required="required">
                             </div>
                         </div>
@@ -156,7 +159,7 @@
                             </div>
                         </div>
 
-                        <div class="form-row hide_elements" id="bankDetailsRow">
+                        <!-- <div class="form-row hide_elements" id="bankDetailsRow">
                             <div class="form-group col-md-6">
                             <label class="required">Account Number</label>
                             <input type="text" class="form-control" placeholder="Account Number" name="bank_account_number" id="bank_account_number" maxlength="10" required />
@@ -167,7 +170,7 @@
                                     <option value="">Choose...</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
 
                         @if ($role === 'agent')
                         <div class="form-row" id="agentRow">

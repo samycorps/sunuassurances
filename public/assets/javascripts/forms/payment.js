@@ -56,6 +56,7 @@ var Payment = (function() {
                 cover_type: v.cover_type,
                 expiry_date: v.expiry_date,
                 certificate_number: v.certificate_number,
+                transaction_date: v.transaction_date,
                 form_details: v.form_details
               };
             });

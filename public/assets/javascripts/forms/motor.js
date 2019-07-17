@@ -1453,7 +1453,7 @@ var Motor = (function() {
                     <td class="text-center"><button class="btn btn-primary" onclick="_this.gotoPage(${
                       v.vehicle_transaction_details_id
                     })"><i class="fa fa-repeat"> Renew </button></td>
-                    <td class="text-center"><button class="btn btn-primary" onclick="_this.printPage(${i})"><i class="fa fa-print"> Print </button></td>
+                    <td class="text-center"><button class="btn btn-primary" onclick="_this.printPage(${i})"><i class="fa fa-print"> Download </button></td>
                 </tr>`;
         $policy_table.append(markup);
       });

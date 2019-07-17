@@ -223,11 +223,13 @@ var Register = (function() {
           sector: $('#sector').val(),
           website: 'N/A', //$('#website').val(),
           contact_person: $('#contact_person').val(),
-          bank_account_number: $('#bank_account_number').val(),
-          customer_bank: $('#customer_bank').val(),
+          bank_account_number: '0123456789',
+          customer_bank: 'BNK0001',
           agent_code: $('#agent_code').val()
         }
       };
+      // $('#bank_account_number').val()
+      // $('#customer_bank').val()
       const url = api_urls.register;
       const promise = new Promise(function(resolve, reject) {
         $.ajax({
@@ -272,10 +274,12 @@ var Register = (function() {
           sector: $('#profile_sector').val(),
           website: $('#profile_website').val(),
           contact_person: $('#profile_contact_person').val(),
-          bank_account_number: $('#profile_bank_account_number').val(),
-          customer_bank: $('#profile_customer_bank').val(),
+          bank_account_number: '0123456789',
+          customer_bank: 'BNK0001',
           agent_code: $('#agent_code').val()
         };
+        // $('#profile_bank_account_number').val()
+        // $('#profile_customer_bank').val()
         let url = api_urls.registerProfile;
         let type = 'POST';
         let method = 'POST';
@@ -346,8 +350,8 @@ var Register = (function() {
           sector: $('#sector').val(),
           website: 'N/A', //$('#website').val(),
           contact_person: $('#contact_person').val(),
-          bank_account_number: $('#bank_account_number').val(),
-          customer_bank: $('#customer_bank').val(),
+          bank_account_number: '0123456789', //$('#bank_account_number').val(),
+          customer_bank: 'BNK0001', // $('#customer_bank').val(),
           agent_code: $('#agent_code').val()
         };
         const url = `${api_urls.registerProfile}/${_thisRegister.fields.profile.id}`;

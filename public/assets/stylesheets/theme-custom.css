@@ -133,6 +133,12 @@ body > section > div > section > header {
   font-weight: bold;
 }
 
+.form-span {
+  color: #555555;
+  font-size: 0.9em;
+  font-weight: 400;
+}
+
 .dz-default {
   border: 1px solid #d2322d;
   padding: 50px;
