@@ -49,7 +49,8 @@ const api_urls = {
   saveImages: `${base_url}/saveImages`,
   claimdetails: `${base_url}/claimdetails`,
   getclaimdetailsbyprofile: `${base_url}/getclaimdetailsbyprofile`,
-  changeclaimstatus: `${base_url}/changeclaimstatus`
+  changeclaimstatus: `${base_url}/changeclaimstatus`,
+  getpoliciesrequestlog: `${base_url}/getpoliciesrequestlog`
 };
 
 const paystack = {

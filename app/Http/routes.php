@@ -149,4 +149,5 @@ Route::group(['prefix' => 'api'], function() {
     Route::resource('claimdetails', 'VehicleClaimController', ['only' => ['store', 'show', 'update']]);
     Route::get('getclaimdetailsbyprofile/{profile_id}', 'VehicleClaimController@getClaimsByProfile');
     Route::post('changeclaimstatus/{id}', 'VehicleClaimController@changeStatus');
+    Route::get('getpoliciesrequestlog/{page}/{limit}/{start_date}/{end_date}/{filter}', 'LegendController@getPoliciesRequestLog');
 });

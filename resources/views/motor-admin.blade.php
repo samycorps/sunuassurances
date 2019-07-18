@@ -5,13 +5,14 @@
 @section('pagestyles')
 <link rel="stylesheet" href="{{ URL::asset('assets/stylesheets/home.css') }}">
 <link rel="stylesheet" href="{{ URL::asset('assets/vendor/jquery-datatables-bs3/assets/css/datatables.css') }}" >
+<link rel="stylesheet" href="{{ URL::asset('assets/vendor/simple-pagination/simplePagination.css') }}" >
 @stop
 
 @section('content')
     @if (session('userData'))
     <section role="main" class="content-body">
         <header class="page-header">
-            <h2>User Claims </h2>
+            <h2>Client Policy Request Logs </h2>
             <input type="hidden" id="role_name" value="{{ strtolower(session('userData')['role']['name']) }}" />
             <input type="hidden" id="profile_details" name="profile_details" value="{{json_encode(session('userData')['profile'])}}" />
             <input type="hidden" id="user_details" name="user_details" value="{{json_encode(session('userData')['user'])}}" />
@@ -32,21 +33,21 @@
 
         <div class="panel panel-sign">
                 <div class="panel-heading">
-                    <i class="fa fa-money fa-2x"></i> Claims Information
+                    <i class="fa fa-money fa-2x"></i> Legend Request Information
                 </div>
                 <div class="panel-body">
                     <div class="tabs">
                         <ul class="nav nav-tabs tabs-primary">
                             <li class="active">
-                                <a href="#submit-claim" data-toggle="tab">Submit a Claim</a>
+                                <a href="#submit-claim" data-toggle="tab">Requests Logs</a>
                             </li>
                             <li>
-                                <a href="#view-claims" data-toggle="tab">View Claims</a>
+                                <a href="#view-claims" data-toggle="tab">New Tab</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div id="submit-claim" class="tab-pane active">
-                                
+                                @include('admin-legend-request-view')
                             </div>
                             <div id="view-claims" class="tab-pane">
                                 <section class="card">
@@ -75,7 +76,10 @@
     <script src="{{ URL::asset('assets/javascripts/tables/examples.datatables.tabletools.js') }}"></script>
     <script src="{{ URL::asset('assets/vendor/dropzone/dropzone.js') }}"></script>
     <script src="{{ URL::asset('assets/vendor/jquery-serialize-json/jquery.serializejson.js') }}"></script>
+    <script src="{{ URL::asset('assets/vendor/simple-pagination/jquery.simplePagination.js') }}"></script>
     <script src="{{ URL::asset('assets/javascripts/forms/utility.js') }}"></script>
     <script>$(function(){ Utility.init(); });</script>
+    <script src="{{ URL::asset('assets/javascripts/forms/admin.js') }}"></script>
+    <script>$(function(){ Admin.init(); });</script>
 	@stop
 @stop
