@@ -110,7 +110,7 @@ class LegendController extends Controller
         }
     }
 
-    public function getPoliciesRequestLog($page, $limit, $start_date, $end_date, $filter=null)
+    public function getPoliciesRequestLog($page, $limit, $start_date, $end_date, $filter=null, $search_by=null, $search_value=null)
     {
         $start = (intval($page) < 1 ? 0 : intval($page) - 1) * intval($limit);
         $end = intval($limit) + $start;
@@ -120,6 +120,24 @@ class LegendController extends Controller
         }
         else if (!is_null($filter) && $filter === 'failure') {
             $filterStr = " AND legend.legend_response NOT LIKE 'Client Number:%'";
+        }
+        if(!is_null($search_by)) {
+            $search_value = str_replace('\\', '/', $search_value);
+            Log::info('Search By '.$search_by.' Search Value: '.$search_value);
+            switch ($search_by) {
+                case 'email': {
+                    $filterStr .= " AND payment.customer_email LIKE '$search_value%'";
+                    break;
+                }
+                case 'policy_number': {
+                    $filterStr .= " AND legend.legend_response LIKE '%Policy Number: $search_value%'";
+                    break;
+                }
+                case 'registration_number': {
+                    $filterStr .= " AND payment.vehicle_transaction_details_id LIKE '%$search_value%'";
+                    break;
+                }
+            }
         }
         Log::info($filterStr);
         try {
@@ -153,5 +171,9 @@ UNION
             $error = $this->helper->parseException($exception);
             return response()->json($error, $error['code']);
         }
+    }
+
+    public function getDisplayRequestView(Request $request) {
+        return view('admin-legend-request-details', compact('request'));
     }
 }

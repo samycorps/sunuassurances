@@ -303,11 +303,13 @@
 											<span>Pages</span>
 										</a>
 										<ul class="nav nav-children">
+											@if(in_array(strtolower(session('userData')['role']['name']), array("agent", "client")))
 											<li>
 													<a href="/portal/motor/{{ strtolower(session('userData')['role']['name']) }}">
 														 Motor Insurance
 													</a>
 											</li>
+											@endif
 											@if(strtolower(session('userData')['role']['name'])==='agent')
 											<li>
 													<a href="/portal/marine/{{ strtolower(session('userData')['role']['name']) }}">

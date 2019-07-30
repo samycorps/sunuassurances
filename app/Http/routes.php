@@ -44,9 +44,16 @@ Route::group(['middleware' => ['auth']], function () {
         return view('motor-broker');
     });
 
-    Route::get('/motor/administrator', function () {
+    Route::get('/logs/administrator', function () {
         return view('motor-admin');
     });
+
+    Route::get('/administrator/request/{id}', function ($id) {
+        $id = Route::current()->id;
+        return view('admin-legend-request-details');
+    });
+
+    Route::post('/administrator/request', 'LegendController@getDisplayRequestView');
     
     Route::get('/marine/client', function () {
         return view('marine-client');
@@ -149,5 +156,5 @@ Route::group(['prefix' => 'api'], function() {
     Route::resource('claimdetails', 'VehicleClaimController', ['only' => ['store', 'show', 'update']]);
     Route::get('getclaimdetailsbyprofile/{profile_id}', 'VehicleClaimController@getClaimsByProfile');
     Route::post('changeclaimstatus/{id}', 'VehicleClaimController@changeStatus');
-    Route::get('getpoliciesrequestlog/{page}/{limit}/{start_date}/{end_date}/{filter}', 'LegendController@getPoliciesRequestLog');
+    Route::get('getpoliciesrequestlog/{page}/{limit}/{start_date}/{end_date}/{filter}/{search_by}/{search_value}', 'LegendController@getPoliciesRequestLog');
 });

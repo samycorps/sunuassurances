@@ -47,12 +47,18 @@ var Admin = (function() {
       const searchStartDate = $('#start_date').val();
       const searchEndDate = $('#end_date').val();
       const filter_by = $('#filter_by').val();
+      const search_by = $('#search_by').val();
+      let search_value = _.isEmpty($('#search_value').val()) ? 'none' : $('#search_value').val();
+      const regex = /\//gi;
+      search_value = search_value.replace(regex, '\\');
       const url = api_urls.getpoliciesrequestlog;
       const promise = new Promise(function(resolve, reject) {
         $.ajax({
           type: 'GET',
           method: 'GET',
-          url: `${url}/${pageNumber}/${rowsPerPage}/${searchStartDate}/${searchEndDate}/${filter_by}`,
+          url: `${url}/${pageNumber}/${rowsPerPage}/${searchStartDate}/${searchEndDate}/${filter_by}/${search_by}/${encodeURIComponent(
+            search_value
+          )}`,
           success: function(msg) {
             resolve(msg);
           },
@@ -92,9 +98,7 @@ var Admin = (function() {
                       <td class="text-center">${v.transaction_date}</td></td>
                       <td class="text-center">${v.created_at}</td>
                       <td class="text-center">${v.legend_status}</td>
-                      <td class="text-center"><button class="btn btn-primary" onclick="Claim.gotoPage(${
-                        v.transaction_reference
-                      })" disabled><i class="fa fa-info-circle"> Details </button></td>
+                      <td class="text-center"><button class="btn btn-primary" onclick="Admin.gotoPage('${i}')" ><i class="fa fa-info-circle"> Details </button></td>
                   </tr>`;
         $request_log_table.append(markup);
       });
@@ -119,6 +123,11 @@ var Admin = (function() {
 
     searchRequestLogs: () => {
       Admin.getLegendRequestLogs();
+    },
+
+    gotoPage: (pos) => {
+      localStorage.setItem('reference', JSON.stringify(Admin.fields.requestLogs[pos]));
+      window.location.href = `/portal/administrator/request/${Admin.fields.requestLogs[pos].transaction_reference}`;
     }
   };
 })();

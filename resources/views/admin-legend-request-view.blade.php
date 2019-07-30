@@ -26,8 +26,28 @@
         </select>
     </div>
     <div class="col-md-2">
-        <label for=""></label>
-        <button class="form-control btn btn-primary" onclick="Admin.searchRequestLogs()"><i class="fa fa-search"></i>&nbsp; Search</button>
+        
+    </div>
+</div>
+<div class="row col-md-12">.</div>
+<div class="row">
+    <div class="col-md-3">
+        <label for="">Search By</label>
+        <select id="search_by" name="search_by" class="form-control" required="required">
+            <option value="all"></option>
+            <option value="email">Email address</option>
+            <option value="policy_number">Policy Number</option>
+            <option value="registration_number">Registration Number</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label for="search_value">Search Value</label>
+        <input type="text" id="search_value" name="search_value" class="form-control"
+        required="required" />
+    </div>
+    <div class="col-md-3">
+    <label for="">.</label>
+        <button class="form-control btn btn-primary pull-right" onclick="Admin.searchRequestLogs()"><i class="fa fa-search"></i>&nbsp; Search</button>
     </div>
 </div>
 <div class="row col-md-12">.</div>
