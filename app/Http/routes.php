@@ -53,6 +53,10 @@ Route::group(['middleware' => ['auth']], function () {
         return view('admin-legend-request-details');
     });
 
+    Route::get('/claims/administrator', function () {
+        return view('admin-claims');
+    });
+
     Route::post('/administrator/request', 'LegendController@getDisplayRequestView');
     
     Route::get('/marine/client', function () {
@@ -157,4 +161,5 @@ Route::group(['prefix' => 'api'], function() {
     Route::get('getclaimdetailsbyprofile/{profile_id}', 'VehicleClaimController@getClaimsByProfile');
     Route::post('changeclaimstatus/{id}', 'VehicleClaimController@changeStatus');
     Route::get('getpoliciesrequestlog/{page}/{limit}/{start_date}/{end_date}/{filter}/{search_by}/{search_value}', 'LegendController@getPoliciesRequestLog');
+    Route::get('getclaimslog/{page}/{limit}/{start_date}/{end_date}/{filter}/{search_by}/{search_value}', 'VehicleClaimController@getClaimsLog');
 });

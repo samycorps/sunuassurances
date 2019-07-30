@@ -53,6 +53,7 @@ var Payment = (function() {
                 transaction_amount: v.transaction_amount,
                 response_message: v.response_message,
                 policy_number: v.policy_number,
+                client_number: v.client_number,
                 cover_type: v.cover_type,
                 expiry_date: v.expiry_date,
                 certificate_number: v.certificate_number,

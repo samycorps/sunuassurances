@@ -521,6 +521,8 @@ var Utility = (function() {
                     { text: `NO: ${policyDetails.certificate_number}\n\n\n`, style: 'certificate' },
                     { text: 'Policy Number: ', style: 'boldlabel' },
                     { text: `${policyDetails.policy_number}\n` },
+                    'Client Number: ',
+                    { text: `${policyDetails.client_number}\n` },
                     'Policy Holder: ',
                     { text: `${policy_holder}\n` },
                     'Vehicle Make: ',
