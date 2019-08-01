@@ -8,8 +8,8 @@
 //     "callform" : base_url+'/api/callcenter'
 // };
 
-// const base_url = 'http://localhost:8000/api';
-const base_url = 'http://sunuassurancesnigeria.com/portal/api';
+const base_url = 'http://localhost:8000/api';
+// const base_url = 'http://sunuassurancesnigeria.com/portal/api';
 const api_urls = {
   register: `${base_url}/users`,
   registerProfile: `${base_url}/profiles`,

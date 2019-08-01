@@ -928,6 +928,13 @@ var Motor = (function() {
         vehicle_purchase_price && !isNaN(vehicle_purchase_price) ? parseFloat(vehicle_purchase_price).toFixed(2) : 0.0;
       let coverage_amount = vehicle_value * comprehensive_ratio;
       let comprehensiveAddOns = {};
+      let third_party_risk_classes = {
+        private_motor_individual: 5000,
+        private_motor_corporate: 5000,
+        good_carrying_vehicle: 7500,
+        buses: 7500,
+        motorcycle: 5000
+      };
       switch (insurance_class) {
         case 'comprehensive': {
           coverage_amount = vehicle_value * comprehensive_ratio;
@@ -950,6 +957,9 @@ var Motor = (function() {
             vehicle_purchase_price > tracking_display_threshold
           ) {
             $('#comprehensive_addons_tracking').removeClass('hide');
+          }
+          if (!$('#third_party_risk_class_row').hasClass('hide')) {
+            $('#third_party_risk_class_row').addClass('hide');
           }
 
           // Calculate Type
@@ -1041,6 +1051,14 @@ var Motor = (function() {
           if (!$('#comprehensive_addons_tracking').hasClass('hide')) {
             $('#comprehensive_addons_tracking').addClass('hide');
           }
+          if ($('#third_party_risk_class_row').hasClass('hide')) {
+            $('#third_party_risk_class_row').removeClass('hide');
+          }
+          const third_party_risk_class_type = $('#third_party_risk_class_type').val();
+          if (!_.isEmpty(third_party_risk_class_type)) {
+            coverage_amount = third_party_risk_classes[third_party_risk_class_type];
+          }
+
           break;
         }
         case 'third_party_fire_theft': {

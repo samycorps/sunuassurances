@@ -250,6 +250,19 @@
 												</select>
 											</div>
 										</div>
+										<div id="third_party_risk_class_row" class="row hide">
+											<div class="col-md-12">
+												<label>Risk Classes</label>
+												<select id="third_party_risk_class_type" name="third_party_risk_class_type" class="form-control" required="required" onchange="Motor.onClassChange()">
+													<option value="">Choose...</option>
+													<option value="private_motor_individual">PRIVATE MOTOR INDIVIDUAL</option>
+													<option value="private_motor_corporate">PRIVATE MOTOR CORPORATE</option>
+													<option value="good_carrying_vehicle">GOOD CARRYING VEHICLE</option>
+													<option value="buses">BUSUES</option>
+													<option value="motorcycle">MOTORCYCLE</option>
+												</select>
+											</div>
+										</div>
 										<div id="comprehensive_types_row" class="row hide">
 											<div class="col-md-12">
 												<label>Additional Options</label>
