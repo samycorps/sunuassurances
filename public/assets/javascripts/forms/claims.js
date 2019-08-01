@@ -385,3 +385,135 @@ var Claim = (function() {
     }
   };
 })();
+
+var AdminClaim = (function() {
+  return {
+    fields: {
+      claimData: [],
+      claimStatus: ['new', 'pending', 'approved']
+    },
+    init: function() {
+      AdminClaim.populateFormScreen();
+      $('#update_claim_btn').on('click', () => {
+        AdminClaim.updateClaimDetails();
+      });
+    },
+
+    populateFormScreen: () => {
+      console.log(localStorage.getItem('reference'));
+      const data = JSON.parse(localStorage.getItem('reference'));
+      AdminClaim.fields.claimData = data;
+      const requestBody = JSON.parse(data.form_details);
+      console.log(requestBody);
+      $('#claim_no').html(data.claim_no);
+      $('#policy_no').html(data.policy_no);
+      $('#registration_no').html(data.registration_no);
+      $('#firstname').html(requestBody.clientDetails.firstname);
+      $('#lastname').html(requestBody.clientDetails.lastname);
+      $('#othernames').html(requestBody.clientDetails.othername);
+      $('#address').html(requestBody.clientDetails.address);
+      $('#city').html(requestBody.clientDetails.city);
+      $('#state').html(requestBody.clientDetails.state);
+      $('#email_address').html(requestBody.clientDetails.email_address);
+      $('#phone').html(requestBody.clientDetails.phone);
+      $('#date_of_birth').html(requestBody.clientDetails.date_of_birth);
+      $('#occupation').html(requestBody.clientDetails.occupation);
+      $('#vehicle_make_model').html(requestBody.vehicleRegistrationDetails.vehicle_make_model);
+      $('#vehicle_body').html(requestBody.vehicleRegistrationDetails.vehicle_body);
+      $('#vehicle_color').html(requestBody.vehicleRegistrationDetails.vehicle_color);
+      $('#vehicle_engine_number').html(requestBody.vehicleRegistrationDetails.vehicle_engine_number);
+      $('#vehicle_chasis_number').html(requestBody.vehicleRegistrationDetails.vehicle_chasis_number);
+      $('#driver_fullname').html(requestBody.driverDetails.driver_fullname);
+      $('#driver_age').html(requestBody.driverDetails.driver_age);
+      $('#driving_license_in_force').html(requestBody.driverDetails.driving_license_in_force);
+      $('#driving_license_category').html(requestBody.driverDetails.driving_license_category);
+      $('#driving_license_number').html(requestBody.driverDetails.driving_license_number);
+      $('#driving_license_endorsed').html(requestBody.driverDetails.driving_license_endorsed);
+      $('#date_of_issue').html(requestBody.driverDetails.date_of_issue);
+      $('#date_of_expiry').html(requestBody.driverDetails.date_of_expiry);
+      $('#place_of_issue').html(requestBody.driverDetails.place_of_issue);
+      $('#learners_permit').html(requestBody.driverDetails.learners_permit);
+      $('#learners_permit_number').html(requestBody.driverDetails.learners_permit_number);
+      $('#learners_permit_period').html(requestBody.driverDetails.learners_permit_period);
+      $('#damaged_parts_report').val(requestBody.vehicleDetails.damaged_parts_report);
+      $('#present_vehicle_location').html(requestBody.vehicleDetails.present_vehicle_location);
+      $('#repairs_estimate').html(requestBody.vehicleDetails.repairs_estimate);
+      $('#repairer_name').val(requestBody.vehicleDetails.repairer_name);
+      $('#repairer_address').val(requestBody.vehicleDetails.repairer_address);
+      $('#damaged_parts_inventory').val(requestBody.vehicleDetails.damaged_parts_inventory);
+      $('#discover_loss_fullname').html(requestBody.incidentDetails.discover_loss_fullname);
+      $('#discover_loss_date').html(requestBody.incidentDetails.discover_loss_date);
+      $('#persons_count_insured_vehicle').html(requestBody.incidentDetails.persons_count_insured_vehicle);
+      $('#persons_count_other_vehicle').html(requestBody.incidentDetails.persons_count_other_vehicle);
+      $('#police_report_station_address').html(requestBody.incidentDetails.police_report_station_address);
+      $('#police_report_statement').val(requestBody.incidentDetails.police_report_statement);
+      $('#third_party_fullname').html(requestBody.accidentDetails.third_party_fullname);
+      $('#third_party_address').html(requestBody.accidentDetails.third_party_address);
+      $('#third_party_injury_type').html(requestBody.accidentDetails.third_party_injury_type);
+      $('#third_party_vehicle_make').html(requestBody.accidentDetails.third_party_vehicle_make);
+      $('#third_party_reg_num').html(requestBody.accidentDetails.third_party_reg_num);
+      $('#third_party_year_of_make').html(requestBody.accidentDetails.third_party_year_of_make);
+      $('#third_party_vehicle_location').html(requestBody.accidentDetails.third_party_vehicle_location);
+      $('#third_party_owner_insured').html(requestBody.accidentDetails.third_party_owner_insured);
+      $('#third_party_policy_number').html(requestBody.accidentDetails.third_party_policy_number);
+      $('#third_party_insurer_name').html(requestBody.accidentDetails.third_party_insurer_name);
+      $('#third_party_insurer_address').html(requestBody.accidentDetails.third_party_insurer_address);
+      $('#claim_status').html(data.status);
+      $('#claim_status_notes').html(data.status_notes);
+
+      const accidentImagesString = requestBody.pictureDetails;
+      const accidentImages = JSON.parse(accidentImagesString);
+      if (accidentImages.length > 0) {
+        let imageRow = $('#accident_image_row');
+        accidentImages.forEach((element) => {
+          // const imageNode = `<img src="../../uploads/${element}" />`;
+          const imageNode = `<img src="../../portal/uploads/${element}" />`;
+          imageRow.append(imageNode);
+        });
+      }
+      AdminClaim.populateClaimStatuses(data.status);
+    },
+
+    populateClaimStatuses: (selectedClaimStatus) => {
+      $claim_status_select = $('#claim_status_select');
+      $claim_status_select.append(`<option value=''></option>`);
+      $.each(AdminClaim.fields.claimStatus, (i, v) => {
+        $claim_status_select.append(
+          `<option value=${v} ${v === selectedClaimStatus ? 'selected' : ''} > ${v} </option>`
+        );
+      });
+    },
+
+    updateClaimDetails: () => {
+      const url = `${api_urls.changeclaimstatus}/${AdminClaim.fields.claimData.id}`;
+      const formType = 'POST';
+      const data = {
+        status: $('#claim_status_select').val(),
+        staff_id: $('#user_id').val(),
+        status_notes: $('#claim_status_notes').val()
+      };
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: formType,
+          url: url,
+          data: data,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            console.log(err);
+            reject(err);
+          }
+        });
+      });
+      promise
+        .then((result) => {
+          console.log(result);
+          $('.alert-message-text').html('Claim has been successfully updated');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+})();

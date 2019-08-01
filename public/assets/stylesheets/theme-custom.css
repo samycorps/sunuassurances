@@ -160,3 +160,18 @@ body > section > div > section > header {
 .claim_btn {
   text-align: center;
 }
+
+.claim-view-title {
+  font-size: 20px;
+  padding-top: 20px;
+  color: #c81840;
+  font-weight: 700;
+}
+
+.claim-notes {
+  height: 180px !important;
+}
+
+.btn-claim {
+  margin-top: 20px;
+}

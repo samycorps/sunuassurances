@@ -284,8 +284,8 @@
                                                             <input type="text" class="form-control datepicker" placeholder="" name="discover_loss_date" id="discover_loss_date" required />
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label class="form-label" for="discover_loss_date">Time</label>
-                                                            <input type="text" class="form-control" placeholder="" name="discover_loss_date" id="discover_loss_date" required />
+                                                            <label class="form-label" for="discover_loss_time">Time</label>
+                                                            <input type="text" class="form-control" placeholder="" name="discover_loss_time" id="discover_loss_time" required />
                                                         </div>
                                                     </div>
                                                     <div class="row">

@@ -180,7 +180,7 @@ var Admin = (function() {
                       <td class="text-center">${form_details.driverDetails.driver_fullname}</td></td>
                       <td class="text-center">${v.created_at}</td>
                       <td class="text-center">${v.status}</td>
-                      <td class="text-center"><button class="btn btn-primary" disabled="disabled" onclick="Admin.gotoPage('${i}')" ><i class="fa fa-info-circle"> Details </button></td>
+                      <td class="text-center"><button class="btn btn-primary" onclick="Admin.gotoClaimPage('${i}')" ><i class="fa fa-info-circle"> Details </button></td>
                   </tr>`;
         $request_log_table.append(markup);
       });
@@ -214,6 +214,11 @@ var Admin = (function() {
     gotoPage: (pos) => {
       localStorage.setItem('reference', JSON.stringify(Admin.fields.requestLogs[pos]));
       window.location.href = `/portal/administrator/request/${Admin.fields.requestLogs[pos].transaction_reference}`;
+    },
+
+    gotoClaimPage: (pos) => {
+      localStorage.setItem('reference', JSON.stringify(Admin.fields.requestLogs[pos]));
+      window.location.href = `/portal/administrator/claim`;
     }
   };
 })();

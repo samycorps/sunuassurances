@@ -108,7 +108,8 @@ class VehicleClaimController extends Controller
             if(!empty($vehicleClaimDetails)) {
                 $vehicleClaimDetails->update([
                     'status' => $data['status'],
-                    'staff_id' => $data['staff_id']
+                    'staff_id' => $data['staff_id'],
+                    'status_notes' => $data['status_notes']
                 ]);
             }
             return $vehicleClaimDetails;
@@ -151,7 +152,7 @@ class VehicleClaimController extends Controller
             $filterStr 
             LIMIT $start, $end)
 UNION 
-(SELECT COUNT(id) AS total_records, '','','','','','','','','', ''
+(SELECT COUNT(id) AS total_records, '','','','','','','','','', '',''
                 FROM vehicle_claims
             WHERE (created_at between '$start_date 00:00:00' AND '$end_date 23:59:59')
             $filterStr)

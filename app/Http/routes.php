@@ -58,6 +58,9 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::post('/administrator/request', 'LegendController@getDisplayRequestView');
+    Route::get('/administrator/claim', function () {
+        return view('admin-claim-details');
+    });
     
     Route::get('/marine/client', function () {
         return view('marine-client');
