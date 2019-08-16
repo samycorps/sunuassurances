@@ -95,6 +95,12 @@
                     </div>
                 </div>
                 @endif
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="claim-view-title">Follow the following steps to complete a policy generation</p>
+                        <p><img src="{{ URL::asset('assets/images/steps.jpg') }}" /></p>
+                    </div>
+                </div>
         </div>
 
     </section>
