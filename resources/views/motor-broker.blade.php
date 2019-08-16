@@ -152,6 +152,7 @@
 									<li><a href="#tab1" data-toggle="tab">Registration</a></li>
 									<li><a href="#tab2" data-toggle="tab">Vehicle Details</a></li>
 									<li><a href="#tab3" data-toggle="tab">Amount Due</a></li>
+									<li><a href="#tabPreview" data-toggle="tab">Preview</a></li>
 									<li><a href="#tab4" data-toggle="tab">Payment</a></li>
 									<li><a href="#tab5" data-toggle="tab">Confirmation</a></li>
 								</ul>
@@ -379,6 +380,89 @@
 											</div>
 										</div>
 									</form>
+								</div>
+								<div class="tab-pane" id="tabPreview">
+									<div class="row">
+										<div class="col-md-12">
+											<p>Please review your vehicle details</p>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<label for="vehicle_reg_num_preview">Registration Number</label>
+											<label id="vehicle_reg_num_preview" class="form-control"></label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<label for="vehicle_make_model_preview">Make/Model</label>
+											<label id="vehicle_make_model_preview" class="form-control"></label>
+										</div>
+										<div class="col-md-4">
+											<label for="vehicle_body_preview">Body</label>
+											<label id="vehicle_body_preview" class="form-control"></label>
+										</div>
+										<div class="col-md-4">
+											<label for="vehicle_color_preview">Color</label>
+											<label id="vehicle_color_preview" class="form-control"></label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<label for="vehicle_cubic_preview">Cubic Capacity</label>
+											<label id="vehicle_cubic_preview" class="form-control"></label>
+										</div>
+										<div class="col-md-4">
+											<label for="vehicle_engine_number_preview">Engine Number</label>
+											<label id="vehicle_engine_number_preview" class="form-control"></label>
+										</div>
+										<div class="col-md-4">
+											<label for="vehicle_chasis_number_preview">Chasis Number</label>
+											<label id="vehicle_chasis_number_preview" class="form-control"></label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<label for="vehicle_number_of_seats_preview">No of seats</label>
+											<label id="vehicle_number_of_seats_preview" class="form-control"></label>
+										</div>
+										<div class="col-md-4">
+											<label for="vehicle_year_make_preview">Year of Make</label>
+											<label id="vehicle_year_make_preview" class="form-control"></label>
+										</div>
+										<div class="col-md-4">
+											<label for="vehicle_year_purchase_preview">Purchase Year</label>
+											<label id="vehicle_year_purchase_preview" class="form-control"></label>
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-md-4">
+											<label for="vehicle_purchase_price_preview">Purchase Price/Value</label>
+											<label id="vehicle_purchase_price_preview" class="form-control"></label>
+										</div>
+										<div class="col-md-4">
+											<label for="vehicle_purchase_state_preview">State of Purchase</label>
+											<label id="vehicle_purchase_state_preview" class="form-control"></label>
+										</div>
+									</div> 
+									<div class="row">
+										<div class="col-md-4">
+											<label for="vehicle_effective_date_preview">Effective Date</label>
+											<label id="vehicle_effective_date_preview" class="form-control"></label>
+										</div>
+										<div class="col-md-4">
+											<label for="vehicle_expiry_date_preview">Expiry Date</label>
+											<label id="vehicle_expiry_date_preview" class="form-control"></label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="checkbox" id="agreedCheck" value="yes">
+												<label class="form-check-label form-label" for="agreedCheck">I agree that all the information provided is correct and I wish to proceed</label>
+											</div>
+										</div>
+									</div> 
 								</div>
 								<div class="tab-pane" id="tab4">
 									<div class="row">

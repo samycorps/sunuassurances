@@ -52,7 +52,10 @@ var Motor = (function() {
       $('.datepicker')
         .datepicker({
           format: 'yyyy-mm-dd',
-          startDate: moment().toDate()
+          startDate: moment().toDate(),
+          endDate: moment()
+            .add(1, 'M')
+            .toDate()
         })
         .on('changeDate', (e) => {
           // `e` here contains the extra attributes
@@ -88,11 +91,16 @@ var Motor = (function() {
             }
             case 3: {
               if ($('#tab3form').valid()) {
+                Motor.wizardStepPreview();
+              }
+              break;
+            }
+            case 4: {
+              if ($('#agreedCheck').is(':checked')) {
                 Motor.wizardStepThree();
               }
               break;
             }
-            case 4:
             case 5:
             case 6: {
               Motor.wizardStepFour();
@@ -213,7 +221,6 @@ var Motor = (function() {
     wizardStepOne: () => {
       $('.alert-message-text').html('');
       $('.alert-message').removeClass('error');
-      console.log('User Role ', $('#user_role_loggedIn').val());
       const userRole = $('#user_role_loggedIn')
         .val()
         .toLowerCase();
@@ -234,7 +241,6 @@ var Motor = (function() {
           _this.fetchVehicleDetails();
         } else {
           _this.getPolicyEnquiryDetails().then((result) => {
-            // console.log(result);
             $('.loading_icon').addClass('hide_elements');
             _this.fillVehicleDetails(result.message);
           });
@@ -338,8 +344,26 @@ var Motor = (function() {
 
       return $('#tab2form').valid();
     },
-    wizardStepThree: () => {
+    wizardStepPreview: () => {
+      // Fill up the Preview Screen
+      $('#vehicle_reg_num_preview').html($('#vehicle_reg_num').val());
+      $('#vehicle_make_model_preview').html($('#vehicle_make_model option:selected').text());
+      $('#vehicle_body_preview').html($('#vehicle_body option:selected').text());
+      $('#vehicle_color_preview').html($('#vehicle_color option:selected').text());
+      $('#vehicle_cubic_preview').html($('#vehicle_cubic').val());
+      $('#vehicle_engine_number_preview').html($('#vehicle_engine_number').val());
+      $('#vehicle_chasis_number_preview').html($('#vehicle_chasis_number').val());
+      $('#vehicle_number_of_seats_preview').html($('#vehicle_number_of_seats').val());
+      $('#vehicle_year_make_preview').html($('#vehicle_year_make').val());
+      $('#vehicle_year_purchase_preview').html($('#vehicle_year_purchase').val());
+      $('#vehicle_purchase_price_preview').html($('#vehicle_purchase_price').val());
+      $('#vehicle_purchase_state_preview').html($('#vehicle_purchase_state option:selected').text());
+      $('#vehicle_effective_date_preview').html($('#vehicle_effective_date').val());
+      $('#vehicle_expiry_date_preview').html($('#vehicle_expiry_date').val());
       $('#rootwizard').bootstrapWizard('show', 3);
+    },
+    wizardStepThree: () => {
+      $('#rootwizard').bootstrapWizard('show', 4);
       const KOBO_MULTIPLIER = 100;
       const mobileNumber =
         Utility.fields.selectedProfile.gsm_number.trim() !== ''
@@ -988,7 +1012,7 @@ var Motor = (function() {
           // Calculate Add Ons
           if ($('#comprehensive_addons_flood').is(':checked')) {
             if (!('flood_extension' in comprehensiveAddOns)) {
-              Object.assign(comprehensiveAddOns, { flood_extension: (coverage_amount * (0.5 / 100)).toFixed(2) });
+              Object.assign(comprehensiveAddOns, { flood_extension: (vehicle_value * (0.5 / 100)).toFixed(2) });
             }
           } else {
             if ('flood_extension' in comprehensiveAddOns) {
@@ -998,7 +1022,7 @@ var Motor = (function() {
           //Riot
           if ($('#comprehensive_addons_riot').is(':checked')) {
             if (!('riot' in comprehensiveAddOns)) {
-              Object.assign(comprehensiveAddOns, { riot: (coverage_amount * (0.5 / 100)).toFixed(2) });
+              Object.assign(comprehensiveAddOns, { riot: (vehicle_value * (0.5 / 100)).toFixed(2) });
             }
           } else {
             if ('riot' in comprehensiveAddOns) {
@@ -1008,7 +1032,7 @@ var Motor = (function() {
           //Excess
           if ($('#comprehensive_addons_excess').is(':checked')) {
             if (!('excess_buy_back' in comprehensiveAddOns)) {
-              Object.assign(comprehensiveAddOns, { excess_buy_back: (coverage_amount * (0.5 / 100)).toFixed(2) });
+              Object.assign(comprehensiveAddOns, { excess_buy_back: (vehicle_value * (0.5 / 100)).toFixed(2) });
             }
           } else {
             if ('excess_buy_back' in comprehensiveAddOns) {
@@ -1505,13 +1529,16 @@ var Motor = (function() {
       return promise;
     },
 
-    // calculateExpiryDate: () => {
-    //     if (!_.isEmpty($('#vehicle_effective_date').val()) && $('#vehicle_effective_date').val().length == 10) {
-    //         const effectiveDate = $('#vehicle_effective_date').val();
-    //         const expiryDate = moment(effectiveDate, 'YYYY-MM-DD').add(1, 'years').format('YYYY-MM-DD');
-    //         $('#vehicle_expiry_date').val(expiryDate);
-    //     }
-    // },
+    calculateExpiryDate: () => {
+      if (!_.isEmpty($('#vehicle_effective_date').val()) && $('#vehicle_effective_date').val().length == 10) {
+        const effectiveDate = $('#vehicle_effective_date').val();
+        const expiryDate = moment(effectiveDate, 'YYYY-MM-DD')
+          .add(1, 'years')
+          .subtract(1, 'days')
+          .format('YYYY-MM-DD');
+        $('#vehicle_expiry_date').val(expiryDate);
+      }
+    },
 
     generateTransactionId: (customer_email) => {
       const uuidv4 = 'xxxxx_xxxx_4xxx_yxxx_xxxx'.replace(/[xy]/g, function(c) {
