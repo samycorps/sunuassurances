@@ -26,6 +26,7 @@ class LegendService {
 
     public function getPolicyNumber($requestData) {
         $requestData['fax_number'] = empty($requestData['fax_number']) ? $requestData['gsm_number'] : $requestData['fax_number'];
+        $arg16 = $requestData['client_class'] === 'I' ? "<arg16>{$requestData['date_of_birth']}</arg16>" : "<arg16></arg16>";
         $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
         $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
         <soap:Header/>
@@ -46,9 +47,9 @@ class LegendService {
             <arg12>{$requestData['fax_number']}</arg12>
             <arg13>{$requestData['email_address']}</arg13>
             <arg14>{$requestData['website']}</arg14>
-            <arg15>{$requestData['company_reg_num']}</arg15>
-            <arg16>{$requestData['date_of_birth']}</arg16>
-            <arg17>{$requestData['lga']}</arg17>
+            <arg15>{$requestData['company_reg_num']}</arg15>"
+            .$arg16. 
+            "<arg17>{$requestData['lga']}</arg17>
             <arg18>{$requestData['tin_number']}</arg18>
             <arg19>{$requestData['bvn']}</arg19>
             <arg20>{$requestData['bank_id']}</arg20>

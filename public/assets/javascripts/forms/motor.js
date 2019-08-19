@@ -81,6 +81,17 @@ var Motor = (function() {
 
           switch (index) {
             case 1: {
+              if ($('#profile_kyc').val() !== undefined) {
+                let profile_kyc = $('#profile_kyc').val();
+                if (_.isEmpty(profile_kyc)) {
+                  $('.alert-message-text').html('Please search a KYC profile');
+                  $('.alert-message').addClass('error');
+                  break;
+                } else {
+                  $('.alert-message-text').html('');
+                  $('.alert-message').removeClass('error');
+                }
+              }
               if ($('#tab1form').valid()) {
                 Motor.wizardStepOne();
               }
