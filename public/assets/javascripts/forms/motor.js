@@ -750,7 +750,7 @@ var Motor = (function() {
       Motor.legendData.fax_number = '';
       Motor.legendData.email_address = '';
       Motor.legendData.company_reg_num = '';
-      Motor.legendData.date_of_birth = '';
+      // Motor.legendData.date_of_birth = '';
       Motor.legendData.client_number = $('#existing_client_number').val();
     },
 
@@ -1514,12 +1514,15 @@ var Motor = (function() {
 
     getPolicy: (legend_data) => {
       let url = api_urls.getpolicy;
-      if (!_.isEmpty(_this.fields.individualPolicyList)) {
-        legend_data['policy_number'] = _this.fields.individualPolicyList[0].policy_number;
-
-        // if (_this.fields.coverOption === 'additional') {
+      // if (!_.isEmpty(_this.fields.individualPolicyList)) {
+      //   legend_data['policy_number'] = _this.fields.individualPolicyList[0].policy_number;
+      //   url = api_urls.getAdditionalPolicy;
+      // }
+      if (
+        $('#new_additional_policy').prop('checked') ||
+        (_this.fields.policyAlreadyExists && _this.fields.activeTab === 'newPolicy')
+      ) {
         url = api_urls.getAdditionalPolicy;
-        // }
       }
       const promise = new Promise(function(resolve, reject) {
         $.ajax({

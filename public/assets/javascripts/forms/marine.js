@@ -14,7 +14,8 @@ var Marine = (function() {
       cities: {},
       locations: {},
       formData: {},
-      savedEntry: {}
+      savedEntry: {},
+      existingPolicies: {}
     },
     init: function() {
       _this.fields.agentUserDetails = JSON.parse($('#user_details').val());
@@ -121,6 +122,14 @@ var Marine = (function() {
             // This means it is only a partial match, you can either add a new item
             // or take the active if you don't want new items
           }
+          // Fetch Exisiting Profile Policies
+          Utility.getIndividualPolicyList(_this.fields.selectedProfile.id)
+            .then((result) => {
+              _this.fields.existingPolicies = result;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           // Nothing is active so it is a new value (or maybe empty value)
         }
@@ -404,8 +413,29 @@ var Marine = (function() {
       return data;
     },
 
+    resetLegendData: () => {
+      _this.fields.legendData.firstname = '';
+      _this.fields.legendData.lastname = '';
+      _this.fields.legendData.othernames = '';
+      _this.fields.legendData.address = '';
+      _this.fields.legendData.city = '';
+      _this.fields.legendData.contact_person = '';
+      _this.fields.legendData.title_id = '';
+      _this.fields.legendData.gsm_number = '';
+      _this.fields.legendData.office_number = '';
+      _this.fields.legendData.fax_number = '';
+      _this.fields.legendData.email_address = '';
+      _this.fields.legendData.company_reg_num = '';
+      // Motor.legendData.date_of_birth = '';
+      _this.fields.legendData.client_number = _this.fields.existingPolicies[0].client_number;
+    },
+
     getPolicy: (legend_data) => {
       let url = api_urls.getpolicy;
+      if (!_.isEmpty(_this.fields.existingPolicies)) {
+        _this.resetLegendData();
+        url = api_urls.getAdditionalPolicy;
+      }
       const promise = new Promise(function(resolve, reject) {
         $.ajax({
           type: 'POST',

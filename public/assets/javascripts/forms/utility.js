@@ -386,6 +386,24 @@ var Utility = (function() {
       return promise;
     },
 
+    getIndividualPolicyList: (profileId) => {
+      const url = api_urls.individualPolicyList;
+      const promise = new Promise(function(resolve, reject) {
+        $.ajax({
+          type: 'GET',
+          method: 'GET',
+          url: `${url}/${profileId}`,
+          success: function(msg) {
+            resolve(msg);
+          },
+          error: function(err) {
+            reject(err);
+          }
+        });
+      });
+      return promise;
+    },
+
     printPage: (policyDetails) => {
       console.log(policyDetails);
       const MY_URL = '../../portal/assets/images/Motor-Certificate.jpg';

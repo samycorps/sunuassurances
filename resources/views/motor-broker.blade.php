@@ -163,7 +163,7 @@
 								</div>
 								<div class="tab-pane" id="tab1">
 									<form id="tab1form" name="tab1form">
-										<div class="form-group mb-lg hide_elements" id="existingPolicyDiv">
+										<!-- <div class="form-group mb-lg hide_elements" id="existingPolicyDiv">
 											<label>Exisiting Policy Number</label>
 											<div class="input-group input-group-icon">
 												<input id="existing_policy_number" name="existing_policy_number" type="text" class="form-control input-lg" />
@@ -173,7 +173,7 @@
 													</span>
 												</span>
 											</div>
-										</div>
+										</div> -->
 										<div class="form-group mb-lg hide_elements" id="existingClientNumberDiv">
 											<label>Exisiting Client Number</label>
 											<div class="input-group input-group-icon">
