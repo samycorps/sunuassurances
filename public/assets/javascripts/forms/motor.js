@@ -135,6 +135,7 @@ var Motor = (function() {
             // _this.populateClientPolicies();
             $('#existingPolicyDiv').removeClass('hide_elements');
             $('#existingClientNumberDiv').removeClass('hide_elements');
+            _this.fillRenewalListTable();
           }
         },
         (error) => {
@@ -168,6 +169,11 @@ var Motor = (function() {
       });
       $(`#${event.target.id}`).addClass('active');
       _this.fields.activeTab = event.target.id;
+      if (event.target.id === 'newPolicy') {
+        $('#existing_client_number').removeAttr('readonly');
+        $('#vehicle_reg_num').val('');
+        $('#vehicle_reg_num').removeAttr('readonly');
+      }
       if (event.target.id === 'newPolicy' && $('#newAndAdditionalPolicySection').hasClass('hide_elements')) {
         $('#newAndAdditionalPolicySection').removeClass('hide_elements');
         $('#renewPolicySection').addClass('hide_elements');
@@ -178,8 +184,8 @@ var Motor = (function() {
       }
 
       if (event.target.id === 'renewPolicy' && $('#renewPolicySection').hasClass('hide_elements')) {
-        // $('#renewPolicySection').removeClass('hide_elements');
-        // $('#newAndAdditionalPolicySection').addClass('hide_elements');
+        $('#renewPolicySection').removeClass('hide_elements');
+        $('#newAndAdditionalPolicySection').addClass('hide_elements');
         $('.panel-title').html('Renew Policy Details');
       } else {
         $('.panel-title').html('New Policy and Additional Vehicle');
@@ -356,22 +362,28 @@ var Motor = (function() {
       return $('#tab2form').valid();
     },
     wizardStepPreview: () => {
-      // Fill up the Preview Screen
-      $('#vehicle_reg_num_preview').html($('#vehicle_reg_num').val());
-      $('#vehicle_make_model_preview').html($('#vehicle_make_model option:selected').text());
-      $('#vehicle_body_preview').html($('#vehicle_body option:selected').text());
-      $('#vehicle_color_preview').html($('#vehicle_color option:selected').text());
-      $('#vehicle_cubic_preview').html($('#vehicle_cubic').val());
-      $('#vehicle_engine_number_preview').html($('#vehicle_engine_number').val());
-      $('#vehicle_chasis_number_preview').html($('#vehicle_chasis_number').val());
-      $('#vehicle_number_of_seats_preview').html($('#vehicle_number_of_seats').val());
-      $('#vehicle_year_make_preview').html($('#vehicle_year_make').val());
-      $('#vehicle_year_purchase_preview').html($('#vehicle_year_purchase').val());
-      $('#vehicle_purchase_price_preview').html($('#vehicle_purchase_price').val());
-      $('#vehicle_purchase_state_preview').html($('#vehicle_purchase_state option:selected').text());
-      $('#vehicle_effective_date_preview').html($('#vehicle_effective_date').val());
-      $('#vehicle_expiry_date_preview').html($('#vehicle_expiry_date').val());
-      $('#rootwizard').bootstrapWizard('show', 3);
+      if (_this.fields.activeTab === 'renewPolicy') {
+        // $('#agreedCheck').prop('checked', true);
+        // $('#rootwizard > div.tab-content > ul > li:nth-child(4) > a').click();
+        Motor.wizardStepThree();
+      } else {
+        // Fill up the Preview Screen
+        $('#vehicle_reg_num_preview').html($('#vehicle_reg_num').val());
+        $('#vehicle_make_model_preview').html($('#vehicle_make_model option:selected').text());
+        $('#vehicle_body_preview').html($('#vehicle_body option:selected').text());
+        $('#vehicle_color_preview').html($('#vehicle_color option:selected').text());
+        $('#vehicle_cubic_preview').html($('#vehicle_cubic').val());
+        $('#vehicle_engine_number_preview').html($('#vehicle_engine_number').val());
+        $('#vehicle_chasis_number_preview').html($('#vehicle_chasis_number').val());
+        $('#vehicle_number_of_seats_preview').html($('#vehicle_number_of_seats').val());
+        $('#vehicle_year_make_preview').html($('#vehicle_year_make').val());
+        $('#vehicle_year_purchase_preview').html($('#vehicle_year_purchase').val());
+        $('#vehicle_purchase_price_preview').html($('#vehicle_purchase_price').val());
+        $('#vehicle_purchase_state_preview').html($('#vehicle_purchase_state option:selected').text());
+        $('#vehicle_effective_date_preview').html($('#vehicle_effective_date').val());
+        $('#vehicle_expiry_date_preview').html($('#vehicle_expiry_date').val());
+        $('#rootwizard').bootstrapWizard('show', 3);
+      }
     },
     wizardStepThree: () => {
       $('#rootwizard').bootstrapWizard('show', 4);
@@ -429,6 +441,10 @@ var Motor = (function() {
         },
         onClose: function() {
           console.log('window closed');
+          $('#rootwizard').bootstrapWizard('previous');
+          if (_this.fields.activeTab === 'renewPolicy') {
+            $('#rootwizard').bootstrapWizard('previous');
+          }
           // $('#rootwizard').bootstrapWizard('show', 4);
         }
       });
@@ -1543,6 +1559,55 @@ var Motor = (function() {
       return promise;
     },
 
+    fillRenewalListTable: () => {
+      if (_this.fields.individualPolicyList.length > 0) {
+        const policyList = _this.fields.individualPolicyList;
+        $('#existing_client_number').val(policyList[0].client_number);
+        $payment_table = $('#datatable-payment tbody');
+        $.each(policyList, (i, v) => {
+          const registration = v.vehicle_transaction_details_id.split('_');
+          const markup = `<tr>
+                    <td>${registration[1]}</td>
+                    <td>0.00</td>
+                    <td>${v.policy_number}</td>
+                    <td>${v.cover_type}</td>
+                    <td>${v.expiry_date}</td>
+                    <td class="text-center"><button class="btn btn-primary" onclick="_this.startRenewal('${
+                      v.client_number
+                    }',
+                    '${registration[1]}', ${i})"><i class="fa fa-repeat"> Renew </button></td>
+                </tr>`;
+          $payment_table.append(markup);
+        });
+      }
+    },
+
+    startRenewal: (client_id, registration_number, index) => {
+      $('#existing_client_number').val(client_id);
+      $('#existing_client_number').prop('readonly', 'readonly');
+      $('#vehicle_reg_num').val(registration_number);
+      $('#vehicle_reg_num').prop('readonly', 'readonly');
+      $('#existingPolicyDiv').removeClass('hide_elements');
+      $('#existingClientNumberDiv').removeClass('hide_elements');
+      $('#renewPolicySection').addClass('hide_elements');
+      $('#newAndAdditionalPolicySection').removeClass('hide_elements');
+      $('.panel-title').html('Renew Policy Details');
+      _this.setRenewalDates(index);
+      console.log(client_id, registration_number);
+      console.log(_this.fields.individualPolicyList[index]);
+    },
+
+    setRenewalDates(index) {
+      let effective_date = _this.fields.individualPolicyList[index].expiry_date.substring(0, 9);
+      effective_date = moment(effective_date, 'DD-MMM-YY').format('YYYY-MM-DD');
+      expiry_date = moment(effective_date, 'YYYY-MM-DD')
+        .add(1, 'years')
+        .subtract(1, 'days')
+        .format('YYYY-MM-DD');
+      $('vehicle_effective_date_preview').val(effective_date);
+      $('vehicle_expiry_date_preview').val(expiry_date);
+    },
+
     calculateExpiryDate: () => {
       if (!_.isEmpty($('#vehicle_effective_date').val()) && $('#vehicle_effective_date').val().length == 10) {
         const effectiveDate = $('#vehicle_effective_date').val();
@@ -1777,10 +1842,6 @@ var MotorBroker = (function() {
 
       if (event.target.id === 'newClient') {
         _thisBroker.fields.insurancePolicyType = 'new';
-        // $('#newProfileSection').removeClass('hide_elements');
-        // if (!$('#newAndAdditionalPolicySection').hasClass('hide_elements')) {
-        //     $('#newAndAdditionalPolicySection').addClass('hide_elements')
-        // }
         if (!$('#existingPolicyDiv').hasClass('hide_elements')) {
           $('#existingPolicyDiv').addClass('hide_elements');
         }

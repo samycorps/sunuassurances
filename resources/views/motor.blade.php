@@ -528,26 +528,8 @@
 		<!-- End Wizard-->
 
 		<div id="renewPolicySection" class="hide_elements">
-			<div class="row">
-				<div class="col-md-12">
-					<table class="table invoice-items" id="policy_table">
-						<thead>
-							<tr class="h4 text-dark">
-								<th id="cell-id" class="text-semibold">#</th>
-								<th id="cell-desc" class="text-semibold">Cover Type</th>
-								<th id="cell-price" class="text-semibold">Policy Number</th>
-								<th id="cell-qty" class="text-center text-semibold">Certificate Number</th>
-								<th id="cell-total" class="text-center text-semibold">Expiry Date</th>
-								<th id="cell-total" class="text-center text-semibold"></th>
-								<th id="cell-total" class="text-center text-semibold"></th>
-							</tr>
-						</thead>
-						<tbody>
-							
-						</tbody>
-					</table>
-				</div>
-			</div>
+			@include('client-renewal')
+			
 		</div>
             
     </section>
