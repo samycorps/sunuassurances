@@ -1597,6 +1597,16 @@ var Motor = (function() {
       console.log(_this.fields.individualPolicyList[index]);
     },
 
+    startRenewalLegendOnlyCustomers: () => {
+      // $('#existing_client_number').val(client_id);
+      $('#existing_client_number').prop('readonly', 'readonly');
+      $('#existingPolicyDiv').removeClass('hide_elements');
+      $('#existingClientNumberDiv').removeClass('hide_elements');
+      $('#renewPolicySection').addClass('hide_elements');
+      $('#newAndAdditionalPolicySection').removeClass('hide_elements');
+      $('.panel-title').html('Renew Policy Details');
+    },
+
     setRenewalDates(index) {
       let effective_date = _this.fields.individualPolicyList[index].expiry_date.substring(0, 9);
       effective_date = moment(effective_date, 'DD-MMM-YY').format('YYYY-MM-DD');

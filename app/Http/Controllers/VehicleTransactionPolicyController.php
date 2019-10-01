@@ -68,34 +68,31 @@ class VehicleTransactionPolicyController extends Controller
     public function getPoliciesByUserId($userId)
     {
         try {
-            $query = "SELECT DISTINCT policy.*, c_max.*, v_max.*, profiles.firstname, profiles.lastname, profiles.title, profiles.company_name, profiles.user_category FROM vehicle_transaction_policy policy JOIN (
-                SELECT    MAX(payment.id) max_id, payment.vehicle_transaction_details_id, payment.transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message
-                FROM vehicle_transaction_payment payment
-                where user_id = $userId
-                GROUP BY  vehicle_transaction_details_id, transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message
-                ORDER BY max_id LIMIT 1
-            ) c_max ON (SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(c_max.vehicle_transaction_details_id, '_',-1))
-            JOIN (
-                SELECT MAX(details.id) max_id, vehicle_details_id, details.form_details, details.registration_number
-                FROM 	vehicle_transaction_details details
-                WHERE user_id = $userId
-                GROUP BY  vehicle_details_id, registration_number, form_details
-                ORDER BY max_id LIMIT 1
-            ) v_max ON (SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(v_max.vehicle_details_id, '_',-1))
-            JOIN profiles ON policy.profile_id = profiles.id
-            WHERE policy.user_id = $userId;";
-            
-            
-            // "SELECT policy.*, details.form_details, details.registration_number, payment.transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message, profiles.firstname, profiles.lastname, profiles.title, profiles.company_name, profiles.user_category 
-            // FROM vehicle_transaction_policy policy 
-            // JOIN vehicle_transaction_details details ON 
-            // SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(details.vehicle_details_id, '_',-1)
-            // AND policy.user_id = details.user_id
-            // JOIN vehicle_transaction_payment payment ON 
-            // SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(payment.vehicle_transaction_details_id, '_',-1)
-            // AND policy.user_id = payment.user_id
+            // $query = "SELECT DISTINCT policy.*, c_max.*, v_max.*, profiles.firstname, profiles.lastname, profiles.title, profiles.company_name, profiles.user_category FROM vehicle_transaction_policy policy JOIN (
+            //     SELECT    MAX(payment.id) max_id, payment.vehicle_transaction_details_id, payment.transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message
+            //     FROM vehicle_transaction_payment payment
+            //     where user_id = $userId
+            //     GROUP BY  vehicle_transaction_details_id, transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message
+            //     ORDER BY max_id LIMIT 1
+            // ) c_max ON (SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(c_max.vehicle_transaction_details_id, '_',-1))
+            // JOIN (
+            //     SELECT MAX(details.id) max_id, vehicle_details_id, details.form_details, details.registration_number
+            //     FROM 	vehicle_transaction_details details
+            //     WHERE user_id = $userId
+            //     GROUP BY  vehicle_details_id, registration_number, form_details
+            //     ORDER BY max_id LIMIT 1
+            // ) v_max ON (SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) = SUBSTRING_INDEX(v_max.vehicle_details_id, '_',-1))
             // JOIN profiles ON policy.profile_id = profiles.id
             // WHERE policy.user_id = $userId;";
+            
+            $query = "SELECT policy.*, SUBSTRING_INDEX(policy.vehicle_transaction_details_id, '_',-1) as registration_number,  
+            profiles.firstname, profiles.lastname, profiles.title, profiles.company_name, profiles.user_category, 
+            payment.vehicle_transaction_details_id, payment.transaction_reference, payment.transaction_amount, payment.transaction_date, payment.response_message,
+            details.form_details 
+            FROM vehicle_transaction_policy policy JOIN vehicle_transaction_payment payment ON policy.vehicle_transaction_details_id = payment.vehicle_transaction_details_id 
+            JOIN profiles ON profiles.id = policy.profile_id
+            LEFT JOIN vehicle_transaction_details details ON policy.vehicle_transaction_details_id = details.vehicle_details_id 
+            WHERE policy.user_id = $userId;";
             $policies = DB::select( DB::raw($query));
             Log::info($query);
             Log::info($policies);

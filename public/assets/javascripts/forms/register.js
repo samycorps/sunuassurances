@@ -25,12 +25,20 @@ var Register = (function() {
 
       _thisRegister.fields.pageName = $('#page_name').val();
 
+      $.validator.addMethod(
+        'regex',
+        function(value, element, regexp) {
+          return !regexp.test(value);
+        },
+        'Please check your input.'
+      );
+
       /* Register form - Initialize Validation */
       $('#form-register').validate({
         errorClass: 'help-block animation-slideUp', // You can change the animation class for a different entrance animation - check animations page
-        errorElement: 'div',
+        errorElement: 'label',
         errorPlacement: function(error, e) {
-          e.parents('.form-group > div').append(error);
+          $(e.parents('div.form-group').children()[0]).append(error);
         },
         highlight: function(e) {
           $(e)
@@ -83,14 +91,17 @@ var Register = (function() {
           },
           firstname: {
             required: true,
+            regex: /&/g,
             minlength: 3
           },
           lastname: {
             required: true,
+            regex: /&/g,
             minlength: 3
           },
           company_name: {
             required: true,
+            regex: /&/g,
             minlength: 3
           },
           email_address: {
@@ -123,14 +134,17 @@ var Register = (function() {
           },
           firstname: {
             required: 'Please enter a firstname',
+            regex: 'Please replace & with and',
             minlength: 'Please enter a firstname'
           },
           lastname: {
             required: 'Please enter a lastname',
+            regex: 'Please replace & with and',
             minlength: 'Please enter a lastname'
           },
           company_name: {
             required: 'Please enter a valid company name',
+            regex: 'Please replace & with and',
             minlength: 'Please enter a valid company name'
           },
           agent_code: {
@@ -251,6 +265,32 @@ var Register = (function() {
     },
 
     registerProfile: () => {
+      let regexp = /&/g;
+      let error_msg = '(replace & with and)';
+      if ($('#profile_firstname').is(':visible') && regexp.test($('#profile_firstname').val())) {
+        $('#profile_firstname').addClass('error');
+        $($('#profile_firstname').prev()).append(`<span> ${error_msg} </span>`);
+        return false;
+      } else {
+        $('#profile_firstname').removeClass('error');
+        $($($('#profile_firstname').prev()).children()[0]).remove();
+      }
+      if ($('#profile_lastname').is(':visible') && regexp.test($('#profile_lastname').val())) {
+        $('#profile_lastname').addClass('error');
+        $($('#profile_lastname').prev()).append(`<span> ${error_msg} </span>`);
+        return false;
+      } else {
+        $('#profile_lastname').removeClass('error');
+        $($($('#profile_lastname').prev()).children()[0]).remove();
+      }
+      if ($('#profile_company_name').is(':visible') && regexp.test($('#profile_company_name').val())) {
+        $('#profile_company_name').addClass('error');
+        $($('#profile_company_name').prev()).append(`<span> ${error_msg} </span>`);
+        return false;
+      } else {
+        $('#profile_company_name').removeClass('error');
+        $($($('#profile_company_name').prev()).children()[0]).remove();
+      }
       if ($('#form-register').valid()) {
         const profile = {
           user_category: $('#category').val(),
@@ -399,14 +439,13 @@ var Register = (function() {
         'streetRow',
         'addressRow',
         'occupationRow',
-        'websiteRow',
         'contactPersonRow',
         'bankDetailsRow',
         'emailRow',
         'gsmRow'
       ];
       const individual_elements = ['titleRow', 'nameRow'];
-      const company_elements = ['companyRow', 'companyRegRow', 'officeRow', 'tinRow'];
+      const company_elements = ['companyRow', 'companyRegRow', 'officeRow', 'tinRow', 'websiteRow'];
 
       $.each(default_elements, (i, v) => {
         $(`#${v}`).removeClass('hide_elements');
@@ -701,14 +740,13 @@ var UserProfile = (function() {
         'streetRow',
         'addressRow',
         'occupationRow',
-        'websiteRow',
         'contactPersonRow',
         'bankDetailsRow',
         'emailRow',
         'gsmRow'
       ];
       const individual_elements = ['titleRow', 'nameRow'];
-      const company_elements = ['companyRow', 'companyRegRow', 'officeRow', 'tinRow'];
+      const company_elements = ['companyRow', 'companyRegRow', 'officeRow', 'tinRow', 'websiteRow'];
 
       $.each(default_elements, (i, v) => {
         $(`#${v}`).removeClass('hide_elements');

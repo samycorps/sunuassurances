@@ -6,6 +6,15 @@
         </div>
     </header>
     <div class="card-body">
+        <div class="row">
+            <div class="col-md-10 form-label">
+                ** To renew a policy previously generated outside this platform, Kindly provide your registration number below
+            </div>
+            <div class="col-md-2 pull-left">
+                <button class="btn btn-primary" onclick="Motor.startRenewalLegendOnlyCustomers()"><i class="fa fa-repeat"> Renew </i></button>
+            </div>
+        </div>
+        <p></p>
         <table class="table table-bordered table-striped mb-none" id="datatable-payment" data-swf-path="assets/vendor/jquery-datatables/extras/TableTools/swf/copy_csv_xls_pdf.swf">
             <thead>
                 <tr>
