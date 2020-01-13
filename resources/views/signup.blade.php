@@ -41,6 +41,12 @@
                                 <option value="">Choose...</option>
                             </select>
                             </div>
+                            <div class="form-group col-md-6" id="genderCol">
+                            <label class="form-label">Gender</label>
+                            <select id="gender" name="gender" class="form-control" required="required">
+                                <option value="">Choose...</option>
+                            </select>
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="form-row hide_elements" id="nameRow">

@@ -26,6 +26,10 @@ var Utility = (function() {
       Dr: '008',
       'Mr & Mrs': '009'
     },
+    genders: {
+      male: 'M',
+      female: 'F'
+    },
     init: function() {
       $("input[data-type='currency']").on({
         keyup: function() {

@@ -1,52 +1,58 @@
 #innerContainer {
-    border: 1px solid #ccc;
-    padding: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
 #topbar {
-    border-bottom: 1px solid #C81840;
+  border-bottom: 1px solid #c81840;
 }
 
 #topbar a.active {
-    background-color: #C81840 !important;
-    color: #ffffff; 
+  background-color: #c81840 !important;
+  color: #ffffff;
 }
 
 .policy-renewal {
-    border: 1px solid #ff0000;
-    border-left: 15px solid #ff0000;
+  border: 1px solid #ff0000;
+  border-left: 15px solid #ff0000;
 }
 
 div.policy-renewal > div.icon_section {
-    width: 10%;
-    float: left;
+  width: 10%;
+  float: left;
 }
 
 div.policy-renewal > div.label_section {
-    width: 20%;
-    float: left;
+  width: 20%;
+  float: left;
 }
 
 .loading_icon {
-    text-align: center;
-    z-index: 9999;
+  text-align: center;
+  z-index: 9999;
 }
 .loading_icon img {
-    height: 80px;
+  height: 80px;
 }
 .display_label {
-    font-weight: 600;
-    font-size: 14px;
+  font-weight: 600;
+  font-size: 14px;
 }
 .display_span {
-    padding-left: 20px;
-    font-size: 13px;
+  padding-left: 20px;
+  font-size: 13px;
 }
 
 .marine .row {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .padding-left-zero {
-    padding-left: 0px;
+  padding-left: 0px;
+}
+
+.loader_image {
+  background-image: url('../../assets/images/Loading_icon.gif');
+  text-align: center;
+  z-index: 9999;
 }

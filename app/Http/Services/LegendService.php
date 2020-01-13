@@ -28,6 +28,9 @@ class LegendService {
         $requestData['fax_number'] = empty($requestData['fax_number']) ? $requestData['gsm_number'] : $requestData['fax_number'];
         $arg16 = $requestData['client_class'] === 'I' ? "<arg16>{$requestData['date_of_birth']}</arg16>" : "<arg16>0000-00-00</arg16>";
         $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
+        $gender = empty($requestData['gender']) ? '' : $requestData['gender'];
+        $arg64 = "<arg64>{$gender}</arg64>";
+        $arg65 = $requestData['mode_of_payment'] === 'CADVICE' ? "<arg65></arg65>" : "";
         $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
         <soap:Header/>
         <soap:Body>
@@ -96,6 +99,7 @@ class LegendService {
             <arg61>{$requestData['expiry_date']}</arg61>
             <arg62>{$requestData['client_number']}</arg62>
             <arg63>WAZ9</arg63>
+            .$arg64.$arg65.
         </leg:getpolnum>
         </soap:Body>
      </soap:Envelope>";
@@ -141,6 +145,9 @@ class LegendService {
     public function getMarinePolicyNumber($requestData) {
         $requestData['fax_number'] = empty($requestData['fax_number']) ? $requestData['gsm_number'] : $requestData['fax_number'];
         $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
+        $gender = empty($requestData['gender']) ? '' : $requestData['gender'];
+        $arg64 = "<arg64>{$gender}</arg64>";
+        $arg65 = $requestData['mode_of_payment'] === 'CADVICE' ? "<arg65></arg65>" : "";
         $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
         <soap:Header/>
         <soap:Body>
@@ -207,7 +214,10 @@ class LegendService {
             <arg59>{$requestData['company_bank']}</arg59>
             <arg60>{$requestData['effective_date']}</arg60>
             <arg61>{$requestData['expiry_date']}</arg61>
-        </leg:getpolnum>
+            <arg62></arg62>
+            <arg63></arg63>"
+            .$arg64.$arg65. 
+        "</leg:getpolnum>
         </soap:Body>
      </soap:Envelope>";
      Log::info($soap_request_data);

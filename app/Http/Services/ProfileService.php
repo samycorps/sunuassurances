@@ -14,6 +14,7 @@ class ProfileService {
             'user_id' => $userId,
             'user_category' => isset($profileData['user_category']) ? $profileData['user_category'] : '',
             'title' => isset($profileData['title']) ? $profileData['title'] : NULL,
+            'gender' => isset($profileData['gender']) ? $profileData['gender'] : 'N/A',
             'firstname' => isset($profileData['firstname']) ? $profileData['firstname'] : NULL,
             'lastname' => isset($profileData['lastname']) ? $profileData['lastname'] : NULL,
             'othernames' => isset($profileData['othernames']) ? $profileData['othernames'] : NULL,

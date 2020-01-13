@@ -15,7 +15,9 @@ var Marine = (function() {
       locations: {},
       formData: {},
       savedEntry: {},
-      existingPolicies: {}
+      existingPolicies: {},
+      vehicleData: {},
+      vehicleTransactionPayment: {}
     },
     init: function() {
       _this.fields.agentUserDetails = JSON.parse($('#user_details').val());
@@ -38,6 +40,7 @@ var Marine = (function() {
           // return false;
         },
         onNext: function(tab, navigation, index) {
+          console.log(`Boostrap Wizard ${index} - ${tab} - ${navigation}`);
           switch (index) {
             case 1: {
               if ($('#tab1form').valid()) {
@@ -52,11 +55,21 @@ var Marine = (function() {
               break;
             }
             case 3: {
+              // if (
+              //   _this.fields.vehicleTransactionPayment.responseStatus !== undefined &&
+              //   _this.fields.vehicleTransactionPayment.responseStatus === 'success'
+              // ) {
+              //   _this.wizardStepFive();
+              // } else {
               _this.wizardStepFour();
+              // }
               // return true;
               break;
             }
             case 4:
+              _this.wizardStepFive();
+              // return true;
+              break;
             case 5:
             case 6: {
               // Motor.wizardStepFour();
@@ -174,9 +187,13 @@ var Marine = (function() {
       $('#rootwizard').bootstrapWizard('show', 1);
     },
     wizardStepThree: () => {
+      $('#rootwizard').bootstrapWizard('show', 2);
+    },
+    wizardStepFour: () => {
+      // Switch Steps based on Payment Choice
       let vehicleRegNum = $('#vessel_reg_num').val();
       // Save Form Details
-      const vehicleData = {
+      _this.fields.vehicleData = {
         id: `${moment().format('YYYYMMDDHHmmss')}_${vehicleRegNum}`,
         profileId: _this.fields.selectedProfile.id,
         userId: _this.fields.agentUserDetails.id,
@@ -185,20 +202,18 @@ var Marine = (function() {
       };
       const operation = _.isEmpty(_this.fields.savedEntry) ? 'save' : 'update';
       if (!_.isEmpty(_this.fields.savedEntry)) {
-        vehicleData['vehicleDetailsId'] = _this.fields.savedEntry.vehicle_details_id;
+        _this.fields.vehicleData['vehicleDetailsId'] = _this.fields.savedEntry.id;
+        _this.fields.vehicleData['id'] = _this.fields.savedEntry.id;
       }
-      Utility.saveVehicleDetails(operation, vehicleData)
+      Utility.saveVehicleDetails(operation, _this.fields.vehicleData)
         .then((result) => {
           _this.fields.savedEntry = result;
         })
         .catch((err) => {
           console.log(err);
         });
+      // Setup Transaction Data
       const KOBO_MULTIPLIER = 100;
-      const mobileNumber =
-        _this.fields.agentProfile.gsm_number !== ''
-          ? _this.fields.agentProfile.gsm_number
-          : _this.fields.agentProfile.office_number;
       const customerEmail = _this.fields.selectedProfile.email_address;
       const transactionAmount = parseFloat(_this.fields.formData.premium_amount, 2) * KOBO_MULTIPLIER;
       const transactionReference = Utility.generateTransactionId(customerEmail);
@@ -215,57 +230,22 @@ var Marine = (function() {
         responseReference: '',
         responseMessage: ''
       };
-      const handler = PaystackPop.setup({
-        key: paystack.key,
-        email: customerEmail,
-        amount: transactionAmount.toFixed(2),
-        ref: transactionReference,
-        metadata: {
-          custom_fields: [
-            {
-              display_name: 'Mobile Number',
-              variable_name: 'mobile_number',
-              value: `${mobileNumber}`
-            }
-          ]
-        },
-        callback: function(response) {
-          console.log(response);
-          console.log('success. transaction ref is ' + response.reference);
-          _this.fields.transactionDetails.responseReference = response.transaction;
-          _this.fields.transactionDetails.responseStatus = response.status;
-          _this.fields.transactionDetails.responseMessage = response.message;
-          console.log(_this.fields.transactionDetails);
 
-          if (
-            _this.fields.transactionDetails !== undefined &&
-            !_.isEmpty(_this.fields.transactionDetails) &&
-            _this.fields.transactionDetails.responseReference !== ''
-          ) {
-            const vehicleTransactionPayment = {
-              ..._this.fields.transactionDetails,
-              vehicleTransactionDetailsId: vehicleData.id
-            };
-            Utility.saveVehiclePaymentDetails(vehicleTransactionPayment)
-              .then((result) => {
-                console.log(result);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-          $('#rootwizard').bootstrapWizard('show', 2);
-          $('#rootwizard').bootstrapWizard('next');
-        },
-        onClose: function() {
-          console.log('window closed');
-          // $('#rootwizard').bootstrapWizard('show', 4);
+      let paymentOption = $('#marine_payment_method').val();
+      switch (paymentOption) {
+        case 'CADVICE': {
+          console.log('Payment Option is Cadvice - ', paymentOption);
+          return _this.creditNote();
+          break;
         }
-      });
-      handler.openIframe();
+        case 'EPAY': {
+          return _this.loadPayStack();
+          break;
+        }
+      }
     },
 
-    wizardStepFour: () => {
+    wizardStepFive: () => {
       $('.loading_icon').removeClass('hide_elements');
       $('#legendResponseMessage').html('');
       _this.fields.legendData = _this.setLegendData();
@@ -330,11 +310,90 @@ var Marine = (function() {
       return true;
     },
 
+    loadPayStack: () => {
+      const mobileNumber =
+        _this.fields.agentProfile.gsm_number !== ''
+          ? _this.fields.agentProfile.gsm_number
+          : _this.fields.agentProfile.office_number;
+      const handler = PaystackPop.setup({
+        key: paystack.key,
+        email: _this.fields.transactionDetails.customerEmail,
+        amount: _this.fields.transactionDetails.transactionAmount,
+        ref: _this.fields.transactionDetails.transactionReference,
+        metadata: {
+          custom_fields: [
+            {
+              display_name: 'Mobile Number',
+              variable_name: 'mobile_number',
+              value: `${mobileNumber}`
+            }
+          ]
+        },
+        callback: function(response) {
+          console.log(response);
+          console.log('success. transaction ref is ' + response.reference);
+          _this.fields.transactionDetails.responseReference = response.transaction;
+          _this.fields.transactionDetails.responseStatus = response.status;
+          _this.fields.transactionDetails.responseMessage = response.message;
+          console.log(_this.fields.transactionDetails);
+
+          if (
+            _this.fields.transactionDetails !== undefined &&
+            !_.isEmpty(_this.fields.transactionDetails) &&
+            _this.fields.transactionDetails.responseReference !== ''
+          ) {
+            return _this.onPaymentSuccess();
+          }
+          $('#rootwizard').bootstrapWizard('show', 2);
+          $('#rootwizard').bootstrapWizard('next');
+        },
+        onClose: function() {
+          console.log('window closed');
+          $('#rootwizard').bootstrapWizard('show', 4);
+          return false;
+        }
+      });
+      handler.openIframe();
+    },
+
+    creditNote: () => {
+      _this.fields.transactionDetails.paymentGateway = 'CADVICE';
+      console.log('success. transaction ref is ' + _this.fields.transactionDetails.transactionReference);
+      _this.fields.transactionDetails.responseReference = _this.fields.transactionDetails.transactionReference;
+      _this.fields.transactionDetails.responseStatus = 'success';
+      _this.fields.transactionDetails.responseMessage = 'Paid with Credit Note';
+      console.log(_this.fields.transactionDetails);
+
+      return _this.onPaymentSuccess();
+    },
+
+    onPaymentSuccess: () => {
+      const vehicleTransactionPayment = {
+        ..._this.fields.transactionDetails,
+        vehicleTransactionDetailsId: _this.fields.vehicleData.id
+      };
+      Utility.saveVehiclePaymentDetails(vehicleTransactionPayment)
+        .then((result) => {
+          console.log(result);
+          _this.fields.vehicleTransactionPayment = vehicleTransactionPayment;
+          $('#rootwizard').bootstrapWizard('show', 3);
+          $('#rootwizard').bootstrapWizard('next');
+          return true;
+        })
+        .catch((err) => {
+          console.log(err);
+          return false;
+        });
+    },
+
     setLegendData: () => {
+      const gender =
+        _this.fields.selectedProfile.gender !== '' ? Utility.genders[_this.fields.selectedProfile.gender] : '';
       const name = _.isEmpty(_this.fields.selectedProfile.lastname)
         ? _this.fields.selectedProfile.company_name
         : _this.fields.selectedProfile.lastname;
       const client_class = Utility.clientClasses[_this.fields.selectedProfile.user_category];
+      const paymentOption = $('#marine_payment_method').val();
       const data = {
         username: 'website',
         userpassword: 'website',
@@ -385,7 +444,7 @@ var Marine = (function() {
         chasis_number: '',
         year_of_make: 0,
         year_of_purchase: 0,
-        mode_of_payment: 'CASH',
+        mode_of_payment: paymentOption === 'CADVICE' ? 'CADVICE' : 'CASH',
         policy_class: '002',
         risk_class: 'MCA',
         cover_type: $('#cover_type').val(),
@@ -408,7 +467,8 @@ var Marine = (function() {
         term_of_insurance: $('#term_of_insurance').val(),
         payment_reference: 0, //_this.transactionDetails.transactionReference,
         vehicleTransactionDetailsId: _this.fields.savedEntry.id,
-        policy_type: 'marine'
+        policy_type: 'marine',
+        gender: gender
       };
       return data;
     },
@@ -513,7 +573,10 @@ var Marine = (function() {
 
     populatePackingTypes: () => {
       $packingType = $('#packing_type');
-      const packingtypes = [{ id: '0', value: 'Containerized' }, { id: '1', value: 'Non Containerized' }];
+      const packingtypes = [
+        { id: '0', value: 'Containerized' },
+        { id: '1', value: 'Non Containerized' }
+      ];
       packingtypes.map((c) => {
         $packingType.append(`<option value=${c.id}> ${c.value} </option>`);
       });

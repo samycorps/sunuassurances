@@ -24,7 +24,8 @@ var Motor = (function() {
       policyAlreadyExists: false,
       activeTab: 'newPolicy',
       renewalDetails: {},
-      policyDetails: {}
+      policyDetails: {},
+      userRole: ''
     },
     clientClasses: {
       Individual: 'I',
@@ -49,6 +50,9 @@ var Motor = (function() {
       /*
        *  Jquery Validation, Check out more examples and documentation at https://github.com/jzaefferer/jquery-validation
        */
+      Motor.fields.userRole = $('#user_role_loggedIn')
+        .val()
+        .toLowerCase();
       $('.datepicker')
         .datepicker({
           format: 'yyyy-mm-dd',
@@ -107,12 +111,19 @@ var Motor = (function() {
               break;
             }
             case 4: {
-              if ($('#agreedCheck').is(':checked')) {
+              if ($('#agreedCheck').is(':checked') && Motor.fields.userRole === 'client') {
                 Motor.wizardStepThree();
+              } else {
+                Motor.wizardStepPayChoice();
               }
               break;
             }
-            case 5:
+            case 5: {
+              if ($('#agreedCheck').is(':checked') && Motor.fields.userRole === 'agent') {
+                Motor.wizardStepThree();
+                break;
+              }
+            }
             case 6: {
               Motor.wizardStepFour();
               return true;
@@ -134,7 +145,9 @@ var Motor = (function() {
             _this.fields.policyAlreadyExists = true;
             // _this.populateClientPolicies();
             $('#existingPolicyDiv').removeClass('hide_elements');
-            $('#existingClientNumberDiv').removeClass('hide_elements');
+            if (Motor.fields.userRole === 'client') {
+              $('#existingClientNumberDiv').removeClass('hide_elements');
+            }
             _this.fillRenewalListTable();
           }
         },
@@ -228,20 +241,21 @@ var Motor = (function() {
       );
     },
     setCustomerProfile: () => {
-      const userRole = $('#user_role_loggedIn')
-        .val()
-        .toLowerCase();
-      if (userRole === 'client') {
+      // const userRole = $('#user_role_loggedIn')
+      //   .val()
+      //   .toLowerCase();
+      if (Motor.fields.userRole === 'client') {
         Utility.fields.selectedProfile = JSON.parse($('#user_profile').val());
+        Utility.fields.selectedProfile.email_address = $('#customer_email').val();
       }
     },
     wizardStepOne: () => {
       $('.alert-message-text').html('');
       $('.alert-message').removeClass('error');
-      const userRole = $('#user_role_loggedIn')
-        .val()
-        .toLowerCase();
-      if (userRole === 'agent') {
+      // const userRole = $('#user_role_loggedIn')
+      //   .val()
+      //   .toLowerCase();
+      if (Motor.fields.userRole === 'agent') {
         if (_thisBroker.fields.insurancePolicyType === 'new') {
           $('.loading_icon').removeClass('hide_elements');
           _this.fetchVehicleDetails();
@@ -252,7 +266,7 @@ var Motor = (function() {
             _thisBroker.fillVehicleDetails(result.message);
           });
         }
-      } else if (userRole === 'client') {
+      } else if (Motor.fields.userRole === 'client') {
         $('.loading_icon').removeClass('hide_elements');
         if (_this.fields.activeTab === 'newPolicy') {
           _this.fetchVehicleDetails();
@@ -385,6 +399,9 @@ var Motor = (function() {
         $('#rootwizard').bootstrapWizard('show', 3);
       }
     },
+    wizardStepPayChoice: () => {
+      $('#rootwizard').bootstrapWizard('show', 4);
+    },
     wizardStepThree: () => {
       $('#rootwizard').bootstrapWizard('show', 4);
       const KOBO_MULTIPLIER = 100;
@@ -404,6 +421,7 @@ var Motor = (function() {
         customerEmail: customerEmail,
         transactionAmount: transactionAmount.toFixed(2),
         transactionDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        mobileNumber: mobileNumber,
         paymentGateway: 'PayStack',
         responseStatus: 'initiate',
         responseReference: '',
@@ -413,47 +431,29 @@ var Motor = (function() {
       $('#transactionReference').html(transactionReference);
       $('#transactionAmount').html(coverageAmount);
       $('#transactionDate').html(Motor.transactionDetails.transactionDate);
-      const handler = PaystackPop.setup({
-        key: paystack.key,
-        email: customerEmail,
-        amount: transactionAmount.toFixed(2),
-        ref: transactionReference,
-        metadata: {
-          custom_fields: [
-            {
-              display_name: 'Mobile Number',
-              variable_name: 'mobile_number',
-              value: `${mobileNumber}`
-            }
-          ]
-        },
-        callback: function(response) {
-          console.log(response);
-          console.log('success. transaction ref is ' + response.reference);
-          Motor.transactionDetails.responseReference = response.transaction;
-          Motor.transactionDetails.responseStatus = response.status;
-          Motor.transactionDetails.responseMessage = response.message;
-          console.log(Motor.transactionDetails);
-          // $('#rootwizard').bootstrapWizard('show', 4);
-          $('#rootwizard').bootstrapWizard('next');
-          $('.previous').css('display', 'none');
-          // Motor.wizardStepFour();
-        },
-        onClose: function() {
-          console.log('window closed');
-          $('#rootwizard').bootstrapWizard('previous');
-          if (_this.fields.activeTab === 'renewPolicy') {
-            $('#rootwizard').bootstrapWizard('previous');
+
+      if (Motor.fields.userRole === 'agent') {
+        $('#rootwizard').bootstrapWizard('show', 5);
+        let paymentOption = $('#motor_payment_method').val();
+        switch (paymentOption) {
+          case 'CADVICE': {
+            console.log('Payment Option is Cadvice - ', paymentOption);
+            _this.creditNote();
+            break;
           }
-          // $('#rootwizard').bootstrapWizard('show', 4);
+          case 'EPAY': {
+            _this.loadPayStack();
+            break;
+          }
         }
-      });
-      handler.openIframe();
+      } else {
+        _this.loadPayStack();
+      }
     },
     wizardStepFour: () => {
-      const userRole = $('#user_role_loggedIn')
-        .val()
-        .toLowerCase();
+      // const userRole = $('#user_role_loggedIn')
+      //   .val()
+      //   .toLowerCase();
       if (
         _this.transactionDetails !== undefined &&
         !_.isEmpty(_this.transactionDetails) &&
@@ -490,7 +490,7 @@ var Motor = (function() {
       const cover_type = client_class === 'I' ? 'PM/T/PMI' : 'PM/T/PMC';
       const title_id = Utility.fields.selectedProfile.title;
       Motor.legendData = $('#renewPolicy').hasClass('active')
-        ? userRole === 'client'
+        ? Motor.fields.userRole === 'client'
           ? _this.setRenewalData()
           : _thisBroker.setLegendRenewalData()
         : _this.setLegendData();
@@ -504,6 +504,9 @@ var Motor = (function() {
         _this.resetLegendData();
       }
       $('.loading_icon').removeClass('hide_elements');
+      $('#legendResponseMessage')
+        .addClass('loader_image')
+        .html('Processing legend policy generation . . . ');
       let promise;
       if ($('#renewPolicy').hasClass('active')) {
         promise = _thisCommon.getRenewalPolicy(Motor.legendData);
@@ -515,7 +518,11 @@ var Motor = (function() {
           responseString = result.message;
           // responseString = "Client Number: 18-01520, Policy Number: PMI54/1/000791/L18, Certificate Number: 18/0000001794, Debit Note Number: 1824406PMI, Receipt Number: 5418/038892, Expiry Date: 13-DEC-19.";
           console.log(responseString);
-          if (responseString.indexOf('Policy Number') > -1) {
+          if (responseString === undefined) {
+            $('#legendResponseMessage')
+              .removeClass('loader_image')
+              .html(result);
+          } else if (responseString.indexOf('Policy Number') > -1) {
             const responseArray = responseString.split(', ');
             $.each(responseArray, (i, v) => {
               const eachData = v.split(':');
@@ -546,8 +553,11 @@ var Motor = (function() {
             };
             Utility.sendPolicyEmail(emailData);
           } else {
-            $('#legendResponseMessage').html(responseString);
+            $('#legendResponseMessage')
+              .removeClass('loader_image')
+              .html(responseString);
           }
+          $('#legendResponseMessage').removeClass('loader_image');
           $('.loading_icon').addClass('hide_elements');
         })
         .catch((error) => {
@@ -557,14 +567,67 @@ var Motor = (function() {
             $('.alert-message-text').html('One of the entered fields is invalid');
             $('.alert-message').addClass('warning');
           } else {
-            $('.alert-message-text').html(error.message || 'error completing policy generation');
+            $('.alert-message-text')
+              .removeClass('loader_image')
+              .html(error.message || 'error completing policy generation');
           }
-          $('#legendResponseMessage').html(error.message || 'error completing policy generation');
+          $('#legendResponseMessage')
+            .removeClass('loader_image')
+            .html(error.message || 'error completing policy generation');
           $('.loading_icon').addClass('hide_elements');
         })
         .finally(() => {
           $('.loading_icon').addClass('hide_elements');
+          $('#legendResponseMessage').removeClass('loader_image');
         });
+    },
+
+    loadPayStack: () => {
+      const handler = PaystackPop.setup({
+        key: paystack.key,
+        email: Motor.transactionDetails.customerEmail,
+        amount: parseFloat(Motor.transactionDetails.transactionAmount),
+        ref: Motor.transactionDetails.transactionReference,
+        metadata: {
+          custom_fields: [
+            {
+              display_name: 'Mobile Number',
+              variable_name: 'mobile_number',
+              value: `${Motor.transactionDetails.mobileNumber}`
+            }
+          ]
+        },
+        callback: function(response) {
+          console.log(response);
+          console.log('success. transaction ref is ' + response.reference);
+          Motor.transactionDetails.responseReference = response.transaction;
+          Motor.transactionDetails.responseStatus = response.status;
+          Motor.transactionDetails.responseMessage = response.message;
+          console.log(Motor.transactionDetails);
+          // $('#rootwizard').bootstrapWizard('show', 4);
+          $('#rootwizard').bootstrapWizard('next');
+          $('.previous').css('display', 'none');
+          // Motor.wizardStepFour();
+        },
+        onClose: function() {
+          console.log('window closed');
+          $('#rootwizard').bootstrapWizard('previous');
+          if (_this.fields.activeTab === 'renewPolicy') {
+            $('#rootwizard').bootstrapWizard('previous');
+          }
+          // $('#rootwizard').bootstrapWizard('show', 4);
+        }
+      });
+      handler.openIframe();
+    },
+
+    creditNote: () => {
+      Motor.transactionDetails.paymentGateway = 'CADVICE';
+      console.log('success. transaction ref is ' + Motor.transactionDetails.transactionReference);
+      Motor.transactionDetails.responseReference = _this.fields.transactionDetails.transactionReference;
+      Motor.transactionDetails.responseStatus = 'success';
+      Motor.transactionDetails.responseMessage = 'Paid with Credit Note';
+      console.log(Motor.transactionDetails);
     },
 
     fetchVehicleDetails: () => {
@@ -676,6 +739,8 @@ var Motor = (function() {
     },
 
     setLegendData: () => {
+      const gender =
+        Utility.fields.selectedProfile.gender !== '' ? Utility.genders[Utility.fields.selectedProfile.gender] : '';
       const name = _.isEmpty(Utility.fields.selectedProfile.lastname)
         ? Utility.fields.selectedProfile.company_name
         : Utility.fields.selectedProfile.lastname;
@@ -747,7 +812,8 @@ var Motor = (function() {
         payment_reference: Motor.transactionDetails.transactionReference,
         vehicleTransactionDetailsId: vehicleDetailsId,
         policy_type: 'motor',
-        client_number: ''
+        client_number: '',
+        gender: gender
       };
       return data;
     },
@@ -947,17 +1013,13 @@ var Motor = (function() {
 
       if (!_.isEmpty(paymentSuccess)) {
         $('.alert-message').addClass('error');
-        let messageText = `Transaction with successful payment reference ${
-          paymentSuccess[0].transaction_reference
-        } already exist <br/>`;
+        let messageText = `Transaction with successful payment reference ${paymentSuccess[0].transaction_reference} already exist <br/>`;
         // check for successful policy
         const policyDetails = _this.fields.vehicleDetails.policy;
         if (policyDetails !== undefined && policyDetails.policy_number !== undefined) {
           messageText = `${messageText} Policy #: ${policyDetails.policy_number} already exist `;
         } else {
-          messageText = `${messageText} <a href="../motor-policy/${
-            _this.fields.vehicleDetails.otherDetails.vehicleDetailsId
-          }">Click to retry obtaining policy information</a>`;
+          messageText = `${messageText} <a href="../motor-policy/${_this.fields.vehicleDetails.otherDetails.vehicleDetailsId}">Click to retry obtaining policy information</a>`;
         }
         $('.alert-message-text').html(messageText);
       } else {
@@ -1519,9 +1581,7 @@ var Motor = (function() {
                     <td class="text-semibold text-dark">${v.policy_number}</td>
                     <td class="text-center">${v.certificate_number}</td>
                     <td class="text-center">${v.expiry_date}</td>
-                    <td class="text-center"><button class="btn btn-primary" onclick="_this.gotoPage(${
-                      v.vehicle_transaction_details_id
-                    })"><i class="fa fa-repeat"> Renew </button></td>
+                    <td class="text-center"><button class="btn btn-primary" onclick="_this.gotoPage(${v.vehicle_transaction_details_id})"><i class="fa fa-repeat"> Renew </button></td>
                     <td class="text-center"><button class="btn btn-primary" onclick="_this.printPage(${i})"><i class="fa fa-print"> Download </button></td>
                 </tr>`;
         $policy_table.append(markup);
@@ -1572,9 +1632,7 @@ var Motor = (function() {
                     <td>${v.policy_number}</td>
                     <td>${v.cover_type}</td>
                     <td>${v.expiry_date}</td>
-                    <td class="text-center"><button class="btn btn-primary" onclick="_this.startRenewal('${
-                      v.client_number
-                    }',
+                    <td class="text-center"><button class="btn btn-primary" onclick="_this.startRenewal('${v.client_number}',
                     '${registration[1]}', ${i})"><i class="fa fa-repeat"> Renew </button></td>
                 </tr>`;
           $payment_table.append(markup);
@@ -1835,12 +1893,19 @@ var MotorBroker = (function() {
           _thisBroker.fields.agentClientList = result;
         })
         .catch((error) => {});
+
+      // Set default items
+      $('#existing_client_number').val('');
+      $('#existingClientNumberDiv').addClass('hide_elements');
     },
 
     setNewPolicyTab: () => {
       // $('#newClient').click();
       $('#newClient').trigger('click');
       $('#newClient').addClass('active');
+      if (!$('#existingClientNumberDiv').hasClass('hide_elements')) {
+        $('#existingClientNumberDiv').addClass('hide_elements');
+      }
       _thisBroker.fields.insurancePolicyType = 'new';
     },
 
@@ -1849,8 +1914,8 @@ var MotorBroker = (function() {
         $(v).removeClass('active');
       });
       $(`#${event.target.id}`).addClass('active');
-
-      if (event.target.id === 'newClient') {
+      console.log('Current Screen ', event.target.id);
+      if (event.target.id === 'newClient' || event.target.id === undefined) {
         _thisBroker.fields.insurancePolicyType = 'new';
         if (!$('#existingPolicyDiv').hasClass('hide_elements')) {
           $('#existingPolicyDiv').addClass('hide_elements');
@@ -1882,8 +1947,8 @@ var MotorBroker = (function() {
         if ($('#existingPolicyDiv').hasClass('hide_elements')) {
           $('#existingPolicyDiv').removeClass('hide_elements');
         }
-        if ($('#existingClientNumberDiv').hasClass('hide_elements')) {
-          $('#existingClientNumberDiv').removeClass('hide_elements');
+        if (!$('#existingClientNumberDiv').hasClass('hide_elements')) {
+          $('#existingClientNumberDiv').addClass('hide_elements');
         }
       }
     },
@@ -1924,43 +1989,12 @@ var MotorBroker = (function() {
     },
 
     setCustomerProfile: () => {
-      const userRole = $('#user_role_loggedIn')
-        .val()
-        .toLowerCase();
-      if (userRole === 'client') {
+      // const userRole = $('#user_role_loggedIn')
+      //   .val()
+      //   .toLowerCase();
+      if (Motor.fields.userRole === 'client') {
         Utility.fields.selectedProfile = $('#user_profile').val();
       }
-      // const customerProfileId = $('#client_profile_id').val();
-      // const customerProfile = _thisBroker.fields.agentClientList.filter(c => c.id === parseInt(customerProfileId));
-      // console.log(customerProfile);
-      // if (!_.isEmpty(customerProfile)) {
-      //     $('#profile_id').val(customerProfile[0].id);
-      //     $('#title').val(customerProfile[0].title);
-      //     $('#customer_firstname').val(customerProfile[0].firstname);
-      //     $('#customer_lastname').val(customerProfile[0].lastname);
-      //     $('#customer_othernames').val(customerProfile[0].othernames);
-      //     $('#company_name').val(customerProfile[0].company_name);
-      //     $('#street_address').val(customerProfile[0].street_address);
-      //     $('#city').val(customerProfile[0].city);
-      //     $('#local_govt_area').val(customerProfile[0].local_govt_area);
-      //     $('#state').val(customerProfile[0].state);
-      //     $('#date_of_birth').val(customerProfile[0].date_of_birth);
-      //     $('#customer_gsm_number').val(customerProfile[0].gsm_number);
-      //     $('#customer_office_number').val(customerProfile[0].office_number);
-      //     $('#occupation').val(customerProfile[0].occupation);
-      //     $('#tin_number').val(customerProfile[0].tin_number);
-      //     $('#fax_number').val(customerProfile[0].fax_number);
-      //     $('#website').val(customerProfile[0].website);
-      //     $('#company_reg_num').val(customerProfile[0].company_reg_num);
-      //     $('#contact_person').val(customerProfile[0].contact_person);
-      //     $('#bank_account_number').val(customerProfile[0].bank_account_number);
-      //     $('#customer_bank').val(customerProfile[0].customer_bank);
-      //     if (!_.isEmpty($('#customer_firstname').val()) ) {
-      //         $('#user_category').val('Individual');
-      //     } else {
-      //         $('#user_category').val('Company');
-      //     }
-      // }
     },
 
     fillVehicleDetails: (vehicleDetails) => {

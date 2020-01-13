@@ -153,7 +153,8 @@
 									<li><a href="#tab2" data-toggle="tab">Vehicle Details</a></li>
 									<li><a href="#tab3" data-toggle="tab">Amount Due</a></li>
 									<li><a href="#tabPreview" data-toggle="tab">Preview</a></li>
-									<li><a href="#tab4" data-toggle="tab">Payment</a></li>
+									<li><a href="#tabPayChoice" data-toggle="tab">Payment Options</a></li>
+									<li><a href="#tab4" data-toggle="tab">Payment Process</a></li>
 									<li><a href="#tab5" data-toggle="tab">Confirmation</a></li>
 								</ul>
 							</div>
@@ -463,6 +464,20 @@
 											</div>
 										</div>
 									</div> 
+								</div>
+								<div class="tab-pane" id="tabPayChoice">
+									<div>
+										<div class="row">
+											<div class="col-md-12">
+												<label>Choose Preferred Payment Method</label>
+												<select id="motor_payment_method" name="motor_payment_method" class="form-control" required="required" >
+													<option value="">Choose...</option>
+													<option value="CADVICE">Credit Note</option>
+													<option value="EPAY">Instant Payment</option>
+													</select>
+											</div>
+										</div>
+									</div>
 								</div>
 								<div class="tab-pane" id="tab4">
 									<div class="row">

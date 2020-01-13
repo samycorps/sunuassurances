@@ -74,6 +74,12 @@
                                 <option value="">Choose...</option>
                             </select>
                             </div>
+                            <div class="form-group col-md-6" id="genderCol">
+                                <label class="form-label">Gender</label>
+                                <select id="profile_gender" name="profile_gender" class="form-control" required="required">
+                                    <option value="">Choose...</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="form-row" id="nameRow">

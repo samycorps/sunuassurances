@@ -9,7 +9,12 @@ var Register = (function() {
       banks: [],
       sectors: [],
       profile: {},
-      user: {}
+      user: {},
+      genders: [
+        { name: 'Male', value: 'male' },
+        { name: 'Female', value: 'female' },
+        { name: 'Not Applicable', value: 'N/A' }
+      ]
     },
     init: function() {
       /*
@@ -201,6 +206,7 @@ var Register = (function() {
         })
         .then(() => {
           _thisRegister.populateTitles();
+          _thisRegister.populateGenders();
           _thisRegister.populateOccupations();
           _thisRegister.populateCities();
           _thisRegister.populateStates();
@@ -219,6 +225,7 @@ var Register = (function() {
         profile: {
           user_category: $('#category').val(),
           title: $('#title').val(),
+          gender: $('#gender').val(),
           firstname: $('#firstname').val(),
           lastname: $('#lastname').val(),
           othernames: $('#othernames').val(),
@@ -296,6 +303,7 @@ var Register = (function() {
           user_category: $('#category').val(),
           userId: $('#profile_user_id').val(),
           title: $('#profile_title').val(),
+          gender: $('#profile_gender').val(),
           firstname: $('#profile_firstname').val(),
           lastname: $('#profile_lastname').val(),
           othernames: $('#profile_othernames').val(),
@@ -373,6 +381,7 @@ var Register = (function() {
       if ($('#form-register').valid()) {
         const profile = {
           title: $('#title').val(),
+          gender: $('#gender').val(),
           firstname: $('#firstname').val(),
           lastname: $('#lastname').val(),
           othernames: $('#othernames').val(),
@@ -606,6 +615,20 @@ var Register = (function() {
           selected = _thisRegister.fields.profile.title === v.value ? 'selected' : '';
         }
         $title.append(`<option value=${v.value} ${selected}> ${v.name} </option>`);
+      });
+    },
+
+    populateGenders: () => {
+      $gender =
+        $('#user_role_loggedIn').length == 0 && _thisRegister.fields.pageName !== 'kyc_profile'
+          ? $('#gender')
+          : $('#profile_gender');
+      let selected = '';
+      $.each(_thisRegister.fields.genders, (i, v) => {
+        if (!_.isEmpty(_thisRegister.fields.profile)) {
+          selected = _thisRegister.fields.profile.gender === v.value ? 'selected' : '';
+        }
+        $gender.append(`<option value=${v.value} ${selected}> ${v.name} </option>`);
       });
     },
 

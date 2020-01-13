@@ -61,6 +61,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/administrator/claim', function () {
         return view('admin-claim-details');
     });
+
+    Route::get('/administrator/reports', function () {
+        return view('admin-reports');
+    });
     
     Route::get('/marine/client', function () {
         return view('marine-client');
@@ -165,4 +169,10 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('changeclaimstatus/{id}', 'VehicleClaimController@changeStatus');
     Route::get('getpoliciesrequestlog/{page}/{limit}/{start_date}/{end_date}/{filter}/{search_by}/{search_value}', 'LegendController@getPoliciesRequestLog');
     Route::get('getclaimslog/{page}/{limit}/{start_date}/{end_date}/{filter}/{search_by}/{search_value}', 'VehicleClaimController@getClaimsLog');
+    Route::get('getsalesbydaterange/{page}/{limit}/{start_date}/{end_date}/{filter}/{search_by}/{search_value}', 'ReportController@getSalesByDateRange');
+    Route::get('getsalesbyproducts/{page}/{limit}/{start_date}/{end_date}/{filter}/{search_by}/{search_value}', 'ReportController@getSalesByProducts');
+    Route::get('getsalesbyagents/{page}/{limit}/{start_date}/{end_date}/{filter}/{search_by}/{search_value}', 'ReportController@getSalesByAgents');
+    Route::get('getactivepolicies', 'ReportController@getActivePolicies');
+    Route::get('getexpiringpolicies/{days}', 'ReportController@getExpiringPolicies');
+    Route::get('getexpiredpolicies', 'ReportController@getExpiredPolicies');
 });

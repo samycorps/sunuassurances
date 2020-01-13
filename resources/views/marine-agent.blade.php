@@ -71,8 +71,9 @@
                     <div class="container">
                         <ul>
                             <li><a href="#tab1" data-toggle="tab">Cargo Details</a></li>
-                            <li><a href="#tab2" data-toggle="tab">Payment</a></li>
-                            <li><a href="#tab3" data-toggle="tab">Confirmation</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Review Details</a></li>
+                            <li><a href="#tab3" data-toggle="tab">Payment Options</a></li>
+                            <li><a href="#tab4" data-toggle="tab">Confirmation</a></li>
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -260,6 +261,23 @@
                             </div> <!-- Container -->
                         </div>
                         <div class="tab-pane" id="tab3">
+                            <div>
+                                    <!-- <div class="row col-md-12">
+                                        <h4>Select Payment Option</h4>
+                                    </div> -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Choose Preferred Payment Method</label>
+                                            <select id="motor_payment_method" name="motor_payment_method" class="form-control" required="required" >
+                                                <option value="">Choose...</option>
+                                                <option value="CADVICE">Credit Note</option>
+                                                <option value="EPAY">Instant Payment</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab4">
                                 <div class="loading_icon hide_elements">
                                     <img src="{{ URL::asset('assets/images/Loading_icon.gif') }}"/>
                                 </div>
