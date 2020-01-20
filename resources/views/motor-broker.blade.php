@@ -470,11 +470,23 @@
 										<div class="row">
 											<div class="col-md-12">
 												<label>Choose Preferred Payment Method</label>
-												<select id="motor_payment_method" name="motor_payment_method" class="form-control" required="required" >
+												<select id="motor_payment_method" name="motor_payment_method" class="form-control" required="required" onchange="MotorBroker.showHideCreditSection()" >
 													<option value="">Choose...</option>
-													<option value="CADVICE">Credit Note</option>
+													<option value="CREDIT">Credit Note</option>
 													<option value="EPAY">Instant Payment</option>
 													</select>
+											</div>
+										</div>
+										<!-- Show only if its Credit Note Payment -->
+										<div class="row hide_elements" id="credit_note_section">
+											<div class="col-md-6">
+												<label for="credit_note_number">Credit Note Number</label>
+												<input type="text" class="form-control" placeholder="Credit Note Number" name="credit_note_number" id="credit_note_number" value="" required />
+											</div>
+											<div class="col-md-6">
+												<label for="credit_note_date">Credit Note Date</label>
+												<input type="text" id="credit_note_date" name="credit_note_date" class="form-control"
+												required="required" readonly="readonly" />
 											</div>
 										</div>
 									</div>

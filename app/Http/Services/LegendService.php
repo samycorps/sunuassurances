@@ -142,6 +142,126 @@ class LegendService {
         }
     }
 
+    public function getPolicyNumberBrkRef($requestData) {
+        $requestData['fax_number'] = empty($requestData['fax_number']) ? $requestData['gsm_number'] : $requestData['fax_number'];
+        $arg16 = $requestData['client_class'] === 'I' ? "<arg16>{$requestData['date_of_birth']}</arg16>" : "<arg16>0000-00-00</arg16>";
+        $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
+        $gender = empty($requestData['gender']) ? '' : $requestData['gender'];
+        $arg61 = "<arg61>{$gender}</arg61>";
+        $arg65 = $requestData['mode_of_payment'] === 'CADVICE' ? "<arg65></arg65>" : "";
+        $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
+        <soap:Header/>
+        <soap:Body>
+           <leg:getpolnum>
+           <arg0>{$this->legendParameters['username']}</arg0>
+           <arg1>{$this->legendParameters['password']}</arg1>
+            <arg2>{$requestData['lastname']}</arg2>
+            <arg3>{$requestData['othernames']}</arg3>
+            <arg4>{$requestData['address']}</arg4>
+            <arg5>{$requestData['city']}</arg5>
+            <arg6>{$requestData['contact_person']}</arg6>
+            <arg7>{$requestData['state']}</arg7>
+            <arg8>{$requestData['title_id']}</arg8>
+            <arg9>{$requestData['client_class']}</arg9>
+            <arg10>{$requestData['gsm_number']}</arg10>
+            <arg11>{$requestData['office_number']}</arg11>
+            <arg12>{$requestData['fax_number']}</arg12>
+            <arg13>{$requestData['email_address']}</arg13>
+            <arg14>{$requestData['website']}</arg14>
+            <arg15>{$requestData['company_reg_num']}</arg15>"
+            .$arg16. 
+            "<arg17>{$requestData['lga']}</arg17>
+            <arg18>{$requestData['tin_number']}</arg18>
+            <arg19>{$requestData['bvn']}</arg19>
+            <arg20>{$requestData['bank_id']}</arg20>
+            <arg21>{$requestData['account_number']}</arg21>
+            <arg22>{$requestData['occupation']}</arg22>
+            <arg23>{$requestData['sector']}</arg23>
+            <arg24>{$requestData['premium']}</arg24>
+            <arg25>{$requestData['sum_insured']}</arg25>
+            <arg26>{$requestData['vehicle_plate_number']}</arg26>
+            <arg27>{$requestData['state']}</arg27>
+            <arg28>{$requestData['model']}</arg28>
+            <arg29>{$requestData['body']}</arg29>
+            <arg30>{$requestData['color']}</arg30>
+            <arg31>{$requestData['cubic_capacity']}</arg31>
+            <arg32>{$requestData['number_of_seat']}</arg32>
+            <arg33>{$requestData['engine_number']}</arg33>
+            <arg34>{$requestData['chasis_number']}</arg34>
+            <arg35>{$requestData['year_of_make']}</arg35>
+            <arg36>{$requestData['year_of_purchase']}</arg36>
+            *<arg37>{$requestData['mode_of_payment']}</arg37>
+            *<arg38></arg38>
+            <arg37>{$requestData['policy_class']}</arg37>
+            <arg38>{$requestData['risk_class']}</arg38>
+            <arg39>{$requestData['cover_type']}</arg39>
+            <arg40>{$requestData['basic_rate']}</arg40>
+            <arg41>{$requestData['location']}</arg41>
+            <arg42></arg42>
+            <arg43></arg43>
+            <arg44></arg44>
+            <arg45></arg45>
+            <arg46>{$requestData['currency']}</arg46>
+            <arg47></arg47>
+            <arg48></arg48>
+            <arg49></arg49>
+            <arg50></arg50>
+            <arg51></arg51>
+            <arg52></arg52>
+            <arg53></arg53>
+            <arg54></arg54>
+            <arg55></arg55>
+            <arg56></arg56>
+            <arg57>{$requestData['effective_date']}</arg57>
+            <arg58>{$requestData['expiry_date']}</arg58>
+            <arg59>{$requestData['client_number']}</arg59>
+            <arg60>WAZ9</arg60>"
+            .$arg61.
+            "<arg62></arg62>
+            <arg63>{$requestData['credit_note_number']}</arg63>
+            <arg64>{$requestData['credit_note_date']}</arg64>
+        </leg:getpolnum>
+        </soap:Body>
+     </soap:Envelope>";
+     $legend_url = $this->legendParameters['url'];
+     $this->policyLog->info('Legend Get Policy Number Credit Note', array('data' => $soap_request_data));
+     $curl = curl_init();
+     curl_setopt_array($curl, array(
+        CURLOPT_PORT => "9500",
+        CURLOPT_URL => $legend_url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => $soap_request_data,
+        CURLOPT_HTTPHEADER => array(
+          "Content-Type: application/soap+xml;charset=UTF-8",
+          "cache-control: no-cache"
+        ),
+      ));
+      
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+      
+      curl_close($curl);
+
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        return $err;
+        } else {
+            $posStart = strpos($response, '<return>');
+            Log::info($posStart);
+            $posEnd = strpos($response, '</return>');
+            Log::info($posEnd);
+            $returnedValue = substr($response, $posStart+8, $posEnd - ($posStart+8));
+            Log::info($returnedValue);
+            $this->policyLog->info('Legend Policy Response ', array('response' => $returnedValue));
+            return $returnedValue;
+        }
+    }
+
     public function getMarinePolicyNumber($requestData) {
         $requestData['fax_number'] = empty($requestData['fax_number']) ? $requestData['gsm_number'] : $requestData['fax_number'];
         $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
@@ -222,6 +342,123 @@ class LegendService {
      </soap:Envelope>";
      Log::info($soap_request_data);
      $this->policyLog->info('Legend Marine Policy Number ', array('data' => $soap_request_data));
+     $legend_url = $this->legendParameters['url'];
+     $curl = curl_init();
+     curl_setopt_array($curl, array(
+        CURLOPT_PORT => "9500",
+        CURLOPT_URL => $legend_url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => $soap_request_data,
+        CURLOPT_HTTPHEADER => array(
+          "Content-Type: application/soap+xml;charset=UTF-8",
+          "cache-control: no-cache"
+        ),
+      ));
+      
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+      
+      curl_close($curl);
+      
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        return $err;
+        } else {
+            $posStart = strpos($response, '<return>');
+            Log::info($posStart);
+            $posEnd = strpos($response, '</return>');
+            Log::info($posEnd);
+            $returnedValue = substr($response, $posStart+8, $posEnd - ($posStart+8));
+            Log::info($returnedValue);
+            $this->policyLog->info('Legend Policy Response ', array('response' => $response));
+            return $returnedValue;
+        }
+    }
+
+    public function getMarinePolicyNumberBrkRef($requestData) {
+        $requestData['fax_number'] = empty($requestData['fax_number']) ? $requestData['gsm_number'] : $requestData['fax_number'];
+        $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
+        $gender = empty($requestData['gender']) ? '' : $requestData['gender'];
+        $arg61 = "<arg61>{$gender}</arg61>";
+        $arg65 = $requestData['mode_of_payment'] === 'CADVICE' ? "<arg65></arg65>" : "";
+        $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
+        <soap:Header/>
+        <soap:Body>
+           <leg:getpolnum>
+           <arg0>{$this->legendParameters['username']}</arg0>
+           <arg1>{$this->legendParameters['password']}</arg1>
+            <arg2>{$requestData['lastname']}</arg2>
+            <arg3>{$requestData['othernames']}</arg3>
+            <arg4>{$requestData['address']}</arg4>
+            <arg5>{$requestData['city']}</arg5>
+            <arg6>{$requestData['contact_person']}</arg6>
+            <arg7>{$requestData['state']}</arg7>
+            <arg8>{$requestData['title_id']}</arg8>
+            <arg9>{$requestData['client_class']}</arg9>
+            <arg10>{$requestData['gsm_number']}</arg10>
+            <arg11>{$requestData['office_number']}</arg11>
+            <arg12>{$requestData['fax_number']}</arg12>
+            <arg13>{$requestData['email_address']}</arg13>
+            <arg14>{$requestData['website']}</arg14>
+            <arg15>{$requestData['company_reg_num']}</arg15>
+            <arg16>{$requestData['date_of_birth']}</arg16>
+            <arg17>{$requestData['lga']}</arg17>
+            <arg18>{$requestData['tin_number']}</arg18>
+            <arg19>{$requestData['bvn']}</arg19>
+            <arg20>{$requestData['bank_id']}</arg20>
+            <arg21>{$requestData['account_number']}</arg21>
+            <arg22>{$requestData['occupation']}</arg22>
+            <arg23>{$requestData['sector']}</arg23>
+            <arg24>{$requestData['premium']}</arg24>
+            <arg25>{$requestData['sum_insured']}</arg25>
+            <arg26>{$requestData['vehicle_plate_number']}</arg26>
+            <arg27>{$requestData['state']}</arg27>
+            <arg28>{$requestData['model']}</arg28>
+            <arg29>{$requestData['body']}</arg29>
+            <arg30>{$requestData['color']}</arg30>
+            <arg31>{$requestData['cubic_capacity']}</arg31>
+            <arg32>{$requestData['number_of_seat']}</arg32>
+            <arg33>{$requestData['engine_number']}</arg33>
+            <arg34>{$requestData['chasis_number']}</arg34>
+            <arg35>{$requestData['year_of_make']}</arg35>
+            <arg36>{$requestData['year_of_purchase']}</arg36>
+            <arg37>{$requestData['policy_class']}</arg37>
+            <arg38>{$requestData['risk_class']}</arg38>
+            <arg39>{$requestData['cover_type']}</arg39>
+            <arg40>{$requestData['basic_rate']}</arg40>
+            <arg41>{$requestData['location']}</arg41>
+            <arg42></arg42>
+            <arg43></arg43>
+            <arg44></arg44>
+            <arg45></arg45>
+            <arg46>{$requestData['currency']}</arg46>
+            <arg47>{$requestData['voyage_from']}</arg47>
+            <arg48>{$requestData['voyage_to']}</arg48>
+            <arg49></arg49>
+            <arg50>{$requestData['packing_type']}</arg50>
+            <arg51>{$requestData['vessel_name']}</arg51>
+            <arg52>{$requestData['conditions']}</arg52>
+            <arg53>{$requestData['excess']}</arg53>
+            <arg54>{$requestData['conveyance']}</arg54>
+            <arg55>{$requestData['description']}</arg55>
+            <arg56>{$requestData['term_of_insurance']}</arg56>
+            <arg57>{$requestData['effective_date']}</arg57>
+            <arg58>{$requestData['expiry_date']}</arg58>
+            <arg59></arg59>
+            <arg60></arg60>"
+            .$arg61.
+            "<arg63>{$requestData['credit_note_number']}</arg63>
+            <arg64>{$requestData['credit_note_date']}</arg64>
+        </leg:getpolnum>
+        </soap:Body>
+     </soap:Envelope>";
+     Log::info($soap_request_data);
+     $this->policyLog->info('Legend Marine Policy Number Credit Note', array('data' => $soap_request_data));
      $legend_url = $this->legendParameters['url'];
      $curl = curl_init();
      curl_setopt_array($curl, array(

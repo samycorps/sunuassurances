@@ -37,10 +37,10 @@ class LegendController extends Controller
                     'request_body' => json_encode($data)
                 ]);
             if ($data['policy_type'] === 'motor') {
-                $response = $this->legendService->getPolicyNumber($data);
+                $response = $data['payment_method'] === 'CREDIT' ? $this->legendService->getPolicyNumberBrkRef($data) : $this->legendService->getPolicyNumber($data);
             }
             else if ($data['policy_type'] === 'marine') {
-                $response = $this->legendService->getMarinePolicyNumber($data);
+                $response = $data['payment_method'] === 'CREDIT' ? $this->legendService->getMarinePolicyNumberBrkRef($data) : $this->legendService->getMarinePolicyNumber($data);
             }
 
             //Update request log

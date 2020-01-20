@@ -436,12 +436,14 @@ var Motor = (function() {
         $('#rootwizard').bootstrapWizard('show', 5);
         let paymentOption = $('#motor_payment_method').val();
         switch (paymentOption) {
-          case 'CADVICE': {
-            console.log('Payment Option is Cadvice - ', paymentOption);
+          case 'CREDIT': {
+            console.log('Payment Option is Credit Note - ', paymentOption);
+            $('#credit_note_section').removeClass('hide_elements');
             _this.creditNote();
             break;
           }
           case 'EPAY': {
+            $('#credit_note_section').addClass('hide_elements');
             _this.loadPayStack();
             break;
           }
@@ -622,9 +624,9 @@ var Motor = (function() {
     },
 
     creditNote: () => {
-      Motor.transactionDetails.paymentGateway = 'CADVICE';
+      Motor.transactionDetails.paymentGateway = 'CREDITNOTE';
       console.log('success. transaction ref is ' + Motor.transactionDetails.transactionReference);
-      Motor.transactionDetails.responseReference = _this.fields.transactionDetails.transactionReference;
+      Motor.transactionDetails.responseReference = Motor.transactionDetails.transactionReference;
       Motor.transactionDetails.responseStatus = 'success';
       Motor.transactionDetails.responseMessage = 'Paid with Credit Note';
       console.log(Motor.transactionDetails);
@@ -757,6 +759,8 @@ var Motor = (function() {
       const vehicleDetailsId = _.isEmpty(_this.fields.savedEntry)
         ? `${moment().format('YYYYMMDDHHmmss')}_${$('#vehicle_reg_num').val()}`
         : _this.fields.savedEntry.vehicle_details_id;
+      const credit_note_number = $('#credit_note_number').val();
+      const credit_note_date = $('#credit_note_date').val();
       const data = {
         username: 'website',
         userpassword: 'website',
@@ -813,7 +817,10 @@ var Motor = (function() {
         vehicleTransactionDetailsId: vehicleDetailsId,
         policy_type: 'motor',
         client_number: '',
-        gender: gender
+        gender: gender,
+        payment_method: $('#motor_payment_method').val(),
+        credit_note_number: credit_note_number,
+        credit_note_date: credit_note_date
       };
       return data;
     },
@@ -1897,6 +1904,8 @@ var MotorBroker = (function() {
       // Set default items
       $('#existing_client_number').val('');
       $('#existingClientNumberDiv').addClass('hide_elements');
+
+      $('#credit_note_date').val(moment().format('YYYY-MM-DD'));
     },
 
     setNewPolicyTab: () => {
@@ -1956,6 +1965,21 @@ var MotorBroker = (function() {
     showHidePolicySection: () => {
       if (!_.isEmpty(_thisBroker.fields.insurancePolicyType) && !_.isEmpty($('#client_profile_id').val())) {
         $('#newAndAdditionalPolicySection').removeClass('hide_elements');
+      }
+    },
+
+    showHideCreditSection: () => {
+      let paymentOption = $('#motor_payment_method').val();
+      switch (paymentOption) {
+        case 'CREDIT': {
+          console.log('Payment Option is Credit Note - ', paymentOption);
+          $('#credit_note_section').removeClass('hide_elements');
+          break;
+        }
+        case 'EPAY': {
+          $('#credit_note_section').addClass('hide_elements');
+          break;
+        }
       }
     },
 

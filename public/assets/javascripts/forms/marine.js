@@ -35,6 +35,8 @@ var Marine = (function() {
           // _this.calculateExpiryDate();
         });
 
+      $('#credit_note_date').val(moment().format('YYYY-MM-DD'));
+
       $('#rootwizard').bootstrapWizard({
         onTabClick: function(tab, navigation, index) {
           // return false;
@@ -233,14 +235,12 @@ var Marine = (function() {
 
       let paymentOption = $('#marine_payment_method').val();
       switch (paymentOption) {
-        case 'CADVICE': {
-          console.log('Payment Option is Cadvice - ', paymentOption);
+        case 'CREDIT': {
+          console.log('Payment Option is Credit Note - ', paymentOption);
           return _this.creditNote();
-          break;
         }
         case 'EPAY': {
           return _this.loadPayStack();
-          break;
         }
       }
     },
@@ -249,13 +249,20 @@ var Marine = (function() {
       $('.loading_icon').removeClass('hide_elements');
       $('#legendResponseMessage').html('');
       _this.fields.legendData = _this.setLegendData();
+      $('#legendResponseMessage')
+        .addClass('loader_image')
+        .html('Processing legend policy generation . . . ');
       _this
         .getPolicy(_this.fields.legendData)
         .then(function(result) {
           responseString = result.message;
           // responseString = "Client Number: 18-01520, Policy Number: PMI54/1/000791/L18, Certificate Number: 18/0000001794, Debit Note Number: 1824406PMI, Receipt Number: 5418/038892, Expiry Date: 13-DEC-19.";
           console.log(responseString);
-          if (responseString.indexOf('Policy Number') > -1) {
+          if (responseString === undefined) {
+            $('#legendResponseMessage')
+              .removeClass('loader_image')
+              .html(result);
+          } else if (responseString.indexOf('Policy Number') > -1) {
             const responseArray = responseString.split(', ');
             $.each(responseArray, (i, v) => {
               const eachData = v.split(':');
@@ -290,6 +297,7 @@ var Marine = (function() {
           } else {
             $('#legendResponseMessage').html(responseString);
           }
+          $('#legendResponseMessage').removeClass('loader_image');
           $('.loading_icon').addClass('hide_elements');
         })
         .catch((error) => {
@@ -357,7 +365,7 @@ var Marine = (function() {
     },
 
     creditNote: () => {
-      _this.fields.transactionDetails.paymentGateway = 'CADVICE';
+      _this.fields.transactionDetails.paymentGateway = 'CREDITNOTE';
       console.log('success. transaction ref is ' + _this.fields.transactionDetails.transactionReference);
       _this.fields.transactionDetails.responseReference = _this.fields.transactionDetails.transactionReference;
       _this.fields.transactionDetails.responseStatus = 'success';
@@ -444,7 +452,7 @@ var Marine = (function() {
         chasis_number: '',
         year_of_make: 0,
         year_of_purchase: 0,
-        mode_of_payment: paymentOption === 'CADVICE' ? 'CADVICE' : 'CASH',
+        mode_of_payment: paymentOption === 'CREDIT' ? 'CREDIT' : 'CASH',
         policy_class: '002',
         risk_class: 'MCA',
         cover_type: $('#cover_type').val(),
@@ -468,7 +476,10 @@ var Marine = (function() {
         payment_reference: 0, //_this.transactionDetails.transactionReference,
         vehicleTransactionDetailsId: _this.fields.savedEntry.id,
         policy_type: 'marine',
-        gender: gender
+        gender: gender,
+        payment_method: $('#marine_payment_method').val(),
+        credit_note_number: $('#credit_note_number').val(),
+        credit_note_date: $('#credit_note_date').val()
       };
       return data;
     },
@@ -608,6 +619,21 @@ var Marine = (function() {
         ..._this.fields.legendResponse
       };
       return policyDetails;
+    },
+
+    showHideCreditSection: () => {
+      let paymentOption = $('#marine_payment_method').val();
+      switch (paymentOption) {
+        case 'CREDIT': {
+          console.log('Payment Option is Credit Note - ', paymentOption);
+          $('#credit_note_section').removeClass('hide_elements');
+          break;
+        }
+        case 'EPAY': {
+          $('#credit_note_section').addClass('hide_elements');
+          break;
+        }
+      }
     }
   };
 })();
