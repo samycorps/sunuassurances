@@ -7,7 +7,7 @@
 // const call_centre_urls = {
 //     "callform" : base_url+'/api/callcenter'
 // };
-
+// 'http://portal.sunuassurancesnigeria.com/api';
 const base_url =
   window.location.origin.indexOf('localhost') > -1
     ? 'http://localhost:8000/api'

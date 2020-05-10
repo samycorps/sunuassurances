@@ -40,6 +40,7 @@ class LegendController extends Controller
                 $response = $data['payment_method'] === 'CREDIT' ? $this->legendService->getPolicyNumberBrkRef($data) : $this->legendService->getPolicyNumber($data);
             }
             else if ($data['policy_type'] === 'marine') {
+                Log::info('Payment Method in Marine  -  '.$data['payment_method']);
                 $response = $data['payment_method'] === 'CREDIT' ? $this->legendService->getMarinePolicyNumberBrkRef($data) : $this->legendService->getMarinePolicyNumber($data);
             }
 

@@ -297,7 +297,9 @@ var Marine = (function() {
           } else {
             $('#legendResponseMessage').html(responseString);
           }
-          $('#legendResponseMessage').removeClass('loader_image');
+          $('#legendResponseMessage')
+            .removeClass('loader_image')
+            .html('');
           $('.loading_icon').addClass('hide_elements');
         })
         .catch((error) => {
@@ -378,7 +380,7 @@ var Marine = (function() {
     onPaymentSuccess: () => {
       const vehicleTransactionPayment = {
         ..._this.fields.transactionDetails,
-        vehicleTransactionDetailsId: _this.fields.vehicleData.id
+        vehicleTransactionDetailsId: _this.fields.savedEntry.vehicle_details_id
       };
       Utility.saveVehiclePaymentDetails(vehicleTransactionPayment)
         .then((result) => {
@@ -474,7 +476,7 @@ var Marine = (function() {
         description: $('#description').val(),
         term_of_insurance: $('#term_of_insurance').val(),
         payment_reference: 0, //_this.transactionDetails.transactionReference,
-        vehicleTransactionDetailsId: _this.fields.savedEntry.id,
+        vehicleTransactionDetailsId: _this.fields.savedEntry.vehicle_details_id,
         policy_type: 'marine',
         gender: gender,
         payment_method: $('#marine_payment_method').val(),

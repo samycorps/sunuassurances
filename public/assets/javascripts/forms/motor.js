@@ -559,7 +559,9 @@ var Motor = (function() {
               .removeClass('loader_image')
               .html(responseString);
           }
-          $('#legendResponseMessage').removeClass('loader_image');
+          $('#legendResponseMessage')
+            .removeClass('loader_image')
+            .html('');
           $('.loading_icon').addClass('hide_elements');
         })
         .catch((error) => {
@@ -580,7 +582,9 @@ var Motor = (function() {
         })
         .finally(() => {
           $('.loading_icon').addClass('hide_elements');
-          $('#legendResponseMessage').removeClass('loader_image');
+          $('#legendResponseMessage')
+            .removeClass('loader_image')
+            .html('');
         });
     },
 
@@ -818,7 +822,7 @@ var Motor = (function() {
         policy_type: 'motor',
         client_number: '',
         gender: gender,
-        payment_method: $('#motor_payment_method').val(),
+        payment_method: $('#motor_payment_method').val() === undefined ? 'EPAY' : $('#motor_payment_method').val(),
         credit_note_number: credit_note_number,
         credit_note_date: credit_note_date
       };
@@ -869,6 +873,7 @@ var Motor = (function() {
         year_of_make: _this.fields.renewalDetails.yearOfMake,
         year_of_purchase: _this.fields.renewalDetails.purchaseYear,
         mode_of_payment: 'CASH',
+        payment_method: $('#motor_payment_method').val() === undefined ? 'EPAY' : $('#motor_payment_method').val(),
         agent_name: agent_code,
         cover_type: _this.fields.renewalDetails.coverType,
         currency: _this.fields.renewalDetails.currency,
@@ -2092,6 +2097,7 @@ var MotorBroker = (function() {
         year_of_make: _thisBroker.fields.renewalDetails.yearOfMake,
         year_of_purchase: _thisBroker.fields.renewalDetails.purchaseYear,
         mode_of_payment: 'CASH',
+        payment_method: $('#motor_payment_method').val() === undefined ? 'EPAY' : $('#motor_payment_method').val(),
         agent_name: agent_code,
         cover_type: _thisBroker.fields.renewalDetails.coverType,
         currency: _thisBroker.fields.renewalDetails.currency,

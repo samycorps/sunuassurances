@@ -12,7 +12,7 @@ use Monolog\Handler\StreamHandler;
 class LegendService {
 
     protected $legendParameters = array(
-        'url' => 'http://equilegdbg.equityassuranceplc.com:9500/LegWebs/LegWebsPort',
+        'url' => 'http://equilegdbg.equityassuranceplc.com:7001/LegWebs/LegWebsPort',
         'username' => 'website',
         'password' => 'website'
     );
@@ -30,7 +30,7 @@ class LegendService {
         $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
         $gender = empty($requestData['gender']) ? '' : $requestData['gender'];
         $arg64 = "<arg64>{$gender}</arg64>";
-        $arg65 = $requestData['mode_of_payment'] === 'CADVICE' ? "<arg65></arg65>" : "";
+        $arg65 = $requestData['mode_of_payment'] === 'CREDIT' ? "<arg65></arg65>" : "";
         $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
         <soap:Header/>
         <soap:Body>
@@ -107,7 +107,7 @@ class LegendService {
      $this->policyLog->info('Legend Get Policy Number', array('data' => $soap_request_data));
      $curl = curl_init();
      curl_setopt_array($curl, array(
-        CURLOPT_PORT => "9500",
+        CURLOPT_PORT => "7001",
         CURLOPT_URL => $legend_url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
@@ -148,11 +148,11 @@ class LegendService {
         $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
         $gender = empty($requestData['gender']) ? '' : $requestData['gender'];
         $arg61 = "<arg61>{$gender}</arg61>";
-        $arg65 = $requestData['mode_of_payment'] === 'CADVICE' ? "<arg65></arg65>" : "";
+        $arg65 = $requestData['mode_of_payment'] === 'CREDIT' ? "<arg65></arg65>" : "";
         $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
         <soap:Header/>
         <soap:Body>
-           <leg:getpolnum>
+           <leg:getpolnumbrkref>
            <arg0>{$this->legendParameters['username']}</arg0>
            <arg1>{$this->legendParameters['password']}</arg1>
             <arg2>{$requestData['lastname']}</arg2>
@@ -220,14 +220,14 @@ class LegendService {
             "<arg62></arg62>
             <arg63>{$requestData['credit_note_number']}</arg63>
             <arg64>{$requestData['credit_note_date']}</arg64>
-        </leg:getpolnum>
+            </leg:getpolnumbrkref>
         </soap:Body>
      </soap:Envelope>";
      $legend_url = $this->legendParameters['url'];
      $this->policyLog->info('Legend Get Policy Number Credit Note', array('data' => $soap_request_data));
      $curl = curl_init();
      curl_setopt_array($curl, array(
-        CURLOPT_PORT => "9500",
+        CURLOPT_PORT => "7001",
         CURLOPT_URL => $legend_url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
@@ -267,7 +267,7 @@ class LegendService {
         $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
         $gender = empty($requestData['gender']) ? '' : $requestData['gender'];
         $arg64 = "<arg64>{$gender}</arg64>";
-        $arg65 = $requestData['mode_of_payment'] === 'CADVICE' ? "<arg65></arg65>" : "";
+        $arg65 = $requestData['mode_of_payment'] === 'CREDIT' ? "<arg65></arg65>" : "";
         $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
         <soap:Header/>
         <soap:Body>
@@ -345,7 +345,7 @@ class LegendService {
      $legend_url = $this->legendParameters['url'];
      $curl = curl_init();
      curl_setopt_array($curl, array(
-        CURLOPT_PORT => "9500",
+        CURLOPT_PORT => "7001",
         CURLOPT_URL => $legend_url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
@@ -385,11 +385,11 @@ class LegendService {
         $requestData['vehicle_plate_number'] = empty($requestData['vehicle_plate_number']) ? '12341234' : $requestData['vehicle_plate_number'];
         $gender = empty($requestData['gender']) ? '' : $requestData['gender'];
         $arg61 = "<arg61>{$gender}</arg61>";
-        $arg65 = $requestData['mode_of_payment'] === 'CADVICE' ? "<arg65></arg65>" : "";
+        $arg65 = $requestData['mode_of_payment'] === 'CREDIT' ? "<arg65></arg65>" : "";
         $soap_request_data = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:leg=\"http://legwebs/\">
         <soap:Header/>
         <soap:Body>
-           <leg:getpolnum>
+           <leg:getpolnumbrkref>
            <arg0>{$this->legendParameters['username']}</arg0>
            <arg1>{$this->legendParameters['password']}</arg1>
             <arg2>{$requestData['lastname']}</arg2>
@@ -454,7 +454,7 @@ class LegendService {
             .$arg61.
             "<arg63>{$requestData['credit_note_number']}</arg63>
             <arg64>{$requestData['credit_note_date']}</arg64>
-        </leg:getpolnum>
+        </leg:getpolnumbrkref>
         </soap:Body>
      </soap:Envelope>";
      Log::info($soap_request_data);
@@ -462,7 +462,7 @@ class LegendService {
      $legend_url = $this->legendParameters['url'];
      $curl = curl_init();
      curl_setopt_array($curl, array(
-        CURLOPT_PORT => "9500",
+        CURLOPT_PORT => "7001",
         CURLOPT_URL => $legend_url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
@@ -498,7 +498,7 @@ class LegendService {
     }
 
     public function enquiryPolicyNumber2($requestData) {
-        $client = new SoapClient("http://equilegdbg.equityassuranceplc.com:9500/LegWebs/LegWebsPort?WSDL", array('soap_version'   => SOAP_1_2));
+        $client = new SoapClient("http://equilegdbg.equityassuranceplc.com:7001/LegWebs/LegWebsPort?WSDL", array('soap_version'   => SOAP_1_2));
     }
 
     public function enquiryPolicyNumber($requestData) {
@@ -519,7 +519,7 @@ class LegendService {
     $legend_url = $this->legendParameters['url'];
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_PORT => "9500",
+        CURLOPT_PORT => "7001",
         CURLOPT_URL => $legend_url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
@@ -644,7 +644,7 @@ class LegendService {
     $this->policyLog->info('Legend Get Additional Policy Number', array('data' => $soap_request_data));
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_PORT => "9500",
+        CURLOPT_PORT => "7001",
         CURLOPT_URL => $legend_url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
@@ -718,7 +718,7 @@ class LegendService {
     $legend_url = $this->legendParameters['url'];
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_PORT => "9500",
+        CURLOPT_PORT => "7001",
         CURLOPT_URL => $legend_url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
